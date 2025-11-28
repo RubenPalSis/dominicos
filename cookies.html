@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cf.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Política de Cookies | CB Dominicos Zaragoza</title>
+    <style>
+        /* Estilos generales */
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+
+        
+        /* Contenido principal */
+        .main-content {
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            color: #666;
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .text-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .text-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-color);
+            margin: 20px 0 10px;
+        }
+        
+        .text-content p {
+            margin-bottom: 15px;
+        }
+        
+        .text-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .text-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .cookies-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .cookie-type {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .cookie-type h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        /* Controles de cookies */
+        .cookie-controls {
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .cookie-controls h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .cookie-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #154360;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        /* Modal de preferencias */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .cookie-preference {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        
+        .cookie-preference-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .cookie-preference h3 {
+            margin: 0;
+            color: var(--dark-color);
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .cookie-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .cookie-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* Banner de cookies */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1500;
+            display: none;
+        }
+        
+        .cookie-banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .cookie-banner-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .cookie-banner-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Estados de preferencias */
+        .preference-required {
+            opacity: 0.7;
+        }
+        
+        .preference-required .slider {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .preference-required input {
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                                <div class="logo">
+                    <a href="https://baloncestodominicos.es/" class="logo-link">
+                        <div class="logo-icon">
+                            <img src="assets/img/logo.jpg" alt="CB Dominicos Zaragoza" class="logo-image">
+                        </div>                    
+                        <div class="logo-text">
+                            <h1>DOMINICOS</h1>
+                            <span>CLUB DE BALONCESTO ZARAGOZA</span>
+                        </div>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                        <li><a href="equipos.html" class="nav-link">Equipos</a></li>
+                        <li><a href="calendario.html" class="nav-link">Calendario</a></li>
+                        <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Política de Cookies</h1>
+                <p>Última actualización: Enero 2025</p>
+            </div>
+            
+            <div class="content-section">
+                <div class="text-content">
+                    <h2>RESUMEN DE LA POLÍTICA DE COOKIES</h2>
+                    <p>Esta Política de cookies explica qué son las cookies y cómo las usamos. Debe leer esta política para comprender qué son las cookies, cómo las utilizamos, los tipos de cookies que utilizamos, es decir, la información que recopilamos utilizando cookies y cómo se utiliza esa información y cómo controlar las preferencias de las cookies. Para obtener más información sobre cómo usamos, almacenamos y mantenemos seguros sus datos personales, consulte nuestra <a href="privacidad.html">Política de privacidad</a>.</p>
+                    <p>En cualquier momento puede cambiar o retirar su consentimiento de la Declaración de cookies en nuestro sitio web. Obtenga más información sobre quiénes somos, cómo puede contactarnos y cómo procesamos los datos personales en nuestra Política de privacidad.</p>
+                    
+                    <h2>¿QUÉ SON LAS COOKIES?</h2>
+                    <p>Las cookies son pequeños archivos de texto que se utilizan para almacenar pequeñas piezas de información. Las cookies se almacenan en su dispositivo cuando el sitio web se carga en su navegador. Estas cookies nos ayudan a hacer que el sitio web funcione correctamente, hacer que el sitio web sea más seguro, proporcionar una mejor experiencia de usuario y comprender cómo funciona el sitio web y analizar qué funciona y dónde necesita mejorar.</p>
+                    
+                    <h2>¿CÓMO USAMOS LAS COOKIES?</h2>
+                    <p>Como la mayoría de los servicios en línea, nuestro sitio web utiliza cookies propias y de terceros para una serie de propósitos. Las cookies de origen son principalmente necesarias para que el sitio web funcione de la manera correcta, y no recopilan ninguno de sus datos de identificación personal.</p>
+                    <p>Las cookies de terceros utilizadas en nuestros sitios web se utilizan principalmente para comprender cómo funciona el sitio web, cómo interactúa con nuestro sitio web, mantener nuestros servicios seguros, proporcionarle anuncios que sean relevantes para usted y, en general, proporcionarle una mejor y mejor experiencia de usuario y ayuda a acelerar sus futuras interacciones con nuestro sitio web.</p>
+                    
+                    <h2>¿QUÉ TIPOS DE COOKIES UTILIZAMOS?</h2>
+                    <div class="cookies-types">
+                        <div class="cookie-type">
+                            <h3>Esenciales</h3>
+                            <p>Algunas cookies son esenciales para que pueda experimentar la funcionalidad completa de nuestro sitio. Nos permiten mantener sesiones de usuario y evitar amenazas de seguridad. No recopilan ni almacenan ninguna información personal. Por ejemplo, estas cookies le permiten iniciar sesión en su cuenta y agregar productos a su cesta y pagar de forma segura.</p>
+                        </div>
+                        <div class="cookie-type">
+                            <h3>Estadísticas</h3>
+                            <p>Estas cookies almacenan información como el número de visitantes del sitio web, el número de visitantes únicos, qué páginas del sitio web han sido visitadas, la fuente de la visita, etc. Estos datos nos ayudan a comprender y analizar qué tan bien funciona el sitio web y donde necesita mejorar.</p>
+                        </div>
+                        <div class="cookie-type">
+                            <h3>Marketing</h3>
+                            <p>Nuestro sitio web muestra anuncios. Estas cookies se utilizan para personalizar los anuncios que le mostramos para que sean significativos para usted. Estas cookies también nos ayudan a realizar un seguimiento de la eficacia de estas campañas publicitarias. La información almacenada en estas cookies también puede ser utilizada por proveedores de publicidad externos para mostrarle anuncios en otros sitios web en el navegador.</p>
+                        </div>
+                        <div class="cookie-type">
+                            <h3>Funcionales</h3>
+                            <p>Estas son las cookies que ayudan a ciertas funcionalidades no esenciales en nuestro sitio web. Estas funcionalidades incluyen incrustar contenido como videos o compartir contenido en el sitio web en plataformas de redes sociales.</p>
+                        </div>
+                        <div class="cookie-type">
+                            <h3>Preferencias</h3>
+                            <p>Estas cookies nos ayudan a almacenar su configuración y preferencias de navegación, como las preferencias de idioma, para que tenga una mejor y más eficiente experiencia en futuras visitas al sitio web.</p>
+                        </div>
+                    </div>
+                    
+                    <h2>¿CÓMO PUEDO DECIDIR MI ELECCIÓN CON LAS COOKIES?</h2>
+                    <p>Si decide cambiar sus preferencias más adelante a través de su sesión de navegación, puede hacer clic en la pestaña "Política de privacidad y cookies" en su pantalla.</p>
+                    <p>Esto mostrará el aviso de consentimiento nuevamente, permitiéndole cambiar sus preferencias o retirar su consentimiento por completo.</p>
+                    <p>Además de esto, diferentes navegadores proporcionan diferentes métodos para bloquear y eliminar las cookies utilizadas por los sitios web. Puede cambiar la configuración de su navegador para bloquear/eliminar las cookies. Para obtener más información sobre cómo administrar y eliminar cookies, visite <a href="https://www.allaboutcookies.org" target="_blank">www.allaboutcookies.org</a>.</p>
+                    
+                    <div class="cookie-controls">
+                        <h3>Gestionar sus preferencias de cookies</h3>
+                        <p>Puede gestionar sus preferencias de cookies en cualquier momento:</p>
+                        <div class="cookie-buttons">
+                            <button id="accept-all-cookies" class="btn btn-primary">Aceptar todas las cookies</button>
+                            <button id="reject-non-essential" class="btn btn-secondary">Rechazar cookies no esenciales</button>
+                            <button id="custom-preferences" class="btn btn-outline">Preferencias personalizadas</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>CB Dominicos Zaragoza</h3>
+                    </div>
+                    <p>Club de baloncesto formando deportistas desde 1985. Valores, deporte y comunidad.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook">FB</a>
+                        <a href="https://x.com/dominicosbasket" aria-label="Twitter">X</a>
+                        <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram">IG</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="equipos.html">Equipos</a></li>
+                        <li><a href="#calendario">Calendario</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Politicas</h4>
+                    <ul>
+                        <li><a href="avisolegal.html">Aviso legal</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>Colegio Cardenal Xavierre</li>
+                        <li>Plaza San Francisco, 15</li>
+                        <li>50006 - Zaragoza</li>
+                        <li>info@baloncestodominicos.es</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CB Dominicos Zaragoza. Todos los derechos reservados.</p>
+                <p>&copy; Diseñado por Rubén Palacio</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de preferencias de cookies -->
+    <div id="cookieModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Preferencias de Cookies</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <p>Selecciona las cookies que deseas aceptar. Las cookies esenciales son necesarias para el funcionamiento del sitio web y no se pueden desactivar.</p>
+            
+            <div class="cookie-preference preference-required">
+                <div class="cookie-preference-header">
+                    <h3>Cookies Esenciales</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="essentialCookies" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-description">Estas cookies son necesarias para el funcionamiento básico del sitio web y no se pueden desactivar.</p>
+            </div>
+            
+            <div class="cookie-preference">
+                <div class="cookie-preference-header">
+                    <h3>Cookies de Rendimiento</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="performanceCookies">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-description">Estas cookies nos permiten contar visitas y fuentes de tráfico para medir y mejorar el rendimiento de nuestro sitio.</p>
+            </div>
+            
+            <div class="cookie-preference">
+                <div class="cookie-preference-header">
+                    <h3>Cookies Funcionales</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="functionalCookies">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-description">Estas cookies permiten que el sitio web proporcione una funcionalidad y personalización mejoradas.</p>
+            </div>
+            
+            <div class="cookie-preference">
+                <div class="cookie-preference-header">
+                    <h3>Cookies de Marketing</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="marketingCookies">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-description">Estas cookies pueden ser establecidas a través de nuestro sitio por nuestros socios publicitarios.</p>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="savePreferences" class="btn btn-success">Guardar preferencias</button>
+                <button id="acceptAllModal" class="btn btn-primary">Aceptar todas</button>
+                <button id="rejectAllModal" class="btn btn-secondary">Rechazar todas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner de cookies -->
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-banner-content">
+            <div class="cookie-banner-text">
+                <p>Utilizamos cookies para mejorar su experiencia en nuestro sitio web. Al hacer clic en "Aceptar todas", acepta el uso de todas las cookies. Sin embargo, puede visitar "Preferencias de cookies" para proporcionar un consentimiento controlado.</p>
+            </div>
+            <div class="cookie-banner-actions">
+                <button id="bannerAcceptAll" class="btn btn-primary">Aceptar todas</button>
+                <button id="bannerCustomize" class="btn btn-outline">Preferencias</button>
+                <button id="bannerRejectAll" class="btn btn-secondary">Rechazar todas</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad para el menú móvil
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-list').classList.toggle('active');
+        });
+        
+        // Funcionalidad para el modal de cookies
+        const cookieModal = document.getElementById('cookieModal');
+        const cookieBanner = document.getElementById('cookieBanner');
+        
+        // Mostrar banner de cookies si no hay preferencias guardadas
+        if (!localStorage.getItem('cookiePreferences')) {
+            setTimeout(() => {
+                cookieBanner.style.display = 'block';
+            }, 1000);
+        }
+        
+        // Abrir modal de preferencias
+        document.getElementById('custom-preferences').addEventListener('click', function() {
+            cookieModal.style.display = 'flex';
+        });
+        
+        document.getElementById('bannerCustomize').addEventListener('click', function() {
+            cookieModal.style.display = 'flex';
+            cookieBanner.style.display = 'none';
+        });
+        
+        // Cerrar modal
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            cookieModal.style.display = 'none';
+        });
+        
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            if (event.target === cookieModal) {
+                cookieModal.style.display = 'none';
+            }
+        });
+        
+        // Aceptar todas las cookies
+        function acceptAllCookies() {
+            const preferences = {
+                essential: true,
+                performance: true,
+                functional: true,
+                marketing: true
+            };
+            localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+            cookieModal.style.display = 'none';
+            cookieBanner.style.display = 'none';
+            showConfirmation('Has aceptado todas las cookies. Gracias.');
+        }
+        
+        document.getElementById('accept-all-cookies').addEventListener('click', acceptAllCookies);
+        document.getElementById('acceptAllModal').addEventListener('click', acceptAllCookies);
+        document.getElementById('bannerAcceptAll').addEventListener('click', acceptAllCookies);
+        
+        // Rechazar cookies no esenciales
+        function rejectNonEssentialCookies() {
+            const preferences = {
+                essential: true,
+                performance: false,
+                functional: false,
+                marketing: false
+            };
+            localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+            cookieModal.style.display = 'none';
+            cookieBanner.style.display = 'none';
+            showConfirmation('Has rechazado las cookies no esenciales. Solo se usarán cookies necesarias.');
+        }
+        
+        document.getElementById('reject-non-essential').addEventListener('click', rejectNonEssentialCookies);
+        document.getElementById('rejectAllModal').addEventListener('click', rejectNonEssentialCookies);
+        document.getElementById('bannerRejectAll').addEventListener('click', rejectNonEssentialCookies);
+        
+        // Guardar preferencias personalizadas
+        document.getElementById('savePreferences').addEventListener('click', function() {
+            const preferences = {
+                essential: true, // Siempre activas
+                performance: document.getElementById('performanceCookies').checked,
+                functional: document.getElementById('functionalCookies').checked,
+                marketing: document.getElementById('marketingCookies').checked
+            };
+            
+            localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+            cookieModal.style.display = 'none';
+            cookieBanner.style.display = 'none';
+            
+            // Contar cuántas categorías se han aceptado
+            const acceptedCategories = Object.values(preferences).filter(Boolean).length;
+            showConfirmation(`Has guardado tus preferencias. Se utilizarán ${acceptedCategories} tipos de cookies.`);
+        });
+        
+        // Mostrar mensaje de confirmación
+        function showConfirmation(message) {
+            const confirmation = document.createElement('div');
+            confirmation.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: var(--success-color);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 4px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 3000;
+                transition: opacity 0.3s;
+            `;
+            confirmation.textContent = message;
+            document.body.appendChild(confirmation);
+            
+            setTimeout(() => {
+                confirmation.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(confirmation);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Cargar preferencias guardadas al abrir el modal
+        document.getElementById('custom-preferences').addEventListener('click', function() {
+            const savedPreferences = localStorage.getItem('cookiePreferences');
+            if (savedPreferences) {
+                const preferences = JSON.parse(savedPreferences);
+                document.getElementById('performanceCookies').checked = preferences.performance;
+                document.getElementById('functionalCookies').checked = preferences.functional;
+                document.getElementById('marketingCookies').checked = preferences.marketing;
+            }
+        });
+    </script>
+</body>
+</html>

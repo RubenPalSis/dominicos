@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cf.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Contacto | CB Dominicos Zaragoza</title>
+    <style>
+        /* Estilos generales */
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header - Asegurar que tenga el z-index más alto */
+        .header {
+            z-index: 10000; /* Aumentado significativamente */
+        }
+        
+        
+        
+        /* Contenido principal */
+        .main-content {
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            color: #666;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .contact-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .contact-info h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .contact-details {
+            margin-bottom: 25px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .contact-text h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+        
+        .contact-text p {
+            color: #666;
+            margin-bottom: 0;
+        }
+        
+        .social-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .social-links-contact {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .social-links-contact a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links-contact a:hover {
+            background-color: #154360;
+        }
+        
+        /* Formulario de contacto */
+        .contact-form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .contact-form h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #154360;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        /* Mapa - Ajustar z-index para que no se superponga al header */
+        .map-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1; /* Bajo z-index para que no interfiera con el header */
+        }
+        
+        .map-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 400px;
+            background-color: #e9ecef;
+            position: relative;
+            z-index: 1; /* Bajo z-index */
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            z-index: 1; /* Bajo z-index */
+        }
+        
+        .leaflet-container {
+            background: #e9ecef;
+            z-index: 1 !important; /* Forzar z-index bajo */
+        }
+        
+        /* Asegurar que los controles del mapa tengan z-index controlado */
+        .leaflet-control-container .leaflet-top {
+            z-index: 2; /* Solo ligeramente más alto que el mapa */
+        }
+        
+        .leaflet-control-container .leaflet-bottom {
+            z-index: 2; /* Solo ligeramente más alto que el mapa */
+        }
+        
+        .custom-marker {
+            background-color: var(--primary-color);
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100; /* Moderado, pero menor que el header */
+        }
+        
+        .map-btn {
+            background-color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .map-btn:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .map-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            max-width: 250px;
+            z-index: 100; /* Moderado, pero menor que el header */
+        }
+        
+        .map-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--primary-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .map-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .faq-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-answer.active {
+            padding: 15px 20px;
+            max-height: 200px;
+        }
+        
+        
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 10001; /* Mayor que el header */
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-info {
+                max-width: 200px;
+                font-size: 0.8rem;
+            }
+            
+            .map-controls {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .map-btn {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="https://baloncestodominicos.es/" class="logo-link">
+                        <div class="logo-icon">
+                            <img src="assets/img/logo.jpg" alt="CB Dominicos Zaragoza" class="logo-image">
+                        </div>                    
+                        <div class="logo-text">
+                            <h1>DOMINICOS</h1>
+                            <span>CLUB DE BALONCESTO ZARAGOZA</span>
+                        </div>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">Inicio</a></li>
+                        <li><a href="equipos.html" class="nav-link">Equipos</a></li>
+                        <li><a href="calendario.html" class="nav-link">Calendario</a></li>
+                        <li><a href="noticias.html" class="nav-link">Noticias</a></li>
+                        <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Contacto</h1>
+                <p>Estamos aquí para ayudarte. Ponte en contacto con nosotros para cualquier consulta</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Información de Contacto</h2>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                📍
+                            </div>
+                            <div class="contact-text">
+                                <h3>Dirección</h3>
+                                <p>Colegio Cardenal Xavierre<br>Plaza San Francisco, 15<br>50006 - Zaragoza</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                📧
+                            </div>
+                            <div class="contact-text">
+                                <h3>Email</h3>
+                                <p>info@baloncestodominicos.es</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                📱
+                            </div>
+                            <div class="contact-text">
+                                <h3>Redes Sociales</h3>
+                                <p>Síguenos en nuestras redes para estar al día</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-section">
+                        <h3>Síguenos</h3>
+                        <div class="social-links-contact">
+                            <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook" title="Facebook">FB</a>
+                            <a href="https://x.com/dominicosbasket" aria-label="Twitter" title="Twitter">X</a>
+                            <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram" title="Instagram">IG</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h2>Envíanos un mensaje</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre completo *</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Asunto *</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">Selecciona un asunto</option>
+                                <option value="informacion">Información general</option>
+                                <option value="inscripcion">Inscripción de jugadores</option>
+                                <option value="patrocinio">Patrocinio y colaboraciones</option>
+                                <option value="entrenador">Información para entrenadores</option>
+                                <option value="voluntariado">Voluntariado</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensaje *</label>
+                            <textarea id="message" class="form-control" required placeholder="Escribe tu mensaje aquí..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" id="privacy" class="form-check-input" required>
+                                <label for="privacy" class="form-check-label">
+                                    He leído y acepto la <a href="privacidad.html">Política de Privacidad</a> *
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="map-section">
+                <h2>¿Dónde estamos?</h2>
+                <div class="map-container">
+                    <div id="map"></div>
+                    <div class="map-controls">
+                        <button id="satelliteView" class="map-btn">🌍 Vista Satélite</button>
+                        <button id="resetView" class="map-btn">🗺️ Vista Inicial</button>
+                    </div>
+                    <div class="map-info">
+                        <h4>CB Dominicos Zaragoza</h4>
+                        <p>Colegio Cardenal Xavierre<br>Plaza San Francisco, 15</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>Preguntas Frecuentes</h2>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cómo puedo inscribir a mi hijo/a en el club?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Las inscripciones para nuevas temporadas suelen abrirse en junio. Puedes contactarnos a través del formulario o enviarnos un email para recibir información actualizada sobre plazos y requisitos. También organizamos jornadas de puertas abiertas donde podrás conocer nuestras instalaciones y entrenadores.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Qué categorías tienen disponibles?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Contamos con equipos desde categoría prebenjamín hasta senior, tanto masculinos como femeninos. Tenemos equipos en competición federada y escuelas de baloncesto para los más pequeños. Consulta nuestra página de equipos para más detalles específicos de cada categoría.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Ofrecen cursos de verano o campus?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sí, organizamos campus de verano y actividades especiales durante periodos vacacionales. Estos campus están dirigidos por nuestros entrenadores cualificados e incluyen entrenamientos técnicos, partidos, actividades lúdicas y valores deportivos. Síguenos en redes sociales para estar informado de las próximas convocatorias.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Puedo patrocinar al club o a algún equipo?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Por supuesto, estamos abiertos a colaboraciones y patrocinios. Ofrecemos diferentes opciones de patrocinio adaptadas a cada necesidad, desde patrocinio de equipos hasta colaboraciones específicas. Contáctanos a través del formulario seleccionando "Patrocinio y colaboraciones" para que podamos enviarte nuestra propuesta personalizada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>CB Dominicos Zaragoza</h3>
+                    </div>
+                    <p>Club de baloncesto formando deportistas desde 1985. Valores, deporte y comunidad.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook">FB</a>
+                        <a href="https://x.com/dominicosbasket" aria-label="Twitter">X</a>
+                        <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram">IG</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="equipos.html">Equipos</a></li>
+                        <li><a href="calendario.html">Calendario</a></li>
+                        <li><a href="noticias.html">Noticias</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Políticas</h4>
+                    <ul>
+                        <li><a href="avisolegal.html">Aviso legal</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>Colegio Cardenal Xavierre</li>
+                        <li>Plaza San Francisco, 15</li>
+                        <li>50006 - Zaragoza</li>
+                        <li>info@baloncestodominicos.es</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CB Dominicos Zaragoza. Todos los derechos reservados.</p>
+                <p>&copy; Diseñado por Rubén Palacio</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script de Leaflet (OpenStreetMap) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Funcionalidad para el menú móvil
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-list').classList.toggle('active');
+        });
+        
+        // Funcionalidad para el formulario de contacto
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validación básica
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const privacy = document.getElementById('privacy').checked;
+            
+            if (!name || !email || !subject || !message || !privacy) {
+                alert('Por favor, completa todos los campos obligatorios.');
+                return;
+            }
+            
+            // Simulación de envío (en un caso real aquí iría la conexión con el servidor)
+            alert('¡Mensaje enviado con éxito! Te responderemos lo antes posible.');
+            document.getElementById('contactForm').reset();
+        });
+        
+        // Funcionalidad para las preguntas frecuentes
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isActive = answer.classList.contains('active');
+                
+                // Cerrar todas las respuestas
+                document.querySelectorAll('.faq-answer').forEach(ans => {
+                    ans.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.faq-question').forEach(q => {
+                    q.querySelector('span:last-child').textContent = '+';
+                });
+                
+                // Abrir la respuesta clickeada si no estaba activa
+                if (!isActive) {
+                    answer.classList.add('active');
+                    question.querySelector('span:last-child').textContent = '-';
+                }
+            });
+        });
+        
+        // Inicialización del mapa con OpenStreetMap
+        let map;
+        let marker;
+        let currentLayer = 'street';
+        
+        function initMap() {
+            // Coordenadas del Colegio Cardenal Xavierre (Zaragoza)
+            const location = [41.642184, -0.895401];
+            
+            // Crear el mapa
+            map = L.map('map').setView(location, 16);
+            
+            // Capas del mapa
+            const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            });
+            
+            const satelliteLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
+            });
+            
+            // Añadir capa inicial
+            streetLayer.addTo(map);
+            
+            // Crear marcador personalizado
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: '',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+            
+            // Añadir marcador
+            marker = L.marker(location, { icon: customIcon }).addTo(map);
+            
+            // Popup del marcador
+            marker.bindPopup(`
+                <div style="padding: 10px; max-width: 250px;">
+                    <h3 style="margin: 0 0 8px 0; color: #1a5276; font-family: Montserrat, sans-serif;">CB Dominicos Zaragoza</h3>
+                    <p style="margin: 0 0 5px 0; font-size: 14px;">
+                        <strong>Colegio Cardenal Xavierre</strong><br>
+                        Plaza San Francisco, 15<br>
+                        50006 Zaragoza
+                    </p>
+                    <p style="margin: 0; font-size: 12px; color: #666;">
+                        📧 info@baloncestodominicos.es
+                    </p>
+                </div>
+            `).openPopup();
+            
+            // Controladores para los botones del mapa
+            document.getElementById('satelliteView').addEventListener('click', () => {
+                if (currentLayer === 'street') {
+                    map.removeLayer(streetLayer);
+                    satelliteLayer.addTo(map);
+                    currentLayer = 'satellite';
+                    document.getElementById('satelliteView').textContent = '🗺️ Vista Callejera';
+                } else {
+                    map.removeLayer(satelliteLayer);
+                    streetLayer.addTo(map);
+                    currentLayer = 'street';
+                    document.getElementById('satelliteView').textContent = '🌍 Vista Satélite';
+                }
+            });
+            
+            document.getElementById('resetView').addEventListener('click', () => {
+                map.setView(location, 16);
+                marker.openPopup();
+            });
+            
+            // Añadir controles de zoom
+            L.control.zoom({
+                position: 'topright'
+            }).addTo(map);
+        }
+        
+        // Inicializar el mapa cuando la página cargue
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+</body>
+</html>

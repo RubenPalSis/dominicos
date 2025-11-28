@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario | CB Dominicos Zaragoza</title>
+
+    <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/cf.css">
+    <link rel="stylesheet" href="assets/css/calendario.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet"
+    >
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                                <div class="logo">
+                    <a href="https://baloncestodominicos.es/" class="logo-link">
+                        <div class="logo-icon">
+                            <img src="assets/img/logo.jpg" alt="CB Dominicos Zaragoza" class="logo-image">
+                        </div>                    
+                        <div class="logo-text">
+                            <h1>DOMINICOS</h1>
+                            <span>CLUB DE BALONCESTO ZARAGOZA</span>
+                        </div>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                        <li><a href="equipos.html" class="nav-link">Equipos</a></li>
+                        <li><a href="calendario.html" class="nav-link">Calendario</a></li>
+                        <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="calendar-layout">
+        <div class="container">
+            <h1 class="page-title">Calendario de Partidos</h1>
+
+            <!-- Filtro -->
+            <section class="calendar-controls">
+                <div class="control-group">
+                    <label class="control-label">Filtrar por equipo</label>
+                    <div class="team-filter-buttons">
+                        <button class="team-filter-btn active" data-team="all">Todos los equipos</button>
+                        <!-- Los botones de equipos se añadirán por JS -->
+                    </div>
+                </div>
+            </section>
+            <section id="calendar-matches" class="calendar-matches">
+                <!-- Partidos via JS -->
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>CB Dominicos Zaragoza</h3>
+                    </div>
+                    <p>Club de baloncesto formando deportistas desde 1985. Valores, deporte y comunidad.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook">FB</a>
+                        <a href="https://x.com/dominicosbasket" aria-label="Twitter">X</a>
+                        <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram">IG</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="equipos.html">Equipos</a></li>
+                        <li><a href="#calendario">Calendario</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Politicas</h4>
+                    <ul>
+                        <li><a href="avisolegal.html">Aviso legal</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>Colegio Cardenal Xavierre</li>
+                        <li>Plaza San Francisco, 15</li>
+                        <li>50006 - Zaragoza</li>
+                        <li>info@baloncestodominicos.es</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CB Dominicos Zaragoza. Todos los derechos reservados.</p>
+                <p>&copy; Diseñado por Rubén Palacio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/calendario.js"></script>
+</body>
+</html>

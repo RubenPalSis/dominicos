@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticia | CB Dominicos Zaragoza</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cf.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .news-detail-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .news-detail-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .news-detail-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-detail-title {
+            color: var(--primary-black);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .news-detail-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .news-detail-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .news-detail-actions {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: #b71c1c;
+        }
+
+        .image-placeholder-large {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .error-message h2 {
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .news-detail-title {
+                font-size: 1.5rem;
+            }
+            
+            .news-detail-content {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                                <div class="logo">
+                    <a href="https://baloncestodominicos.es/" class="logo-link">
+                        <div class="logo-icon">
+                            <img src="assets/img/logo.jpg" alt="CB Dominicos Zaragoza" class="logo-image">
+                        </div>                    
+                        <div class="logo-text">
+                            <h1>DOMINICOS</h1>
+                            <span>CLUB DE BALONCESTO ZARAGOZA</span>
+                        </div>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                        <li><a href="equipos.html" class="nav-link">Equipos</a></li>
+                        <li><a href="calendario.html" class="nav-link">Calendario</a></li>
+                        <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <div class="container">
+            <div class="news-detail-container" id="news-detail-container">
+                <!-- El contenido de la noticia se cargará aquí dinámicamente -->
+                <div class="loading-news" style="text-align: center; padding: 4rem;">
+                    <p>Cargando noticia...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>CB Dominicos Zaragoza</h3>
+                    </div>
+                    <p>Club de baloncesto formando deportistas desde 1985. Valores, deporte y comunidad.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook">FB</a>
+                        <a href="https://x.com/dominicosbasket" aria-label="Twitter">X</a>
+                        <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram">IG</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="equipos.html">Equipos</a></li>
+                        <li><a href="calendario.html">Calendario</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Políticas</h4>
+                    <ul>
+                        <li><a href="avisolegal.html">Aviso legal</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>Colegio Cardenal Xavierre</li>
+                        <li>Plaza San Francisco, 15</li>
+                        <li>50006 - Zaragoza</li>
+                        <li>info@baloncestodominicos.es</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CB Dominicos Zaragoza. Todos los derechos reservados.</p>
+                <p>Diseñado por Rubén Palacio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cargar noticia específica basada en el ID de la URL
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNewsDetail();
+        });
+
+        function loadNewsDetail() {
+            const container = document.getElementById('news-detail-container');
+            if (!container) return;
+
+            // Obtener el ID de la noticia de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const newsId = urlParams.get('id');
+
+            if (!newsId) {
+                showError(container, 'No se ha especificado ninguna noticia.');
+                return;
+            }
+
+            try {
+                const storedNews = localStorage.getItem('clubNews');
+                
+                if (!storedNews) {
+                    showError(container, 'No se encontraron noticias.');
+                    return;
+                }
+
+                const newsData = JSON.parse(storedNews);
+                const news = newsData.news.find(n => n.id === newsId);
+
+                if (!news) {
+                    showError(container, 'La noticia solicitada no existe.');
+                    return;
+                }
+
+                if (news.status !== 'published') {
+                    showError(container, 'Esta noticia no está disponible.');
+                    return;
+                }
+
+                renderNewsDetail(news, container);
+
+            } catch (e) {
+                console.error('Error cargando noticia:', e);
+                showError(container, 'Error al cargar la noticia.');
+            }
+        }
+
+        function renderNewsDetail(news, container) {
+            container.innerHTML = `
+                <article class="news-detail">
+                    <div class="news-detail-header">
+                        <div class="news-detail-date">${formatNewsDate(news.date)}</div>
+                        <h1 class="news-detail-title">${escapeHtml(news.title)}</h1>
+                    </div>
+
+                    ${news.image ? 
+                        `<img src="${escapeHtml(news.image)}" alt="${escapeHtml(news.title)}" class="news-detail-image"
+                             onerror="this.style.display='none'; document.getElementById('image-placeholder').style.display='flex';">` : 
+                        ''
+                    }
+                    
+                    ${!news.image ? 
+                        `<div class="image-placeholder-large" id="image-placeholder">
+                            📷 Imagen no disponible
+                        </div>` : 
+                        '<div class="image-placeholder-large" id="image-placeholder" style="display: none;">📷 Imagen no disponible</div>'
+                    }
+
+                    <div class="news-detail-content">
+                        ${formatNewsContent(news.content)}
+                    </div>
+
+                    <div class="news-detail-actions">
+                        <a href="index.html#noticias" class="back-button">
+                            ← Volver a las noticias
+                        </a>
+                    </div>
+                </article>
+            `;
+
+            // Actualizar el título de la página
+            document.title = `${news.title} | CB Dominicos Zaragoza`;
+        }
+
+        function formatNewsContent(content) {
+            // Convertir saltos de línea en párrafos
+            const paragraphs = content.split('\n').filter(p => p.trim() !== '');
+            return paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+        }
+
+        function formatNewsDate(dateStr) {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) {
+                return 'Fecha no disponible';
+            }
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('es-ES', options);
+        }
+
+        function showError(container, message) {
+            container.innerHTML = `
+                <div class="error-message">
+                    <h2>⚠️ Error</h2>
+                    <p>${message}</p>
+                    <div style="margin-top: 2rem;">
+                        <a href="index.html#noticias" class="btn btn-primary">Volver a Noticias</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

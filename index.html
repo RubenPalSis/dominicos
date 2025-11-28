@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CB Dominicos Zaragoza | Club de Baloncesto</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cf.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="https://baloncestodominicos.es/" class="logo-link">
+                        <div class="logo-icon">
+                            <img src="assets/img/logo.jpg" alt="CB Dominicos Zaragoza" class="logo-image">
+                        </div>                    
+                        <div class="logo-text">
+                            <h1>DOMINICOS</h1>
+                            <span>CLUB DE BALONCESTO ZARAGOZA</span>
+                        </div>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                        <li><a href="equipos.html" class="nav-link">Equipos</a></li>
+                        <li><a href="calendario.html" class="nav-link">Calendario</a></li>
+                        <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+<!-- Hero Section -->
+<!-- Hero Section -->
+<section class="hero-with-image">
+    <div class="container">
+        <div class="hero-with-image-content">
+            <div class="hero-text-side">
+                <h1 class="hero-main-title">
+                    <span class="">Baloncesto</span>
+                    <span class="title-line accent">Dominicos</span>
+                </h1>
+                <div class="hero-actions">
+                    <a href="equipos.html" class="hero-action-btn secondary">Nuestros Equipos</a>
+                </div>
+            </div>
+            <div class="hero-image-side">
+                <div class="image-container">
+                    <img src="assets/img/logo-removebg-preview.png" alt="Jugador de baloncesto" class="hero-player-image">
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="scroll-indicator-arrow">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5V19M12 19L5 12M12 19L19 12"/>
+    </svg>
+</div>
+</section>
+
+    <!-- Sección Destacada -->
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title">CB Dominicos Zaragoza</h2>
+            <div class="featured-content">
+                <div class="featured-text">
+                    <p>El Club de Baloncesto Dominicos Zaragoza es una institución deportiva con más de 35 años de historia dedicada a la formación integral de jóvenes deportistas a través del baloncesto.</p>
+                    <p>Contamos con equipos en todas las categorías, desde la escuela de iniciación hasta el equipo sénior, siempre promoviendo valores como el compañerismo, el esfuerzo y la deportividad.</p>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Equipos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">35+</span>
+                            <span class="stat-label">Años</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">150+</span>
+                            <span class="stat-label">Jugadores</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="featured-image">
+                    <div class="image-placeholder">
+                        <img src="assets/img/portada.png" alt="Imagen de CB Dominicos" class="hero-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Próximos Partidos -->
+    <section id="calendario" class="matches-section">
+        <div class="container">
+            <h2 class="section-title">Próximos Partidos</h2>
+            <div class="matches-grid" id="proximos-partidos">
+                <!-- Los partidos se cargarán aquí dinámicamente -->
+                <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    Cargando próximos partidos...
+                </div>
+            </div>
+            <div class="section-actions">
+                <a href="calendario.html" class="btn btn-outline">Ver Calendario Completo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Noticias -->
+    <section id="noticias" class="news-section">
+        <div class="container">
+            <h2 class="section-title">Últimas Noticias</h2>
+            <div class="news-grid" id="dynamic-news-grid">
+                <!-- Las noticias se cargarán aquí dinámicamente desde localStorage -->
+                <div class="loading-news" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    <p>Cargando noticias...</p>
+                </div>
+            </div> 
+       </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>CB Dominicos Zaragoza</h3>
+                    </div>
+                    <p>Club de baloncesto formando deportistas desde 1985. Valores, deporte y comunidad.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook">FB</a>
+                        <a href="https://x.com/dominicosbasket" aria-label="Twitter">X</a>
+                        <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram">IG</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="equipos.html">Equipos</a></li>
+                        <li><a href="calendario.html">Calendario</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Políticas</h4>
+                    <ul>
+                        <li><a href="avisolegal.html">Aviso legal</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>Colegio Cardenal Xavierre</li>
+                        <li>Plaza San Francisco, 15</li>
+                        <li>50006 - Zaragoza</li>
+                        <li>info@baloncestodominicos.es</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CB Dominicos Zaragoza. Todos los derechos reservados.</p>
+                <p>Diseñado por Rubén Palacio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/administrador.js"></script>
+</body>
+</html>

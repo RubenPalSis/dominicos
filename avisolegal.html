@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cf.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Aviso Legal | CB Dominicos Zaragoza</title>
+    <style>
+        /* Estilos generales */
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Contenido principal */
+        .main-content {
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            color: #666;
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .text-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .text-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-color);
+            margin: 20px 0 10px;
+        }
+        
+        .text-content p {
+            margin-bottom: 15px;
+        }
+        
+        .text-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .text-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .text-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .text-content li {
+            margin-bottom: 8px;
+        }
+        
+        .info-box {
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .contact-info {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .contact-info h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        .legal-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="https://baloncestodominicos.es/" class="logo-link">
+                        <div class="logo-icon">
+                            <img src="assets/img/logo.jpg" alt="CB Dominicos Zaragoza" class="logo-image">
+                        </div>                    
+                        <div class="logo-text">
+                            <h1>DOMINICOS</h1>
+                            <span>CLUB DE BALONCESTO ZARAGOZA</span>
+                        </div>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">Inicio</a></li>
+                        <li><a href="equipos.html" class="nav-link">Equipos</a></li>
+                        <li><a href="calendario.html" class="nav-link">Calendario</a></li>
+                        <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Aviso Legal</h1>
+                <p>Última actualización: Enero 2025</p>
+            </div>
+            
+            <div class="content-section">
+                <div class="text-content">
+                    <h2>DATOS IDENTIFICATIVOS</h2>
+                    <p>Usted está visitando la página web <strong>http://baloncestodominicos.es</strong> titularidad de <strong>CLUB BALONCESTO DOMINICOS SIGLO XXI</strong>, con domicilio social en Plaza San Francisco 15, 50006 ZARAGOZA, con N.I.F. G50916493, en adelante <strong>EL TITULAR</strong>.</p>
+                    
+                    <div class="contact-info">
+                        <h3>Información de Contacto</h3>
+                        <p><strong>Correo electrónico:</strong> info@baloncestodominicos.es</p>
+                    </div>
+                    
+                    <h2>HOSPEDAJE WEB</h2>
+                    <div class="contact-info">
+                        <p><strong>Teléfono:</strong> 902115530</p>
+                        <p><strong>Correo electrónico:</strong> info@arsys.es</p>
+                    </div>
+                    
+                    <h2>USUARIOS</h2>
+                    <p>Las presentes condiciones (en adelante Aviso Legal) tiene por finalidad regular el uso de la página web de EL TITULAR que pone a disposición del público.</p>
+                    <p>El acceso y/o uso de esta página web atribuye la condición de USUARIO, que acepta, desde dicho acceso y/o uso, las condiciones generales de uso aquí reflejadas. Las citadas condiciones serán de aplicación independientemente de las condiciones generales de contratación que en su caso resulten de obligado cumplimiento.</p>
+                    
+                    <h2>USO DEL PORTAL</h2>
+                    <p>http://baloncestodominicos.es proporciona el acceso a multitud de informaciones, servicios, contenidos multimedia, programas o datos (en adelante, "los contenidos") en Internet pertenecientes a EL TITULAR o a sus licenciantes a los que el USUARIO puede tener acceso.</p>
+                    <p>El usuario asume la responsabilidad del uso del portal. Dicha responsabilidad se extiende al registro que fuese necesario para acceder a determinados servicios o contenidos. En dicho registro el USUARIO será responsable de aportar información veraz y lícita. Como consecuencia de este registro, al USUARIO se le puede proporcionar una contraseña de la que será responsable, comprometiéndose a hacer un uso diligente y confidencial de la misma.</p>
+                    
+                    <p>El USUARIO se compromete a hacer un uso adecuado de los contenidos y servicios (p.e. imágenes y vídeos, servicios de chat, foros de discusión o grupos de noticias) que EL TITULAR ofrece o pueda ofrecer a través de su portal y con carácter enunciativo pero no limitativo, a no emplearlos para:</p>
+                    
+                    <ul>
+                        <li>Incurrir en actividades ilícitas, ilegales o contrarias a la buena fe y al orden público.</li>
+                        <li>Difundir contenidos o propaganda racista, xenófoba, pornográfico-ilegal, de apología del terrorismo o atentatoria contra los derechos humanos.</li>
+                        <li>Provocar daños en los sistemas físicos y lógicos de CLUB BALONCESTO DOMINICOS SIGLO XXI, de sus proveedores, patrocinadores, colaboradores o de terceras personas, introducir o difundir en la red virus informáticos o cualesquiera otros sistemas físicos o lógicos que sean susceptibles de provocar los daños anteriormente mencionados.</li>
+                        <li>Intentar acceder y, en su caso, utilizar las cuentas de correo electrónico de otros usuarios y modificar o manipular sus mensajes.</li>
+                        <li>Utilizar el sitio web ni las informaciones que en él se contienen con fines comerciales, políticos, publicitarios y para cualquier uso comercial, sobre todo en el envío de correos electrónicos no solicitados.</li>
+                    </ul>
+                    
+                    <p>EL TITULAR se reserva el derecho a retirar todos aquellos comentarios y aportaciones que vulneren el respeto a la dignidad de la persona, que sean discriminatorios, xenófobos, racistas pornográficos, que atenten contra la juventud o la infancia, el orden o la seguridad pública o que, a su juicio, no resultarán adecuados para su publicación. En cualquier caso, EL TITULAR no será responsable de las opiniones vertidas por los usuarios a través de los foros, chats, u otras herramientas de participación.</p>
+                    
+                    <h2>PROTECCIÓN DE DATOS</h2>
+                    <p>Todo lo relativo a la política de protección de datos se encuentra recogido en el documento de <a href="privacidad.html">política de privacidad</a>.</p>
+                    
+                    <h2>CONTENIDOS. PROPIEDAD INTELECTUAL E INDUSTRIAL</h2>
+                    <p>EL TITULAR es propietario de todos los derechos de propiedad intelectual e industrial de su página web, así como de los elementos contenidos en la misma (a título enunciativo: imágenes, fotografías, sonido, audio, vídeo, software o textos; marcas o logotipos, combinaciones de colores, estructura y diseño, selección de materiales usados, programas de ordenador necesarios para su funcionamiento, acceso y uso, etc), titularidad del TITULAR o bien de sus licenciantes.</p>
+                    <p>Todos los derechos reservados. En virtud de lo dispuesto en los artículos 8 y 32.1, párrafo segundo, de la Ley de Propiedad Intelectual, quedan expresamente prohibidas la reproducción, la distribución y la comunicación pública, incluida su modalidad de puesta a disposición, de la totalidad o parte de los contenidos de esta página web, con fines comerciales, en cualquier soporte y por cualquier medio técnico, sin la autorización del TITULAR.</p>
+                    
+                    <h2>EXCLUSIÓN DE GARANTÍAS Y RESPONSABILIDAD</h2>
+                    <p>EL USUARIO reconoce que la utilización de la página web y de sus contenidos y servicios se desarrolla bajo su exclusiva responsabilidad. En concreto, a título meramente enunciativo, EL TITULAR no asume ninguna responsabilidad en los siguientes ámbitos:</p>
+                    
+                    <ul>
+                        <li>La disponibilidad del funcionamiento de la página web, sus servicios y contenidos y su calidad o interoperabilidad.</li>
+                        <li>La finalidad para la que la página web sirva a los objetivos del USUARIO.</li>
+                        <li>La infracción de la legislación vigente por parte del USUARIO o terceros y, en concreto, de los derechos de propiedad intelectual e industrial que sean titularidad de otras personas o entidades.</li>
+                        <li>La existencia de códigos maliciosos o cualquier otro elemento informático dañino que pudiera causar el sistema informático del USUARIO o de terceros. Corresponde al USUARIO, en todo caso, disponer de herramientas adecuadas para la detección y desinfección de estos elementos.</li>
+                        <li>El acceso fraudulento a los contenidos o servicios por terceros no autorizados, o, en su caso, la captura, eliminación, alteración, modificación o manipulación de los mensajes y comunicaciones de cualquier clase que dichos terceros pudiera realizar.</li>
+                        <li>La exactitud, veracidad, actualidad y utilidad de los contenidos y servicios ofrecidos y la utilización posterior que de ellos haga el USUARIO. EL TITULAR empleará todos los esfuerzos y medios razonables para facilitar la información actualizada y fehaciente.</li>
+                        <li>Los daños producidos a equipos informáticos durante el acceso a la página web y los daños producidos a los USUARIOS cuando tengan su origen en fallos o desconexiones en las redes de telecomunicaciones que interrumpan el servicio.</li>
+                        <li>Los daños o perjuicios que se deriven de circunstancias acaecidas por caso fortuito o fuerza mayor.</li>
+                    </ul>
+                    
+                    <p>En caso de que existan foros, el uso de los mismos u otros espacios análogos, ha de tenerse en cuenta que los mensajes reflejan únicamente la opinión del USUARIO que los remite, que es el único responsable. EL TITULAR no se hace responsable del contenido de los mensajes enviados por el USUARIO.</p>
+                    
+                    <h2>MODIFICACIÓN DE ESTE AVISO LEGAL Y DURACIÓN</h2>
+                    <p>EL TITULAR se reserva el derecho de efectuar sin previo aviso las modificaciones que considere oportunas en su portal, pudiendo cambiar, suprimir o añadir tantos contenidos y servicios que se presten a través de la misma, como la forma en la que éstos aparezcan representados o localizados en su portal.</p>
+                    <p>La vigencia de las citadas condiciones irá en función de su exposición y estarán vigentes hasta que sean modificadas por otras debidamente publicadas.</p>
+                    
+                    <h2>ENLACES</h2>
+                    <p>En el caso de que en http://baloncestodominicos.es incluyesen enlaces o hipervínculos hacia otros sitios de Internet, EL TITULAR no ejercerá ningún tipo de control sobre dichos sitios y contenidos. En ningún caso EL TITULAR asumirá responsabilidad alguna por los contenidos de algún enlace perteneciente a un sitio web ajeno, ni garantizará la disponibilidad técnica, calidad, fiabilidad, exactitud, amplitud, veracidad, validez y constitucionalidad de cualquier materia o información contenida en ninguno de dichos hipervínculos y otros sitios en Internet. Igualmente, la inclusión de estas conexiones externas no implicará ningún tipo de asociación, fusión o participación con las entidades conectadas.</p>
+                    
+                    <h2>DERECHOS DE EXCLUSIÓN</h2>
+                    <p>EL TITULAR se reserva el derecho a denegar o retirar el acceso a portal y/o los servicios ofrecidos sin necesidad de advertencia previa, a instancia propia o de un tercero, a aquellos usuarios que incumplan el contenido de este aviso legal.</p>
+                    
+                    <h2>GENERALIDADES</h2>
+                    <p>EL TITULAR perseguirá el incumplimiento de las presentes condiciones así como cualquier utilización indebida de su portal ejerciendo todas las acciones civiles y penales que le puedan corresponder en derecho.</p>
+                    
+                    <h2>LEGISLACIÓN APLICABLE Y JURISDICCIÓN</h2>
+                    <p>La relación entre EL TITULAR y EL USUARIO se regirá por la normativa española vigente. Todas las disputas y reclamaciones derivadas de este aviso legal se resolverán por los juzgados y tribunales españoles.</p>
+                    
+                    <h2>MENORES DE EDAD</h2>
+                    <div class="legal-note">
+                        <p><strong>http://baloncestodominicos.es</strong> dirige sus servicios a usuarios mayores de 14 años. Los menores de esta edad no están autorizados a utilizar nuestros servicios y no deberán, por tanto, enviarnos sus datos personales. Informamos de que si se da tal circunstancia, <strong>BALONCESTO DOMINICOS SIGLO XXI</strong> no se hace responsable de las posibles consecuencias que pudieran derivarse del incumplimiento del aviso que en esta misma cláusula se establece.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>Actualización del Aviso Legal</h3>
+                        <p>Este aviso legal fue revisado por última vez el 1 de enero de 2020 y se actualizó en enero de 2025 para adaptarse a los cambios normativos y garantizar la transparencia en las condiciones de uso del sitio web.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>CB Dominicos Zaragoza</h3>
+                    </div>
+                    <p>Club de baloncesto formando deportistas desde 1985. Valores, deporte y comunidad.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/baloncestodominicos.es/" aria-label="Facebook">FB</a>
+                        <a href="https://x.com/dominicosbasket" aria-label="Twitter">X</a>
+                        <a href="https://www.instagram.com/cbdominicos/?hl=es" aria-label="Instagram">IG</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="equipos.html">Equipos</a></li>
+                        <li><a href="calendario.html">Calendario</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Políticas</h4>
+                    <ul>
+                        <li><a href="avisolegal.html">Aviso legal</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>Colegio Cardenal Xavierre</li>
+                        <li>Plaza San Francisco, 15</li>
+                        <li>50006 - Zaragoza</li>
+                        <li>info@baloncestodominicos.es</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CB Dominicos Zaragoza. Todos los derechos reservados.</p>
+                <p>&copy; Diseñado por Rubén Palacio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Funcionalidad para el menú móvil
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-list').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
