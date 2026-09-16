@@ -38,3 +38,8 @@ imagen, barra de administración).
   .admin-bar .nav{top:46px}
   .admin-bar .menu{top:46px}
 }
+/* Entre 783 y 1000 px el menú también es un panel desplegable, y ahí la barra
+   de administración mide 32 px. */
+@media screen and (min-width:783px) and (max-width:1000px){
+  .admin-bar .menu{top:32px}
+}

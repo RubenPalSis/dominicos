@@ -559,3 +559,38 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
   border:1px solid rgba(255,255,255,.14);font-size:14.5px;opacity:.72;cursor:default;
 }
 .docs__soon em{font-style:normal;font-size:11px;letter-spacing:.1em;opacity:.8}
+
+/* --- corrección: el lightbox tapaba la web -------------------------------
+   El marcado sale con <div class="lb" hidden>, pero la regla .lb de arriba
+   le pone display:grid, y el CSS del autor gana al [hidden] del navegador.
+   Sin esto la capa negra queda fija sobre toda la página y la ✕ no cierra
+   nada, porque el JS solo cambia el atributo hidden. */
+.lb[hidden]{display:none}
+
+/* --- corrección: el header se rompía entre 781 y 1000 px -----------------
+   Siete enlaces más el botón «Ven a jugar» no caben en esa franja junto al
+   escudo. Como nada llevaba white-space:nowrap, en vez de desbordar el texto
+   se partía: el botón llegaba a ocupar tres líneas a 800 px y estiraba la
+   barra. Se arregla en dos pasos.
+
+   1) Que ningún texto de la cabecera se parta nunca. */
+.menu a,
+.brand__txt b,
+.brand__txt small{white-space:nowrap}
+
+/* 2) Que el menú de hamburguesa aparezca en cuanto deja de caber, no a los
+      780 px. Estas reglas repiten el panel del bloque de abajo solo para la
+      franja de tablet; por debajo de 781 px sigue mandando aquel. */
+@media (min-width:781px) and (max-width:1000px){
+  .burger{display:block}
+  .menu{
+    position:fixed;inset:0 0 auto 0;top:0;padding:96px 28px 36px;
+    flex-direction:column;align-items:flex-start;gap:4px;
+    background:var(--bg);border-bottom:1px solid var(--line);
+    transform:translateY(-102%);transition:transform .4s cubic-bezier(.2,.7,.3,1);
+    box-shadow:var(--shadow);
+  }
+  .menu.is-open{transform:none}
+  .menu a{font-family:var(--disp);font-size:26px;text-transform:uppercase;padding:10px 0;color:var(--txt)}
+  .menu__cta{margin-top:16px;font-size:16px!important;padding:12px 26px}
+}
