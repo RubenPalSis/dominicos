@@ -1,0 +1,25 @@
+/* Estilos del editor: escribir con la tipografía y los colores del sitio. */
+.editor-styles-wrapper{
+  --red:#e01f26;
+  --txt:#0b0c0f;
+  --txt-2:#5c6371;
+  --line:rgba(11,12,15,.12);
+  font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  color:var(--txt-2);
+}
+.editor-styles-wrapper .wp-block{max-width:75ch}
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4{
+  font-family:"Archivo Black","Archivo",system-ui,sans-serif;
+  letter-spacing:-.025em;
+  line-height:1.1;
+  color:var(--txt);
+}
+.editor-styles-wrapper h2{text-transform:uppercase}
+.editor-styles-wrapper a{color:var(--red)}
+.editor-styles-wrapper blockquote{border-left:3px solid var(--red);padding-left:24px}
+.editor-styles-wrapper hr{border-top:1px solid var(--line)}
