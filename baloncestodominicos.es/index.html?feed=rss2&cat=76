@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>JUNIOR 2019-2020 | CB Dominicos Zaragoza</title>
+	<atom:link href="https://baloncestodominicos.es/?feed=rss2&#038;cat=76" rel="self" type="application/rss+xml" />
+	<link>https://baloncestodominicos.es</link>
+	<description></description>
+	<lastBuildDate>Thu, 20 Feb 2020 19:41:24 +0000</lastBuildDate>
+	<language>es</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://baloncestodominicos.es/wp-content/uploads/2021/03/ClubBaloncestoDominicosZaragoza.logo_-100x100.jpg</url>
+	<title>JUNIOR 2019-2020 | CB Dominicos Zaragoza</title>
+	<link>https://baloncestodominicos.es</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>16/2/2020 JUNIOR DOMINICOS &#8211; MARIANISTAS</title>
+		<link>https://baloncestodominicos.es/?p=8310</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sun, 16 Feb 2020 19:31:41 +0000</pubDate>
+				<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[JUNIOR]]></category>
+		<category><![CDATA[JUNIOR 2019-2020]]></category>
+		<category><![CDATA[LIGA]]></category>
+		<category><![CDATA[LIGA 2019-2020]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=8310</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">8310</post-id>	</item>
+		<item>
+		<title>2/2/2020 JUNIOR DOMINICOS &#8211; ST.VENECIA</title>
+		<link>https://baloncestodominicos.es/?p=7841</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sun, 02 Feb 2020 20:35:18 +0000</pubDate>
+				<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[JUNIOR]]></category>
+		<category><![CDATA[JUNIOR 2019-2020]]></category>
+		<category><![CDATA[LIGA]]></category>
+		<category><![CDATA[LIGA 2019-2020]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=7841</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">7841</post-id>	</item>
+		<item>
+		<title>25/1/2020 CUARTE DE HUERVA &#8211; JUNIOR DOMINICOS</title>
+		<link>https://baloncestodominicos.es/?p=7505</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sat, 25 Jan 2020 20:04:31 +0000</pubDate>
+				<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[JUNIOR]]></category>
+		<category><![CDATA[JUNIOR 2019-2020]]></category>
+		<category><![CDATA[LIGA]]></category>
+		<category><![CDATA[LIGA JrNBA 2019-2020]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=7505</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">7505</post-id>	</item>
+		<item>
+		<title>18/1/2020 JUNIOR DOMINICOS &#8211; ALIERTA AUGUSTO</title>
+		<link>https://baloncestodominicos.es/?p=7364</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sat, 18 Jan 2020 20:35:34 +0000</pubDate>
+				<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[JUNIOR]]></category>
+		<category><![CDATA[JUNIOR 2019-2020]]></category>
+		<category><![CDATA[LIGA]]></category>
+		<category><![CDATA[LIGA 2019-2020]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=7364</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">7364</post-id>	</item>
+	</channel>
+</rss>

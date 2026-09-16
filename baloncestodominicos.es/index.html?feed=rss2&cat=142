@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>CADETE 2021-2022 | CB Dominicos Zaragoza</title>
+	<atom:link href="https://baloncestodominicos.es/?feed=rss2&#038;cat=142" rel="self" type="application/rss+xml" />
+	<link>https://baloncestodominicos.es</link>
+	<description></description>
+	<lastBuildDate>Sun, 12 Jun 2022 11:44:56 +0000</lastBuildDate>
+	<language>es</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=7.1</generator>
+
+<image>
+	<url>https://baloncestodominicos.es/wp-content/uploads/2021/03/ClubBaloncestoDominicosZaragoza.logo_-100x100.jpg</url>
+	<title>CADETE 2021-2022 | CB Dominicos Zaragoza</title>
+	<link>https://baloncestodominicos.es</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>2022 06.11 BENJAMÍN y CADETE DOMINICOS &#8211; DÍA DEL DEPORTE BAJO ARAGÓN</title>
+		<link>https://baloncestodominicos.es/?p=14434</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sat, 11 Jun 2022 11:43:56 +0000</pubDate>
+				<category><![CDATA[BENJAMIN]]></category>
+		<category><![CDATA[BENJAMÍN 2021-2022]]></category>
+		<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[CADETE]]></category>
+		<category><![CDATA[CADETE 2021-2022]]></category>
+		<category><![CDATA[TORNEOS]]></category>
+		<category><![CDATA[TORNEOS 2021-2022]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=14434</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">14434</post-id>	</item>
+		<item>
+		<title>2022 06.04  LUPUS &#8211; CADETE DOMINICOS *amistoso*</title>
+		<link>https://baloncestodominicos.es/?p=14097</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sat, 04 Jun 2022 09:12:44 +0000</pubDate>
+				<category><![CDATA[AMISTOSOS]]></category>
+		<category><![CDATA[AMISTOSOS 2021-2022]]></category>
+		<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[CADETE]]></category>
+		<category><![CDATA[CADETE 2021-2022]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=14097</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		<enclosure url="http://baloncestodominicos.es/wp-content/uploads/2022/06/Club-Baloncesto-Dominicos-Zaragoza.20220604.CADETE-2021-22.LUPUS-1.mp4" length="5210294" type="video/mp4" />
+<enclosure url="http://baloncestodominicos.es/wp-content/uploads/2022/06/Club-Baloncesto-Dominicos-Zaragoza.20220604.CADETE-2021-22.LUPUS-2.mp4" length="2396716" type="video/mp4" />
+
+		<post-id xmlns="com-wordpress:feed-additions:1">14097</post-id>	</item>
+		<item>
+		<title>2022 05.22 CADETE DOMINICOS &#8211; ALMOZARA -copa-</title>
+		<link>https://baloncestodominicos.es/?p=13769</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sun, 22 May 2022 10:37:05 +0000</pubDate>
+				<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[CADETE]]></category>
+		<category><![CDATA[CADETE 2021-2022]]></category>
+		<category><![CDATA[COPA]]></category>
+		<category><![CDATA[COPA 2021-2022]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=13769</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">13769</post-id>	</item>
+		<item>
+		<title>2022 05.14 CADETE DOMINICOS &#8211; EL SALVADOR «copa»</title>
+		<link>https://baloncestodominicos.es/?p=13620</link>
+		
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<pubDate>Sat, 14 May 2022 12:36:36 +0000</pubDate>
+				<category><![CDATA[BLOG]]></category>
+		<category><![CDATA[CADETE]]></category>
+		<category><![CDATA[CADETE 2021-2022]]></category>
+		<category><![CDATA[COPA]]></category>
+		<category><![CDATA[COPA 2021-2022]]></category>
+		<guid isPermaLink="false">http://baloncestodominicos.es/?p=13620</guid>
+
+					<description><![CDATA[]]></description>
+		
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">13620</post-id>	</item>
+	</channel>
+</rss>
