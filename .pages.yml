@@ -1,0 +1,417 @@
+# Configuración de Pages CMS (https://pagescms.org).
+#
+# Pages CMS es un panel web que edita los archivos de este repositorio: no hay
+# base de datos ni servidor propio. Cada vez que alguien guarda algo, hace un
+# commit en `main`, y ese commit dispara el workflow «Publicar la web», que
+# vuelve a generar el sitio entero con tools/generar.mjs. Es exactamente el
+# mismo camino que editar los archivos a mano; solo cambia quién los escribe.
+#
+# Este archivo describe QUÉ campos pide el panel. Quien los pinta en HTML es
+# tools/generar.mjs. Son las dos mitades de lo mismo: si aquí se añade un
+# campo, allí hay que pintarlo, y si allí se añade una sección, aquí hay que
+# pedirla.
+#
+# Tiene que estar en la raíz del repositorio y llamarse así.
+
+media:
+  - name: fotos
+    label: Fotos
+    # Dónde viven de verdad las fotos dentro del repositorio...
+    input: dominicosweb/images
+    # ...y con qué ruta se escriben en los datos. El sitio se publica desde
+    # `dominicosweb/`, así que para la web `dominicosweb/images/x.jpg` es
+    # `images/x.jpg`. Sin barra inicial, como ya estaba escrito.
+    output: images
+    categories: [image]
+    # Los nombres con espacios, acentos o mayúsculas dan problemas en las URL:
+    # al subir se pasan a minúsculas y guiones.
+    rename: safe
+
+  - name: documentos
+    label: Documentos (PDF)
+    input: dominicosweb/documentos
+    output: documentos
+    extensions: [pdf]
+    rename: safe
+
+# ---------------------------------------------------------------------------
+# Las secciones
+#
+# Una sección es un bloque de la página. La misma lista se usa en la portada y
+# en las páginas sueltas, así que se define una vez aquí y se reutiliza en las
+# dos. En el panel se reordenan arrastrando y se añaden y quitan.
+#
+# El tipo de cada sección se guarda en el campo «tipo», que es lo que
+# tools/generar.mjs lee para saber cómo pintarla.
+# ---------------------------------------------------------------------------
+
+components:
+  secciones:
+    type: block
+    list: true
+    blockKey: tipo
+    blocks:
+      - name: hero
+        label: Cabecera grande
+        fields:
+          - { name: id, label: Ancla, type: string, description: "Para enlazar aquí desde el menú, p. ej. «top»." }
+          - { name: eyebrow, label: Línea de encima, type: string }
+          - { name: lineas, label: Título, type: string, list: true, description: "Una línea por bloque, hasta tres. Se pintan una debajo de otra, a lo grande." }
+          - { name: texto, label: Texto, type: text }
+          - { name: imagen, label: Foto de fondo, type: image, options: { media: fotos } }
+          - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+          - { name: imagenAncho, label: Ancho de la foto en píxeles, type: number, description: "Evita que la página dé un salto mientras carga. Míralo en las propiedades del archivo." }
+          - { name: imagenAlto, label: Alto de la foto en píxeles, type: number }
+          - name: botonPrincipal
+            label: Botón principal
+            type: object
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string, description: "«#seccion» para una sección de la portada, «/pagina.html» para una página." }
+          - name: botonSecundario
+            label: Botón secundario
+            type: object
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string }
+          - { name: anclaBajar, label: Flecha de bajar, type: string, description: "A qué sección baja la flecha del fondo, p. ej. «#club». Vacío para no ponerla." }
+
+      - name: ticker
+        label: Tira de palabras en movimiento
+        fields:
+          - { name: palabras, label: Palabras, type: string, list: true }
+
+      - name: texto-y-cifras
+        label: Texto con cifras
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: tituloEnfasis, label: Segunda línea del título, type: string, description: "Se pinta debajo y en cursiva. Opcional." }
+          - { name: parrafos, label: Párrafos, type: text, list: true }
+          - { name: puntos, label: Lista con marcas, type: string, list: true }
+          - name: cifras
+            label: Cifras
+            type: object
+            list: true
+            fields:
+              - { name: numero, label: Número, type: number, description: "Cuenta desde cero al entrar en pantalla." }
+              - { name: sufijo, label: Símbolo detrás, type: string, description: "P. ej. «+»." }
+              - { name: sinSeparador, label: Es un año, type: boolean, description: "Marcado, escribe 2009 y no 2.009." }
+              - { name: texto, label: Qué significa, type: string }
+
+      - name: equipos
+        label: Tarjetas de equipos con filtros
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - name: filtros
+            label: Botones de filtro
+            type: object
+            list: true
+            fields:
+              - { name: texto, label: Texto del botón, type: string }
+              - { name: valor, label: Grupo que enseña, type: string, description: "«all» lo enseña todo. Los demás tienen que coincidir con el «Grupo» de las tarjetas." }
+          - name: equipos
+            label: Equipos
+            type: object
+            list: true
+            fields:
+              - { name: imagen, label: Foto, type: image, options: { media: fotos } }
+              - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+              - { name: etiqueta, label: Etiqueta, type: string }
+              - { name: nombre, label: Nombre, type: string }
+              - { name: texto, label: Una línea, type: string }
+              - { name: grupo, label: Grupo, type: string, description: "Con qué botón de filtro aparece." }
+
+      - name: panel-y-foto
+        label: Panel de texto con foto al lado
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: parrafos, label: Párrafos, type: text, list: true }
+          - name: aviso
+            label: Aviso destacado
+            type: object
+            fields:
+              - { name: etiqueta, label: Etiqueta, type: string, description: "La pastilla de color, p. ej. «Próximamente»." }
+              - { name: texto, label: Texto, type: string }
+          - name: boton
+            label: Botón
+            type: object
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string }
+          - name: foto
+            label: Foto
+            type: object
+            fields:
+              - { name: imagen, label: Foto, type: image, options: { media: fotos } }
+              - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+              - { name: titulo, label: Título del pie, type: string }
+              - { name: texto, label: Pie de foto, type: string }
+
+      - name: noticias
+        label: Últimas noticias
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - name: boton
+            label: Botón de la derecha
+            type: object
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string }
+          - { name: cuantas, label: Cuántas se enseñan, type: number, default: 3 }
+
+      - name: inscripciones
+        label: Inscripciones con fichas descargables
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: tituloSegundaLinea, label: Segunda línea del título, type: string }
+          - { name: parrafos, label: Párrafos, type: text, list: true }
+          - name: boton
+            label: Botón de correo
+            type: object
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: asunto, label: Asunto del correo, type: string }
+          - name: documentos
+            label: Fichas
+            type: object
+            list: true
+            fields:
+              - { name: titulo, label: Nombre de la ficha, type: string }
+              - { name: archivo, label: PDF, type: file, options: { media: documentos }, description: "Sin PDF, la ficha se ve pero pone «Próximamente» y no enlaza a ninguna parte." }
+
+      - name: contacto
+        label: Contacto con formulario
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: parrafos, label: Párrafos, type: text, list: true }
+          - { name: mostrarEmail, label: Enseñar el correo del club, type: boolean, default: true }
+          - name: whatsapp
+            label: WhatsApp
+            type: object
+            fields:
+              - { name: numero, label: Número con prefijo, type: string, description: "Sin espacios ni «+», p. ej. 34622708107." }
+              - { name: texto, label: Cómo se escribe, type: string, description: "P. ej. «622 70 81 07»." }
+          - name: formulario
+            label: Formulario
+            type: object
+            fields:
+              - { name: categorias, label: Categorías del desplegable, type: string, list: true }
+              - { name: asunto, label: Asunto del correo que llega al club, type: string }
+
+      - name: texto
+        label: Texto libre
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: cuerpo, label: Texto, type: rich-text, options: { format: html, media: fotos } }
+
+# ---------------------------------------------------------------------------
+# El contenido
+# ---------------------------------------------------------------------------
+
+content:
+  - name: portada
+    label: Portada
+    type: file
+    path: dominicosweb/datos/portada.json
+    fields:
+      - name: seo
+        label: Cómo se ve en Google y al compartir
+        type: object
+        fields:
+          - { name: titulo, label: Título, type: string, required: true, description: "Lo que se lee en la pestaña del navegador y como titular en Google." }
+          - { name: descripcion, label: Descripción para Google, type: text, required: true }
+          - { name: descripcionCompartir, label: Descripción al compartir, type: text, description: "La que sale al pegar el enlace en WhatsApp. Más corta que la de Google." }
+      - name: secciones
+        label: Secciones
+        component: secciones
+
+  - name: noticias
+    label: Noticias
+    type: collection
+    path: dominicosweb/noticias
+
+    # Una noticia es un .json. Los .html de esa carpeta los escribe
+    # tools/generar.mjs y el panel los ignora: como el nombre de archivo acaba
+    # en `.json`, Pages CMS solo lista los .json.
+    #
+    # El nombre del archivo es la identidad de la noticia: la fecha ordena el
+    # listado y el resto es la dirección de su página
+    # (`.../noticias/nombre-corto.html`). Se propone a partir de la fecha y el
+    # título, y se puede corregir al crearla —conviene acortarlo—, pero una vez
+    # publicada, cambiarlo rompe el enlace para quien lo haya compartido.
+    filename:
+      template: '{fields.fecha}-{fields.titulo}.json'
+      field: create
+
+    view:
+      fields: [titulo, fecha, categoria]
+      primary: titulo
+      sort: [fecha, titulo]
+      search: [titulo, descripcion]
+      default:
+        sort: fecha
+        order: desc
+
+    fields:
+      - { name: fecha, label: Fecha, type: date, required: true, description: "La fecha real de la noticia. Ordena el listado y es la que ve Google." }
+      - { name: titulo, label: Título, type: string, required: true }
+      - { name: descripcion, label: Resumen, type: text, required: true, description: "Una o dos frases. Es lo que se ve en el listado y debajo del enlace en Google." }
+      - { name: contenido, label: Texto de la noticia, type: text, list: true, description: "Un bloque por párrafo. Si se deja vacío, la noticia enseña el resumen." }
+      - { name: imagen, label: Foto, type: image, options: { media: fotos, path: dominicosweb/images/noticias }, description: "Sale arriba de la noticia, en su tarjeta y al compartirla. Si no se pone, se usa el escudo." }
+      - { name: imagenAlt, label: Qué se ve en la foto, type: string, description: "Para quien no puede verla y para los buscadores. Ponlo siempre que haya foto." }
+      - { name: categoria, label: Categoría, type: select, options: { values: [Competición, Club, Escuela, Cantera, Eventos] }, description: "La etiqueta roja sobre la foto." }
+      - { name: autor, label: Firma, type: string, default: CB Dominicos Zaragoza }
+      - { name: enlace, label: Enlace del botón, type: string, pattern: { regex: '^https?://.+', message: "Tiene que empezar por http:// o https://" }, description: "Opcional. Pone un botón al final de la noticia." }
+      - { name: textoEnlace, label: Texto del botón, type: string, description: "Si se deja vacío, pone «Más información»." }
+      - { name: mencion, label: Mención, type: string, description: "Una línea de agradecimiento o de crédito." }
+      - { name: fechaTexto, label: Fecha escrita a mano, type: string, description: "Solo si la automática no sirve, p. ej. «11–12 jun 2022»." }
+      - { name: fechaModificacion, label: Fecha de la corrección, type: date, description: "Solo al corregir una noticia ya publicada. No se pone «por poner»." }
+
+  - name: paginas
+    label: Páginas
+    type: collection
+    path: dominicosweb/paginas
+    exclude: [README.md]
+
+    # El nombre del archivo es la dirección de la página:
+    # «historia-del-club.json» se publica en /historia-del-club.html.
+    filename:
+      template: '{fields.titulo}.json'
+      field: create
+
+    view:
+      fields: [titulo, enMenu]
+      primary: titulo
+      sort: [titulo]
+      search: [titulo, descripcion]
+
+    fields:
+      - { name: titulo, label: Título, type: string, required: true }
+      - { name: descripcion, label: Resumen, type: text, required: true, description: "Se lee debajo del título y es lo que sale en Google." }
+      - { name: kicker, label: Línea de encima del título, type: string }
+      - { name: imagen, label: Foto de cabecera, type: image, options: { media: fotos } }
+      - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+      - { name: enMenu, label: Enseñar en el menú, type: boolean, default: false, description: "Marcado, la página aparece sola en el menú de todas las páginas." }
+      - { name: ordenMenu, label: Orden en el menú, type: number, default: 100, description: "De menor a mayor. Solo importa si hay varias páginas en el menú." }
+      - { name: noIndexar, label: Esconder de Google, type: boolean, default: false, description: "La página sigue existiendo y se puede enlazar, pero no sale en los buscadores ni en el mapa del sitio." }
+      - name: secciones
+        label: Secciones
+        component: secciones
+
+  - name: ajustes
+    label: Ajustes
+    type: group
+    items:
+      - name: sitio
+        label: Datos del club
+        type: file
+        path: dominicosweb/datos/sitio.json
+        fields:
+          - { name: nombre, label: Nombre corto del club, type: string, required: true, description: "El que se usa en los títulos, p. ej. «CB Dominicos Zaragoza»." }
+          - { name: nombreLargo, label: Nombre completo, type: string, description: "P. ej. «Club Baloncesto Dominicos». Sale en el pie." }
+          - { name: nombreCorto, label: Nombre en la barra de arriba, type: string, description: "P. ej. «Dominicos»." }
+          - { name: rotulo, label: Debajo del nombre en la barra, type: string, description: "P. ej. «Zaragoza · Baloncesto»." }
+          - { name: ciudad, label: Ciudad, type: string }
+          - { name: dominio, label: Dirección de la web, type: string, required: true, pattern: { regex: '^https://[^/]+$', message: "Como «https://ejemplo.es», sin barra al final" }, description: "CUIDADO: de aquí salen el CNAME y todas las direcciones del mapa del sitio. Cambiarlo sin tocar el DNS deja la web inaccesible." }
+          - { name: email, label: Correo del club, type: string, required: true }
+          - name: redes
+            label: Redes sociales
+            type: object
+            list: true
+            fields:
+              - { name: nombre, label: Red, type: string, description: "P. ej. «Instagram»." }
+              - { name: usuario, label: Usuario, type: string, description: "P. ej. «@cbdominicos»." }
+              - { name: url, label: Enlace, type: string }
+          - { name: logo, label: Escudo, type: image, options: { media: fotos } }
+          - { name: favicon, label: Icono de la pestaña, type: image, options: { media: fotos } }
+          - { name: imagenCompartir, label: Foto al compartir la web, type: image, options: { media: fotos }, description: "La que sale al pegar el enlace de la portada en WhatsApp." }
+          - { name: imagenCompartirAlt, label: Qué se ve en esa foto, type: string }
+          - { name: formspree, label: Id del formulario de Formspree, type: string, description: "Se saca de formspree.io → tu formulario → Integration. Es público: va en el HTML a la vista y no es un secreto." }
+          - { name: googleSiteVerification, label: Código de Google Search Console, type: string, description: "Solo si verificas por «Etiqueta HTML». Pega aquí el valor de «content», no la etiqueta entera." }
+          - { name: legal, label: Línea legal del pie, type: string }
+          - { name: descripcionApp, label: Descripción al instalar la web en el móvil, type: text }
+          - { name: colorTema, label: Color principal, type: string, pattern: { regex: '^#[0-9a-fA-F]{6}$', message: "Un color como #e01f26" } }
+          - { name: colorFondo, label: Color de fondo, type: string, pattern: { regex: '^#[0-9a-fA-F]{6}$', message: "Un color como #0b0c0f" } }
+
+      - name: menu
+        label: Menú
+        type: file
+        path: dominicosweb/datos/menu.json
+        fields:
+          - name: enlaces
+            label: Menú de arriba
+            type: object
+            list: true
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string, description: "«#seccion» para una sección de la portada, «/pagina.html» para una página." }
+              - { name: anclaPortada, label: Destino distinto en la portada, type: string, description: "Opcional. P. ej. «Noticias» lleva a la sección «#noticias» estando en la portada, y a «/noticias.html» desde cualquier otra página." }
+          - name: cta
+            label: Botón del menú
+            type: object
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string }
+          - name: pie
+            label: Menú del pie
+            type: object
+            list: true
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string }
+
+      - name: pagina-noticias
+        label: Página de noticias
+        type: file
+        path: dominicosweb/datos/pagina-noticias.json
+        fields:
+          - { name: kicker, label: Línea de encima del título, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: descripcion, label: Texto debajo del título, type: text }
+          - { name: tituloSeo, label: Título para Google, type: string, description: "El título completo, con el nombre del club detrás." }
+          - { name: descripcionSeo, label: Descripción para Google, type: text }
+          - { name: descripcionCompartir, label: Descripción al compartir, type: text }
+          - { name: nombreSchema, label: Nombre para los datos estructurados, type: string }
+
+      - name: error404
+        label: Página de error
+        type: file
+        path: dominicosweb/datos/error404.json
+        description: La que se ve al entrar en una dirección que no existe.
+        fields:
+          - { name: kicker, label: Línea de encima del título, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: descripcion, label: Texto debajo del título, type: text }
+          - { name: texto, label: Texto del cuerpo, type: text }
+          - name: enlaces
+            label: Botones
+            type: object
+            list: true
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string }
+              - { name: principal, label: Botón destacado, type: boolean, default: false }
+          - { name: tituloSeo, label: Título para Google, type: string }
+          - { name: descripcionSeo, label: Descripción para Google, type: text }
+
+settings:
+  commit:
+    templates:
+      create: 'Nuevo: {filename}'
+      update: 'Cambiado: {filename}'
+      delete: 'Borrado: {filename}'
+      rename: 'Renombrado: {oldFilename} → {newFilename}'

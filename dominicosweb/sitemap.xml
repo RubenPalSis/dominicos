@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generado por tools/generar-noticias.mjs. No editar a mano.
+<!-- Generado por tools/generar.mjs. No editar a mano.
      Solo páginas indexables: ni la de error, ni CSS, ni JS, ni imágenes
      sueltas. Cada URL coincide exactamente con la canonical de su página. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

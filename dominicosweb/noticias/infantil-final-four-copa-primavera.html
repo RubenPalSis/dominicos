@@ -31,6 +31,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
 
+<!-- Marca que hay JavaScript ANTES de pintar. El CSS solo esconde los
+     bloques animados si esta clase está: sin JS se ven directamente, en vez
+     de quedarse invisibles para siempre. -->
+<script>document.documentElement.classList.add('js')</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -90,13 +95,7 @@
   ]
 }
 </script>
-
-<!-- Marca que hay JavaScript antes de pintar: sin esto, el CSS de las
-     animaciones dejaría el contenido invisible si el script no corre. -->
-<script>document.documentElement.classList.add('js')</script>
 </head>
-<!-- Con foto de cabecera, la barra arranca sobre una imagen oscura y necesita
-     colores claros aunque el tema sea claro. Sin foto, no. -->
 <body class="nav-sobre-media">
 
 <div class="progress" id="progress" aria-hidden="true"></div>
@@ -187,9 +186,7 @@
       <p><b>Club Baloncesto Dominicos</b><br>Zaragoza</p>
     </div>
     <nav class="foot__nav" aria-label="Pie">
-      <a href="/#club">Club</a><a href="/#equipos">Equipos</a><a href="/#pista">Instalaciones</a>
-      <a href="/noticias.html">Noticias</a>
-      <a href="/#inscripciones">Inscripciones</a><a href="/#contacto">Contacto</a>
+      <a href="/#club">Club</a><a href="/#equipos">Equipos</a><a href="/#pista">Instalaciones</a><a href="/noticias.html">Noticias</a><a href="/#inscripciones">Inscripciones</a><a href="/#contacto">Contacto</a>
     </nav>
     <p class="foot__legal">© <span id="year">2026</span> CB Dominicos Zaragoza · Aviso legal · Política de privacidad · Cookies</p>
   </div>

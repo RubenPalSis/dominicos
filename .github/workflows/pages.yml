@@ -1,9 +1,13 @@
 # Publica la web estática de dominicosweb/ en GitHub Pages.
 #
-# Antes de empaquetar se regeneran el listado de noticias, las páginas de cada
-# noticia y el sitemap a partir de los JSON de dominicosweb/noticias/. Así,
-# para publicar una noticia basta con subir su JSON: si se olvida ejecutar el
-# script a mano, aquí se hace solo.
+# Antes de empaquetar se genera el sitio entero —portada, listado de noticias,
+# página de error, páginas sueltas, páginas de cada noticia, sitemap, robots,
+# manifest y CNAME— a partir de los archivos de datos. Así, para cambiar algo
+# de la web basta con subir su JSON: si se olvida ejecutar el script a mano,
+# aquí se hace solo.
+#
+# Es también el camino por el que pasa todo lo que se guarda desde el panel
+# de Pages CMS, que lo único que hace es escribir esos JSON.
 name: Publicar la web
 
 on:
@@ -37,28 +41,25 @@ jobs:
         with:
           node-version: '20'
 
-      # Sin dependencias que instalar: el script es Node pelado. Si un JSON de
-      # noticia está mal, falla aquí y no se publica nada roto.
-      - name: Generar noticias y sitemap
+      # Sin dependencias que instalar: el generador es Node pelado. Si un JSON
+      # está mal, falla aquí y no se publica nada roto.
+      - name: Generar la web
         working-directory: dominicosweb
-        run: node tools/generar-noticias.mjs
+        run: node tools/generar.mjs
 
       - name: Reunir los archivos que se publican
         run: |
-          mkdir -p _site/noticias
-          cd dominicosweb
-          cp index.html noticias.html 404.html           ../_site/
-          cp styles.css script.js                        ../_site/
-          cp robots.txt sitemap.xml manifest.webmanifest ../_site/
-          cp CNAME                                       ../_site/
-          cp -r images                                   ../_site/images
-          # Solo las páginas generadas. Los .json son la fuente de la que
-          # salen: publicarlos serviría el mismo texto en dos direcciones,
+          mkdir -p _site
+          cp -r dominicosweb/. _site/
+
+          # Lo que se queda fuera. Son las FUENTES de las que sale la web, no
+          # la web: publicarlas serviría el mismo contenido en dos direcciones,
           # que es justo lo que no se quiere de cara a los buscadores.
-          cp noticias/*.html                             ../_site/noticias/
-          # Los README de las carpetas son para quien edita el repositorio,
-          # no para la web.
-          find ../_site -name 'README.md' -delete
+          rm -rf _site/datos _site/paginas _site/tools
+          rm -f  _site/noticias/*.json
+
+          # Los README y la documentación son para quien edita el repositorio.
+          find _site -name '*.md' -delete
 
       - name: Comprobar que está todo
         run: |
@@ -67,15 +68,24 @@ jobs:
                    CNAME images/logo.jpg; do
             test -f "_site/$f" || { echo "FALTA _site/$f"; exit 1; }
           done
-          # Nada de PHP ni de JSON de noticias en lo publicado.
-          test -z "$(find _site -name '*.php')"          || { echo "Hay PHP publicado"; exit 1; }
+
+          # Nada de PHP, ni de fuentes, ni de herramientas en lo publicado.
+          for patron in '*.php' '*.mjs' '*.md'; do
+            test -z "$(find _site -name "$patron")" || { echo "Hay $patron publicado"; exit 1; }
+          done
+          for dir in datos paginas tools; do
+            test ! -d "_site/$dir" || { echo "Se publica _site/$dir y no debería"; exit 1; }
+          done
           test -z "$(find _site/noticias -name '*.json')" || { echo "Hay JSON de noticias publicado"; exit 1; }
-          # tools/ son herramientas de trabajo, no forman parte de la web.
-          test -z "$(find _site -name '*.mjs')"          || { echo "Hay herramientas publicadas"; exit 1; }
-          # El listado tiene que llevar dentro las noticias, no un hueco.
-          grep -q 'ncard__link' _site/noticias.html \
-            || { echo "noticias.html no lleva el listado dentro"; exit 1; }
+
+          # El listado tiene que llevar dentro las noticias, no un hueco, y la
+          # portada tiene que llevar sus secciones: si el generador fallara en
+          # silencio, saldrían páginas vacías con aspecto de estar bien.
+          grep -q 'ncard__link' _site/noticias.html || { echo "noticias.html no lleva el listado dentro"; exit 1; }
+          grep -q 'id="contacto"' _site/index.html  || { echo "index.html no lleva sus secciones"; exit 1; }
+
           echo "Páginas de noticias: $(ls _site/noticias/*.html | wc -l)"
+          echo "Páginas sueltas:     $(( $(ls _site/*.html | wc -l) - 3 ))"
 
       - uses: actions/configure-pages@v5
 

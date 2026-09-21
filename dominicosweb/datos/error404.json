@@ -1,0 +1,27 @@
+{
+  "tituloSeo": "Página no encontrada — CB Dominicos Zaragoza",
+  "descripcionSeo": "La página que buscas no existe o ha cambiado de sitio. Vuelve a la portada o a las noticias del CB Dominicos Zaragoza.",
+  "kicker": "Error 404",
+  "titulo": "Esta canasta no cuenta",
+  "descripcion": "La página que buscas no existe o ha cambiado de sitio.",
+  "texto": "Desde aquí puedes volver a cualquier parte de la web.",
+  "enlaces": [
+    {
+      "texto": "Ir a la portada",
+      "destino": "/",
+      "principal": true
+    },
+    {
+      "texto": "Ver noticias",
+      "destino": "/noticias.html"
+    },
+    {
+      "texto": "Equipos",
+      "destino": "#equipos"
+    },
+    {
+      "texto": "Contacto",
+      "destino": "#contacto"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # CB Dominicos Zaragoza — baloncestodominicos.es
 #
+# Generado por tools/generar.mjs. No editar a mano.
+#
 # La web es pública entera: se indexa todo. No se bloquea el CSS, el
 # JavaScript ni las imágenes, porque Google necesita cargarlos para ver la
 # página como la ve una persona.

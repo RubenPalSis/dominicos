@@ -1,0 +1,270 @@
+{
+  "seo": {
+    "titulo": "Baloncesto Dominicos Zaragoza — Club de baloncesto base",
+    "descripcion": "Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: escuela, benjamín, alevín, infantil, cadete, junior y senior. Ven a jugar con nosotros.",
+    "descripcionCompartir": "Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: de la escuela al senior."
+  },
+  "secciones": [
+    {
+      "tipo": "hero",
+      "id": "top",
+      "eyebrow": "Club de baloncesto en Zaragoza",
+      "lineas": [
+        "Baloncesto",
+        "Dominicos",
+        "Zaragoza"
+      ],
+      "texto": "Un club de barrio, de cantera y de patio. De la escuela al senior, aquí se aprende a jugar, a competir y a ser equipo.",
+      "imagen": "images/hero.jpg",
+      "imagenAlt": "Partido de categoría benjamín del CB Dominicos en pista exterior",
+      "imagenAncho": 1047,
+      "imagenAlto": 1400,
+      "botonPrincipal": {
+        "texto": "Inscríbete",
+        "destino": "#inscripciones"
+      },
+      "botonSecundario": {
+        "texto": "Ver equipos",
+        "destino": "#equipos"
+      },
+      "anclaBajar": "#club"
+    },
+    {
+      "tipo": "ticker",
+      "palabras": [
+        "Escuela",
+        "Benjamín",
+        "Alevín Mixto",
+        "Preinfantil",
+        "Infantil",
+        "Cadete",
+        "Junior",
+        "Senior Fem",
+        "3x3"
+      ]
+    },
+    {
+      "tipo": "texto-y-cifras",
+      "id": "club",
+      "kicker": "El club",
+      "titulo": "Se empieza en el patio.",
+      "tituloEnfasis": "Se acaba siendo equipo.",
+      "parrafos": [
+        "El CB Dominicos es un club formativo de Zaragoza con equipos en todas las categorías, desde la escuela de primaria hasta el senior femenino. Competimos en la liga escolar y federada, en torneos y en el 3x3.",
+        "Jugamos en el patio o en el pabellón, ambos con canastas adaptables a cada categoría. Y cada partido acaba en la galería: más de 6.000 fotos de temporadas desde 2009."
+      ],
+      "puntos": [
+        "Formación por encima del resultado",
+        "Equipos mixtos en categorías base",
+        "Torneos, convivencias y campus"
+      ],
+      "cifras": [
+        {
+          "numero": 9,
+          "texto": "categorías en competición"
+        },
+        {
+          "numero": 6000,
+          "sufijo": "+",
+          "texto": "fotos en el archivo del club"
+        },
+        {
+          "numero": 2009,
+          "sinSeparador": true,
+          "texto": "temporadas documentadas desde"
+        },
+        {
+          "numero": 2,
+          "texto": "pistas: patio y pabellón"
+        }
+      ]
+    },
+    {
+      "tipo": "equipos",
+      "id": "equipos",
+      "kicker": "Equipos",
+      "titulo": "Una categoría para cada edad",
+      "filtros": [
+        {
+          "texto": "Todos",
+          "valor": "all"
+        },
+        {
+          "texto": "Base",
+          "valor": "base"
+        },
+        {
+          "texto": "Formación",
+          "valor": "formacion"
+        },
+        {
+          "texto": "Senior",
+          "valor": "senior"
+        }
+      ],
+      "equipos": [
+        {
+          "imagen": "images/escuela.jpg",
+          "imagenAlt": "Escuela de baloncesto Dominicos",
+          "etiqueta": "Primaria",
+          "nombre": "Escuela",
+          "texto": "Primeros botes, primeras canastas.",
+          "grupo": "base"
+        },
+        {
+          "imagen": "images/benjamin.jpg",
+          "imagenAlt": "Equipo benjamín",
+          "etiqueta": "Mini",
+          "nombre": "Benjamín",
+          "texto": "Liga escolar y torneos de primavera.",
+          "grupo": "base"
+        },
+        {
+          "imagen": "images/alevin.jpg",
+          "imagenAlt": "Equipo alevín mixto",
+          "etiqueta": "Mixto",
+          "nombre": "Alevín",
+          "texto": "Equipo mixto, mucha pista para todos.",
+          "grupo": "base"
+        },
+        {
+          "imagen": "images/preinfantil.jpg",
+          "imagenAlt": "Equipo preinfantil",
+          "etiqueta": "Formación",
+          "nombre": "Preinfantil",
+          "texto": "El salto a la pista grande.",
+          "grupo": "formacion"
+        },
+        {
+          "imagen": "images/infantil.jpg",
+          "imagenAlt": "Equipo infantil",
+          "etiqueta": "Formación",
+          "nombre": "Infantil",
+          "texto": "Final Four de la copa de primavera.",
+          "grupo": "formacion"
+        },
+        {
+          "imagen": "images/cadete.jpg",
+          "imagenAlt": "Equipo cadete",
+          "etiqueta": "Formación",
+          "nombre": "Cadete",
+          "texto": "Ritmo, físico y lectura de juego.",
+          "grupo": "formacion"
+        },
+        {
+          "imagen": "images/junior.jpg",
+          "imagenAlt": "Equipo junior",
+          "etiqueta": "Formación",
+          "nombre": "Junior",
+          "texto": "La antesala del senior.",
+          "grupo": "formacion"
+        },
+        {
+          "imagen": "images/senior-femenino.jpg",
+          "imagenAlt": "Equipo senior femenino",
+          "etiqueta": "Senior",
+          "nombre": "Senior Femenino",
+          "texto": "Competición y cantera del club.",
+          "grupo": "senior"
+        }
+      ]
+    },
+    {
+      "tipo": "panel-y-foto",
+      "id": "pista",
+      "kicker": "Entrenamientos",
+      "titulo": "Horarios y calendario",
+      "parrafos": [
+        "El calendario de entrenamientos se publica al inicio de curso. Cada equipo lo recibe además por su responsable."
+      ],
+      "aviso": {
+        "etiqueta": "Próximamente",
+        "texto": "Consulta con el responsable de tu equipo o escríbenos."
+      },
+      "boton": {
+        "texto": "Preguntar horarios",
+        "destino": "#contacto"
+      },
+      "foto": {
+        "imagen": "images/instalaciones.jpg",
+        "imagenAlt": "Patio superior con canastas del colegio Dominicos",
+        "titulo": "Instalaciones",
+        "texto": "Patio y pabellón, con canastas adaptables a cada categoría."
+      }
+    },
+    {
+      "tipo": "noticias",
+      "id": "noticias",
+      "kicker": "Noticias",
+      "titulo": "Lo último en la pista",
+      "boton": {
+        "texto": "Todas las noticias",
+        "destino": "/noticias.html"
+      },
+      "cuantas": 3
+    },
+    {
+      "tipo": "inscripciones",
+      "id": "inscripciones",
+      "kicker": "Inscripciones",
+      "titulo": "Ven a jugar",
+      "tituloSegundaLinea": "con nosotros",
+      "parrafos": [
+        "Descarga la ficha de tu categoría, rellénala y envíala por correo o entrégasela al responsable de tu equipo."
+      ],
+      "boton": {
+        "texto": "Enviar inscripción",
+        "asunto": "Inscripción temporada"
+      },
+      "documentos": [
+        {
+          "titulo": "Autorización de derechos de imagen",
+          "archivo": ""
+        },
+        {
+          "titulo": "Benjamín, Alevín, Infantil y Cadete",
+          "archivo": ""
+        },
+        {
+          "titulo": "Escuela infantil y primaria",
+          "archivo": ""
+        },
+        {
+          "titulo": "Junior",
+          "archivo": ""
+        },
+        {
+          "titulo": "Senior",
+          "archivo": ""
+        }
+      ]
+    },
+    {
+      "tipo": "contacto",
+      "id": "contacto",
+      "kicker": "Contacto",
+      "titulo": "Escríbenos",
+      "parrafos": [
+        "Para dudas sobre equipos, horarios, inscripciones o cualquier otra cosa."
+      ],
+      "mostrarEmail": true,
+      "whatsapp": {
+        "numero": "34622708107",
+        "texto": "622 70 81 07"
+      },
+      "formulario": {
+        "categorias": [
+          "Escuela",
+          "Benjamín",
+          "Alevín",
+          "Preinfantil",
+          "Infantil",
+          "Cadete",
+          "Junior",
+          "Senior Femenino"
+        ],
+        "asunto": "Contacto desde baloncestodominicos.es"
+      }
+    }
+  ]
+}

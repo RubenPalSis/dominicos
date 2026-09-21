@@ -207,6 +207,11 @@
   var form = $('#form');
   var msg  = $('#formMsg');
 
+  /* El correo sale del HTML (data-email), que a su vez sale de
+     datos/sitio.json. Así se cambia en un solo sitio y estos avisos no se
+     quedan con una dirección vieja. */
+  var correo = (form && form.getAttribute('data-email')) || 'baloncestodominicos@gmail.com';
+
   function decir(texto, ok) {
     if (!msg) return;
     msg.textContent = texto;
@@ -221,7 +226,7 @@
          mandar el mensaje a ninguna parte. */
       if (accion.indexOf('TU_ID_DE_FORMSPREE') !== -1) {
         e.preventDefault();
-        decir('El formulario aún no está conectado. Escríbenos a baloncestodominicos@gmail.com.', false);
+        decir('El formulario aún no está conectado. Escríbenos a ' + correo + '.', false);
         return;
       }
 
@@ -258,11 +263,11 @@
             form.reset();
             decir('Mensaje enviado. Te contestamos en cuanto podamos.', true);
           } else {
-            decir('No hemos podido enviar el mensaje. Escríbenos a baloncestodominicos@gmail.com.', false);
+            decir('No hemos podido enviar el mensaje. Escríbenos a ' + correo + '.', false);
           }
         })
         .catch(function () {
-          decir('No hemos podido enviar el mensaje. Escríbenos a baloncestodominicos@gmail.com.', false);
+          decir('No hemos podido enviar el mensaje. Escríbenos a ' + correo + '.', false);
         })
         .then(function () {
           if (boton) boton.disabled = false;

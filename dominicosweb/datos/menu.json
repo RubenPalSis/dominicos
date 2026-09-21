@@ -1,0 +1,19 @@
+{
+  "enlaces": [
+    { "texto": "Club", "destino": "#club" },
+    { "texto": "Equipos", "destino": "#equipos" },
+    { "texto": "Pista", "destino": "#pista" },
+    { "texto": "Noticias", "destino": "/noticias.html", "anclaPortada": "#noticias" },
+    { "texto": "Inscripciones", "destino": "#inscripciones" },
+    { "texto": "Contacto", "destino": "#contacto" }
+  ],
+  "cta": { "texto": "Ven a jugar", "destino": "#inscripciones" },
+  "pie": [
+    { "texto": "Club", "destino": "#club" },
+    { "texto": "Equipos", "destino": "#equipos" },
+    { "texto": "Instalaciones", "destino": "#pista" },
+    { "texto": "Noticias", "destino": "/noticias.html" },
+    { "texto": "Inscripciones", "destino": "#inscripciones" },
+    { "texto": "Contacto", "destino": "#contacto" }
+  ]
+}

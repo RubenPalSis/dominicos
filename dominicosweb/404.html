@@ -8,12 +8,6 @@
 <meta name="robots" content="noindex">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<!-- OJO CON LAS RUTAS: GitHub Pages sirve este mismo archivo para cualquier
-     dirección que no exista, incluidas las profundas como /noticias/loquesea.
-     Si las rutas fueran relativas, el navegador buscaría styles.css dentro de
-     /noticias/ y la página saldría sin estilos. Por eso aquí, y solo aquí,
-     empiezan por barra: el sitio se publica en la raíz de
-     baloncestodominicos.es. -->
 <link rel="icon" href="/images/favicon.jpg">
 <link rel="apple-touch-icon" href="/images/logo.jpg">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -22,8 +16,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 
-<!-- Marca que hay JavaScript antes de pintar: sin esto, el CSS de las
-     animaciones dejaría el contenido invisible si el script no corre. -->
+<!-- Marca que hay JavaScript ANTES de pintar. El CSS solo esconde los
+     bloques animados si esta clase está: sin JS se ven directamente, en vez
+     de quedarse invisibles para siempre. -->
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -40,13 +35,13 @@
     </a>
 
     <nav class="menu" id="menu" aria-label="Principal">
-      <a href="/index.html#club">Club</a>
-      <a href="/index.html#equipos">Equipos</a>
-      <a href="/index.html#pista">Pista</a>
+      <a href="/#club">Club</a>
+      <a href="/#equipos">Equipos</a>
+      <a href="/#pista">Pista</a>
       <a href="/noticias.html">Noticias</a>
-      <a href="/index.html#inscripciones">Inscripciones</a>
-      <a href="/index.html#contacto">Contacto</a>
-      <a class="menu__cta" href="/index.html#inscripciones">Ven a jugar</a>
+      <a href="/#inscripciones">Inscripciones</a>
+      <a href="/#contacto">Contacto</a>
+      <a class="menu__cta" href="/#inscripciones">Ven a jugar</a>
     </nav>
 
     <div class="nav__tools">
@@ -78,8 +73,8 @@
         <p class="e404__links">
           <a class="btn btn--primary" href="/">Ir a la portada</a>
           <a class="btn btn--ghost" href="/noticias.html">Ver noticias</a>
-          <a class="btn btn--ghost" href="/index.html#equipos">Equipos</a>
-          <a class="btn btn--ghost" href="/index.html#contacto">Contacto</a>
+          <a class="btn btn--ghost" href="/#equipos">Equipos</a>
+          <a class="btn btn--ghost" href="/#contacto">Contacto</a>
         </p>
       </div>
     </div>
@@ -94,9 +89,7 @@
       <p><b>Club Baloncesto Dominicos</b><br>Zaragoza</p>
     </div>
     <nav class="foot__nav" aria-label="Pie">
-      <a href="/index.html#club">Club</a><a href="/index.html#equipos">Equipos</a><a href="/index.html#pista">Instalaciones</a>
-      <a href="/noticias.html">Noticias</a>
-      <a href="/index.html#inscripciones">Inscripciones</a><a href="/index.html#contacto">Contacto</a>
+      <a href="/#club">Club</a><a href="/#equipos">Equipos</a><a href="/#pista">Instalaciones</a><a href="/noticias.html">Noticias</a><a href="/#inscripciones">Inscripciones</a><a href="/#contacto">Contacto</a>
     </nav>
     <p class="foot__legal">© <span id="year">2026</span> CB Dominicos Zaragoza · Aviso legal · Política de privacidad · Cookies</p>
   </div>

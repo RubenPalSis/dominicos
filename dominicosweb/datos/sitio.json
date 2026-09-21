@@ -1,0 +1,31 @@
+{
+  "nombre": "CB Dominicos Zaragoza",
+  "nombreLargo": "Club Baloncesto Dominicos",
+  "nombreCorto": "Dominicos",
+  "rotulo": "Zaragoza · Baloncesto",
+  "ciudad": "Zaragoza",
+  "dominio": "https://baloncestodominicos.es",
+  "logo": "images/logo.jpg",
+  "favicon": "images/favicon.jpg",
+  "imagenCompartir": "images/hero.jpg",
+  "imagenCompartirAlt": "Partido de categoría benjamín del CB Dominicos en pista exterior",
+  "email": "baloncestodominicos@gmail.com",
+  "redes": [
+    {
+      "nombre": "Instagram",
+      "usuario": "@cbdominicos",
+      "url": "https://instagram.com/cbdominicos"
+    },
+    {
+      "nombre": "X / Twitter",
+      "usuario": "@dominicosbasket",
+      "url": "https://x.com/dominicosbasket"
+    }
+  ],
+  "formspree": "xdekewkn",
+  "googleSiteVerification": "",
+  "legal": "Aviso legal · Política de privacidad · Cookies",
+  "descripcionApp": "Club Baloncesto Dominicos Zaragoza. Escuela, categorías de formación y senior.",
+  "colorTema": "#e01f26",
+  "colorFondo": "#0b0c0f"
+}

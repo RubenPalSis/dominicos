@@ -29,8 +29,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
-<!-- Marca que hay JavaScript antes de pintar: sin esto, el CSS de las
-     animaciones dejaría el contenido invisible si el script no corre. -->
+<!-- Marca que hay JavaScript ANTES de pintar. El CSS solo esconde los
+     bloques animados si esta clase está: sin JS se ven directamente, en vez
+     de quedarse invisibles para siempre. -->
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -43,13 +44,27 @@
       "description": "Actualidad del Club Baloncesto Dominicos de Zaragoza.",
       "url": "https://baloncestodominicos.es/noticias.html",
       "inLanguage": "es-ES",
-      "isPartOf": { "@type": "WebSite", "name": "CB Dominicos Zaragoza", "url": "https://baloncestodominicos.es/" }
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "CB Dominicos Zaragoza",
+        "url": "https://baloncestodominicos.es/"
+      }
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://baloncestodominicos.es/" },
-        { "@type": "ListItem", "position": 2, "name": "Noticias", "item": "https://baloncestodominicos.es/noticias.html" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://baloncestodominicos.es/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Noticias",
+          "item": "https://baloncestodominicos.es/noticias.html"
+        }
       ]
     }
   ]
@@ -103,12 +118,7 @@
 
   <section class="section section--top">
     <div class="wrap">
-      <!-- Este bloque lo escribe tools/generar-noticias.mjs a partir de los
-           JSON de noticias/. Va en el HTML, y no lo pinta JavaScript, para que
-           los buscadores vean las noticias sin tener que ejecutar el script.
-           No editar a mano: se sobreescribe. -->
       <div class="ncards">
-      <!-- NOTICIAS:INICIO -->
         <article class="ncard reveal">
           <a class="ncard__link" href="noticias/dia-del-deporte-bajo-aragon.html">
             <div class="ncard__media">
@@ -151,7 +161,6 @@
             </div>
           </a>
         </article>
-      <!-- NOTICIAS:FIN -->
       </div>
     </div>
   </section>
@@ -165,9 +174,7 @@
       <p><b>Club Baloncesto Dominicos</b><br>Zaragoza</p>
     </div>
     <nav class="foot__nav" aria-label="Pie">
-      <a href="/#club">Club</a><a href="/#equipos">Equipos</a><a href="/#pista">Instalaciones</a>
-      <a href="/noticias.html">Noticias</a>
-      <a href="/#inscripciones">Inscripciones</a><a href="/#contacto">Contacto</a>
+      <a href="/#club">Club</a><a href="/#equipos">Equipos</a><a href="/#pista">Instalaciones</a><a href="/noticias.html">Noticias</a><a href="/#inscripciones">Inscripciones</a><a href="/#contacto">Contacto</a>
     </nav>
     <p class="foot__legal">© <span id="year">2026</span> CB Dominicos Zaragoza · Aviso legal · Política de privacidad · Cookies</p>
   </div>
