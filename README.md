@@ -1,7 +1,12 @@
 # Web del CB Dominicos Zaragoza
 
 La web del club: HTML, CSS y JavaScript, sin compilación ni dependencias,
-publicada en GitHub Pages sobre `baloncestodominicos.es`.
+pensada para publicarse en GitHub Pages sobre `baloncestodominicos.es`.
+
+> **Pendiente:** hoy el dominio todavía apunta al WordPress anterior, en
+> Hostinger, y GitHub Pages sigue en «Deploy from a branch». Hasta que se
+> cambien las dos cosas, lo que se ve en `baloncestodominicos.es` es la web
+> vieja. Los pasos están en [DNS](#dns).
 
 Se edita desde un panel web, [Pages CMS](https://pagescms.org), que no es más
 que un formulario sobre los archivos de este repositorio. **Todo el contenido
@@ -129,26 +134,77 @@ Settings → Pages, además de los registros DNS.
 
 ### DNS
 
-En el proveedor del dominio, para `baloncestodominicos.es`:
+El dominio está registrado en **Hostinger**, con sus nameservers
+(`ns1.dns-parking.com`, `ns2.dns-parking.com`). No hay que cambiarlos: basta
+con editar los registros.
 
-| Tipo  | Nombre | Valor                    |
-|-------|--------|--------------------------|
-| A     | `@`    | `185.199.108.153`        |
-| A     | `@`    | `185.199.109.153`        |
-| A     | `@`    | `185.199.110.153`        |
-| A     | `@`    | `185.199.111.153`        |
-| CNAME | `www`  | `rubenpalsis.github.io.` |
+**El correo del club vive en este mismo DNS.** Mover la web no lo afecta,
+pero borrar de más sí. Estos registros **no se tocan nunca**:
 
-Los cuatro registros A son los servidores de GitHub Pages: se ponen los cuatro,
-no uno. El CNAME de `www` hace que `www.baloncestodominicos.es` redirija al
-dominio sin `www`.
+| Tipo  | Nombre                          | Para qué             |
+|-------|---------------------------------|----------------------|
+| MX    | `@`                             | recibir correo       |
+| TXT   | `@`                             | SPF                  |
+| TXT   | `_dmarc`                        | DMARC                |
+| CNAME | `hostingermail-a/b/c._domainkey`| firma DKIM           |
+| CNAME | `autoconfig`, `autodiscover`    | configurar clientes  |
 
-Hay que **borrar los registros A, AAAA o CNAME que apunten al hosting
-anterior**, o el dominio seguirá repartiéndose entre los dos sitios.
+Y **nunca** hay que pulsar «Restablecer registros DNS» en el panel de
+Hostinger: borra todo, incluido el correo.
 
-Cuando el DNS haya propagado (de minutos a 24 h), en Settings → Pages aparece
-«DNS check successful» y se puede marcar **Enforce HTTPS**, que emite el
-certificado de Let's Encrypt.
+Para que el dominio sirva la web de GitHub Pages:
+
+| Acción     | Tipo  | Nombre | Valor                        |
+|------------|-------|--------|------------------------------|
+| **Borrar** | ALIAS | `@`    | `baloncestodominicos.es.cdn.hstgr.net` |
+| Añadir     | A     | `@`    | `185.199.108.153`            |
+| Añadir     | A     | `@`    | `185.199.109.153`            |
+| Añadir     | A     | `@`    | `185.199.110.153`            |
+| Añadir     | A     | `@`    | `185.199.111.153`            |
+| **Editar** | CNAME | `www`  | `rubenpalsis.github.io.`     |
+
+El `ALIAS @` es lo que manda el dominio al hosting anterior. Hay que borrarlo
+**antes** de añadir los registros A: no pueden convivir los dos en `@`.
+
+Los cuatro A son los servidores de GitHub Pages: se ponen los cuatro, no uno.
+El CNAME de `www` hace que `www.baloncestodominicos.es` lleve al dominio sin
+`www`.
+
+El `A ftp` es del hosting anterior. No estorba; se puede quitar al cancelarlo.
+
+### El orden importa
+
+Primero GitHub, después el DNS. Al revés, el dominio apuntaría a un sitio que
+todavía no sirve nada.
+
+1. **Settings → Pages → Source: «GitHub Actions».** Mientras esté en «Deploy
+   from a branch», el workflow sube su paquete, dice que ha ido bien y GitHub
+   sirve otra cosa: el README renderizado por Jekyll. Es un fallo silencioso,
+   porque el workflow sale en verde igualmente.
+2. Comprobar que en «Custom domain» aparece `baloncestodominicos.es`. Debería
+   ponerse solo, porque el paquete publicado incluye el archivo `CNAME`.
+3. Los cambios de DNS de la tabla de arriba.
+4. Cuando aparezca «DNS check successful», marcar **Enforce HTTPS**, que emite
+   el certificado de Let's Encrypt.
+
+Los registros tienen TTL de 300 segundos, así que el cambio se nota en
+minutos, no en horas.
+
+### Por qué no se puede ver en rubenpalsis.github.io
+
+Los enlaces internos del sitio son absolutos desde la raíz (`/noticias.html`,
+`/images/logo.jpg`). En `rubenpalsis.github.io/dominicos/` esa raíz sería la
+del usuario, no la del proyecto, y no se cargaría ni el CSS. Por eso el sitio
+necesita estar en la raíz de un dominio, y por eso existe el `CNAME`.
+
+Para verlo antes de mover el DNS, se levanta en local (ver [Desarrollo](#desarrollo)).
+
+### El WordPress anterior
+
+Cuando el dominio deje de apuntar a Hostinger, el WordPress seguirá allí pero
+ya no será accesible. **Antes de cancelar el hosting**, ten en cuenta que la
+copia de `baloncestodominicos.es/` de este repositorio está en `.gitignore`:
+existe solo en el ordenador donde se descargó, no en GitHub.
 
 ## Desarrollo
 
