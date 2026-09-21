@@ -1,4 +1,9 @@
-/* CB Dominicos Zaragoza — interacciones de la home. Sin dependencias. */
+/* CB Dominicos Zaragoza — interacciones del sitio. Sin dependencias.
+ *
+ * Es el script original de la portada. Ahora el mismo archivo se carga
+ * también en el listado de noticias y en la ficha de cada noticia, así que
+ * cada bloque comprueba antes que sus elementos existan en la página.
+ */
 (function () {
   'use strict';
 
@@ -9,30 +14,36 @@
   var root = document.documentElement;
   try {
     var saved = localStorage.getItem('dom-theme');
-    if (saved) root.setAttribute('data-theme', saved);
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
   } catch (e) { /* modo privado o cookies bloqueadas */ }
 
-  $('#theme').addEventListener('click', function () {
-    var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('dom-theme', next); } catch (e) {}
-  });
+  var themeBtn = $('#theme');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('dom-theme', next); } catch (e) {}
+    });
+  }
 
   /* ---- menú móvil ------------------------------------------------------- */
   var burger = $('#burger');
   var menu   = $('#menu');
 
   function closeMenu() {
+    if (!menu || !burger) return;
     menu.classList.remove('is-open');
     burger.setAttribute('aria-expanded', 'false');
   }
 
-  burger.addEventListener('click', function () {
-    var open = menu.classList.toggle('is-open');
-    burger.setAttribute('aria-expanded', String(open));
-  });
-  $$('#menu a').forEach(function (a) { a.addEventListener('click', closeMenu); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+  if (burger && menu) {
+    burger.addEventListener('click', function () {
+      var open = menu.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+    $$('#menu a').forEach(function (a) { a.addEventListener('click', closeMenu); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+  }
 
   /* ---- barra de progreso + cabecera fija -------------------------------- */
   var bar = $('#progress');
@@ -42,14 +53,17 @@
   function onScroll() {
     var y   = window.scrollY;
     var max = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
-    nav.classList.toggle('is-stuck', y > 40);
+    if (bar) bar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+    if (nav) nav.classList.toggle('is-stuck', y > 40);
     ticking = false;
   }
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
-  }, { passive: true });
-  onScroll();
+
+  if (bar || nav) {
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+    }, { passive: true });
+    onScroll();
+  }
 
   /* ---- aparición al hacer scroll ---------------------------------------- */
   var reveals = $$('.reveal');
@@ -87,67 +101,87 @@
   }
 
   var nums = $$('.num');
-  if ('IntersectionObserver' in window) {
-    var io2 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        countUp(en.target);
-        io2.unobserve(en.target);
-      });
-    }, { threshold: 0.6 });
-    nums.forEach(function (el) { io2.observe(el); });
-  } else {
-    nums.forEach(countUp);
+  if (nums.length) {
+    if ('IntersectionObserver' in window) {
+      var io2 = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          countUp(en.target);
+          io2.unobserve(en.target);
+        });
+      }, { threshold: 0.6 });
+      nums.forEach(function (el) { io2.observe(el); });
+    } else {
+      nums.forEach(countUp);
+    }
   }
 
   /* ---- filtro de equipos ------------------------------------------------ */
   var cards = $$('#cards .card');
-  $$('.chip').forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      $$('.chip').forEach(function (c) {
-        c.classList.remove('is-on');
-        c.setAttribute('aria-selected', 'false');
-      });
-      chip.classList.add('is-on');
-      chip.setAttribute('aria-selected', 'true');
+  var chips = $$('.chip');
 
-      var f = chip.dataset.filter;
-      cards.forEach(function (card) {
-        card.classList.toggle('is-hidden', f !== 'all' && card.dataset.cat !== f);
+  if (chips.length && cards.length) {
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) {
+          c.classList.remove('is-on');
+          c.setAttribute('aria-pressed', 'false');
+        });
+        chip.classList.add('is-on');
+        chip.setAttribute('aria-pressed', 'true');
+
+        var f = chip.dataset.filter;
+        cards.forEach(function (card) {
+          card.classList.toggle('is-hidden', f !== 'all' && card.dataset.cat !== f);
+        });
       });
     });
-  });
+  }
 
   /* ---- lightbox de fotos ------------------------------------------------ */
   var lb    = $('#lb');
   var lbImg = $('#lbImg');
+  var lbX   = $('#lbX');
 
-  function openLb(src, alt) {
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    lb.hidden = false;
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLb() {
-    lb.hidden = true;
-    lbImg.src = '';
-    document.body.style.overflow = '';
-  }
+  if (lb && lbImg) {
+    var openLb = function (src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+      if (lbX) lbX.focus();
+    };
+    var closeLb = function () {
+      lb.hidden = true;
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    };
 
-  cards.concat($$('.shot')).forEach(function (el) {
-    el.addEventListener('click', function () {
-      var img = el.querySelector('img');
-      if (img) openLb(img.currentSrc || img.src, img.alt);
+    cards.concat($$('.shot')).forEach(function (el) {
+      el.addEventListener('click', function () {
+        var img = el.querySelector('img');
+        if (img) openLb(img.currentSrc || img.src, img.alt);
+      });
     });
-  });
-  $('#lbX').addEventListener('click', closeLb);
-  lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLb(); });
+
+    if (lbX) lbX.addEventListener('click', closeLb);
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !lb.hidden) closeLb();
+    });
+  }
 
   /* ---- enlace activo según la sección visible --------------------------- */
-  var links    = $$('#menu a[href^="#"]');
+  /* Solo cuentan los enlaces del menú que apuntan a una sección de ESTA
+     página: en las páginas interiores el menú lleva a index.html#loquesea. */
+  function anchorOf(a) {
+    var href = a.getAttribute('href') || '';
+    return href.charAt(0) === '#' ? href.slice(1) : '';
+  }
+
+  var links = $$('#menu a').filter(function (a) { return anchorOf(a) !== ''; });
   var sections = links
-    .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+    .map(function (a) { return document.getElementById(anchorOf(a)); })
     .filter(Boolean);
 
   if ('IntersectionObserver' in window && sections.length) {
@@ -155,42 +189,84 @@
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
         links.forEach(function (a) {
-          a.classList.toggle('is-active', a.getAttribute('href') === '#' + en.target.id);
+          a.classList.toggle('is-active', anchorOf(a) === en.target.id);
         });
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     sections.forEach(function (s) { io3.observe(s); });
   }
 
-  /* ---- formulario de contacto ------------------------------------------- */
-  /* No hay backend: se valida y se abre el correo del club. */
+  /* ---- formulario de contacto (Formspree) -------------------------------
+     El formulario funciona sin JavaScript: es un POST normal a Formspree, que
+     responde con su propia página de gracias. Con JavaScript lo enviamos por
+     fetch para poder contestar aquí mismo, sin salir de la página. */
   var form = $('#form');
   var msg  = $('#formMsg');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var d = new FormData(form);
-    var nombre  = (d.get('nombre')  || '').toString().trim();
-    var email   = (d.get('email')   || '').toString().trim();
-    var mensaje = (d.get('mensaje') || '').toString().trim();
+  function decir(texto, ok) {
+    if (!msg) return;
+    msg.textContent = texto;
+    msg.classList.toggle('ok', !!ok);
+  }
 
-    if (!nombre || !mensaje || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      msg.textContent = 'Revisa el nombre, el email y el mensaje.';
-      msg.classList.remove('ok');
-      return;
-    }
+  if (form && form.tagName === 'FORM') {
+    form.addEventListener('submit', function (e) {
+      var accion = form.getAttribute('action') || '';
 
-    var asunto = 'Contacto web — ' + d.get('categoria');
-    var cuerpo = nombre + ' (' + email + ')\n\n' + mensaje;
-    window.location.href = 'mailto:baloncestodominicos@gmail.com'
-      + '?subject=' + encodeURIComponent(asunto)
-      + '&body='    + encodeURIComponent(cuerpo);
+      /* Mientras no se haya puesto el endpoint real, avisamos en vez de
+         mandar el mensaje a ninguna parte. */
+      if (accion.indexOf('TU_ID_DE_FORMSPREE') !== -1) {
+        e.preventDefault();
+        decir('El formulario aún no está conectado. Escríbenos a baloncestodominicos@gmail.com.', false);
+        return;
+      }
 
-    msg.textContent = 'Abriendo tu gestor de correo…';
-    msg.classList.add('ok');
-    form.reset();
-  });
+      var d = new FormData(form);
+      var nombre  = (d.get('nombre')  || '').toString().trim();
+      var email   = (d.get('email')   || '').toString().trim();
+      var mensaje = (d.get('mensaje') || '').toString().trim();
+
+      if (!nombre || !mensaje || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        e.preventDefault();
+        decir('Revisa el nombre, el email y el mensaje.', false);
+        return;
+      }
+
+      /* Sin fetch, dejamos que el navegador envíe el formulario a Formspree. */
+      if (!window.fetch) {
+        decir('Enviando…', false);
+        return;
+      }
+
+      e.preventDefault();
+
+      var boton = form.querySelector('button[type="submit"]');
+      if (boton) boton.disabled = true;
+      decir('Enviando…', false);
+
+      fetch(accion, {
+        method: 'POST',
+        body: d,
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (r) {
+          if (r.ok) {
+            form.reset();
+            decir('Mensaje enviado. Te contestamos en cuanto podamos.', true);
+          } else {
+            decir('No hemos podido enviar el mensaje. Escríbenos a baloncestodominicos@gmail.com.', false);
+          }
+        })
+        .catch(function () {
+          decir('No hemos podido enviar el mensaje. Escríbenos a baloncestodominicos@gmail.com.', false);
+        })
+        .then(function () {
+          if (boton) boton.disabled = false;
+        });
+    });
+  }
 
   /* ---- año del pie ------------------------------------------------------ */
-  $('#year').textContent = new Date().getFullYear();
+  var year = $('#year');
+  if (year) year.textContent = new Date().getFullYear();
 })();

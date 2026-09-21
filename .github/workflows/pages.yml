@@ -1,5 +1,9 @@
 # Publica la web estática de dominicosweb/ en GitHub Pages.
-# El tema y el plugin de WordPress no se publican: Pages no ejecuta PHP.
+#
+# Antes de empaquetar se regeneran el listado de noticias, las páginas de cada
+# noticia y el sitemap a partir de los JSON de dominicosweb/noticias/. Así,
+# para publicar una noticia basta con subir su JSON: si se olvida ejecutar el
+# script a mano, aquí se hace solo.
 name: Publicar la web
 
 on:
@@ -29,14 +33,52 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Sin dependencias que instalar: el script es Node pelado. Si un JSON de
+      # noticia está mal, falla aquí y no se publica nada roto.
+      - name: Generar noticias y sitemap
+        working-directory: dominicosweb
+        run: node tools/generar-noticias.mjs
+
       - name: Reunir los archivos que se publican
         run: |
-          mkdir -p _site
-          cp dominicosweb/index.html  _site/
-          cp dominicosweb/styles.css  _site/
-          cp dominicosweb/script.js   _site/
-          cp dominicosweb/CNAME       _site/
-          cp -r dominicosweb/images   _site/images
+          mkdir -p _site/noticias
+          cd dominicosweb
+          cp index.html noticias.html 404.html           ../_site/
+          cp styles.css script.js                        ../_site/
+          cp robots.txt sitemap.xml manifest.webmanifest ../_site/
+          cp CNAME                                       ../_site/
+          cp -r images                                   ../_site/images
+          # Solo las páginas generadas. Los .json son la fuente de la que
+          # salen: publicarlos serviría el mismo texto en dos direcciones,
+          # que es justo lo que no se quiere de cara a los buscadores.
+          cp noticias/*.html                             ../_site/noticias/
+          # Los README de las carpetas son para quien edita el repositorio,
+          # no para la web.
+          find ../_site -name 'README.md' -delete
+
+      - name: Comprobar que está todo
+        run: |
+          for f in index.html noticias.html 404.html styles.css script.js \
+                   robots.txt sitemap.xml manifest.webmanifest \
+                   CNAME images/logo.jpg; do
+            test -f "_site/$f" || { echo "FALTA _site/$f"; exit 1; }
+          done
+          # Nada de PHP ni de JSON de noticias en lo publicado.
+          test -z "$(find _site -name '*.php')"          || { echo "Hay PHP publicado"; exit 1; }
+          test -z "$(find _site/noticias -name '*.json')" || { echo "Hay JSON de noticias publicado"; exit 1; }
+          # El panel de administración es una herramienta local y lleva la
+          # contraseña dentro: si alguna vez acabara en _site, quedaría
+          # publicada. Antes de que eso pase, se para la publicación.
+          test -z "$(find _site -name 'admin.*')"        || { echo "El panel de administración NO debe publicarse"; exit 1; }
+          grep -rql 'Ruben@2026' _site && { echo "Hay una contraseña en lo publicado"; exit 1; } || true
+          # El listado tiene que llevar dentro las noticias, no un hueco.
+          grep -q 'ncard__link' _site/noticias.html \
+            || { echo "noticias.html no lleva el listado dentro"; exit 1; }
+          echo "Páginas de noticias: $(ls _site/noticias/*.html | wc -l)"
 
       - uses: actions/configure-pages@v5
 

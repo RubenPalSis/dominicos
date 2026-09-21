@@ -358,3 +358,140 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
   .menu a{font-family:var(--disp);font-size:26px;text-transform:uppercase;padding:10px 0;color:var(--txt)}
   .menu__cta{margin-top:16px;font-size:16px!important;padding:12px 26px}
 }
+
+/* ==========================================================================
+   PANTALLAS NUEVAS: LISTADO DE NOTICIAS Y FICHA DE NOTICIA
+   Todo lo de arriba es la hoja original, sin tocar. Aquí abajo solo está lo
+   que necesitan las páginas que la web no tenía, escrito con los mismos
+   tokens (--red, --line, --card, --r, --disp) para que no desentone.
+   ========================================================================== */
+
+/* --- cabecera de páginas interiores -------------------------------------- */
+.phero{
+  position:relative;overflow:hidden;background:var(--bg-2);
+  border-bottom:1px solid var(--line);
+  padding:calc(96px + clamp(36px,7vw,84px)) 0 clamp(36px,6vw,72px);
+}
+.phero__media{position:absolute;inset:0}
+.phero__media img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.phero__media::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(80% 80% at 10% 100%,rgba(224,31,38,.34),transparent 62%),
+    linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.88) 100%);
+}
+.phero__in{position:relative}
+.phero--img .phero__in{color:#fff}
+.phero--img .phero__in .lead{color:rgba(255,255,255,.82)}
+.phero--img .kicker{color:var(--red-2)}
+.phero .h2{margin-bottom:14px}
+.phero .lead{margin-bottom:0}
+.phero__back{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;
+  font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-2);
+  transition:color .2s,transform .2s;
+}
+.phero--img .phero__back{color:rgba(255,255,255,.78)}
+.phero__back:hover{color:var(--red-2);transform:translateX(-3px)}
+
+/* Lo que va justo debajo de una cabecera no necesita tanto aire arriba. */
+.section--top{padding-top:clamp(44px,6vw,80px)}
+
+/* --- tarjetas de noticia -------------------------------------------------- */
+.ncards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.ncard{
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1),box-shadow .45s ease,border-color .3s ease;
+}
+.ncard:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--red)}
+.ncard__link{display:flex;flex-direction:column;height:100%}
+.ncard__media{position:relative;display:block;overflow:hidden;aspect-ratio:3/2;background:var(--bg-3)}
+.ncard__media img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.ncard:hover .ncard__media img{transform:scale(1.06)}
+.ncard__tag{position:absolute;left:16px;top:16px;z-index:1}
+.ncard__body{display:flex;flex-direction:column;gap:8px;padding:22px 22px 24px;flex:1}
+.ncard__h{
+  font-family:var(--disp);font-size:20px;line-height:1.2;letter-spacing:-.02em;margin:0;
+  text-transform:none;
+}
+.ncard__p{color:var(--txt-2);font-size:14.5px;flex:1}
+.ncard .news__go{margin-top:6px}
+
+/* Piezas sueltas de la línea de datos de una noticia. */
+.news__cat{color:var(--red)}
+.news__sep{opacity:.45}
+.news__by{color:var(--txt-2);letter-spacing:.06em}
+
+/* Enlace suelto bajo una rejilla de tarjetas. */
+.sec-more{margin:34px 0 0;text-align:center}
+
+/* --- cuerpo de la noticia ------------------------------------------------- */
+.prose{max-width:75ch;color:var(--txt-2);font-size:17px}
+.prose > *:first-child{margin-top:0}
+.prose > *:last-child{margin-bottom:0}
+.prose p,.prose ul,.prose ol,.prose figure{margin:0 0 22px}
+.prose h2,.prose h3{
+  font-family:var(--disp);color:var(--txt);letter-spacing:-.025em;line-height:1.1;
+  margin:40px 0 14px;
+}
+.prose h2{font-size:clamp(24px,3vw,34px);text-transform:uppercase}
+.prose h3{font-size:clamp(20px,2.3vw,25px)}
+.prose a{color:var(--red);text-decoration:underline;text-underline-offset:3px}
+.prose a:hover{color:var(--red-2)}
+.prose strong{color:var(--txt)}
+.prose ul,.prose ol{padding-left:22px}
+.prose li{margin-bottom:8px}
+.prose img{border-radius:var(--r)}
+.prose figure img{width:100%}
+.prose figcaption{margin-top:10px;font-size:13.5px;color:var(--txt-2);text-align:center}
+.prose blockquote{
+  margin:0 0 22px;padding:4px 0 4px 24px;border-left:3px solid var(--red);
+  font-size:19px;color:var(--txt);
+}
+.prose hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+
+/* --- ficha de noticia ----------------------------------------------------- */
+.single__meta{margin:0 0 26px}
+.single__meta .news__d{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center}
+.single__cta{margin:34px 0 0}
+.single__note{
+  margin:26px 0 0;padding:18px 22px;border:1px solid var(--line);border-radius:14px;
+  background:var(--card);color:var(--txt-2);font-size:14.5px;
+}
+.single__note b{color:var(--txt)}
+
+.adjacent{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:46px}
+.adjacent__it{
+  display:grid;gap:8px;padding:24px;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--card);transition:transform .3s ease,border-color .3s ease;
+}
+.adjacent__it:hover{transform:translateY(-4px);border-color:var(--red)}
+.adjacent__it b{font-family:var(--disp);font-size:18px;line-height:1.25;letter-spacing:-.02em;color:var(--txt)}
+.adjacent__it--next{text-align:right}
+
+/* --- estados vacíos, carga y 404 ------------------------------------------ */
+.empty{max-width:56ch}
+.e404__links{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+.nstate{color:var(--txt-2);margin:0}
+
+/* --- formulario: trampa para bots ----------------------------------------- */
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* Documento de inscripción que aún no tiene archivo: mismo sitio en la lista,
+   pero sin enlace, porque no hay ningún PDF al que llevar. */
+.docs__soon{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:16px 20px;border-radius:14px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);font-size:14.5px;opacity:.72;cursor:default;
+}
+.docs__soon em{font-style:normal;font-size:11px;letter-spacing:.1em;opacity:.8}
+
+/* --- responsive de lo añadido -------------------------------------------- */
+@media (max-width:900px){
+  .adjacent{grid-template-columns:1fr}
+  .adjacent__it--next{text-align:left}
+}
+@media (max-width:560px){
+  .phero{padding-top:calc(88px + 28px)}
+  .ncards{grid-template-columns:1fr}
+}

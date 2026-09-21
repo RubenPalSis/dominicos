@@ -1,0 +1,14 @@
+{
+  "id": "2022-04-22-torneo-de-cuarte",
+  "fecha": "2022-04-22",
+  "fechaTexto": "22 abr 2022",
+  "titulo": "Torneo de Cuarte",
+  "descripcion": "Otro clásico del calendario del club, con varios equipos desplazados.",
+  "contenido": [
+    "Otro clásico del calendario del club, con varios equipos desplazados."
+  ],
+  "imagen": "images/cadete.jpg",
+  "imagenAlt": "Equipo cadete del CB Dominicos",
+  "categoria": "Competición",
+  "autor": "CB Dominicos Zaragoza"
+}

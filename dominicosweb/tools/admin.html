@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel de noticias — CB Dominicos</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  /* Solo lo que el panel necesita y la web no tenía. Los colores, la
+     tipografía y los radios salen de styles.css. */
+  body{padding:0 0 80px}
+  .adm{width:min(100% - 40px,1100px);margin-inline:auto}
+  .adm__top{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:22px 0;border-bottom:1px solid var(--line);margin-bottom:32px;
+  }
+  .adm__top h1{font-family:var(--disp);font-size:22px;margin:0;text-transform:uppercase;letter-spacing:-.02em}
+  .adm__top .btn{padding:10px 18px;font-size:14px}
+  .adm__sp{margin-left:auto}
+  .adm__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
+  @media (max-width:900px){.adm__grid{grid-template-columns:1fr}}
+
+  .panel-b{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+  .panel-b h2{font-family:var(--disp);font-size:16px;text-transform:uppercase;margin:0 0 18px;letter-spacing:.02em}
+
+  .lista{display:grid;gap:10px;max-height:70vh;overflow:auto}
+  .item{
+    display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;
+    padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2);
+  }
+  .item.is-sel{border-color:var(--red)}
+  .item img{width:64px;height:44px;object-fit:cover;border-radius:8px;background:var(--bg-3)}
+  .item__t{font-size:14.5px;color:var(--txt);line-height:1.3}
+  .item__d{font-size:12px;color:var(--txt-2);letter-spacing:.06em}
+  .item__b{display:flex;gap:6px}
+  .mini{
+    border:1px solid var(--line);background:transparent;color:var(--txt-2);
+    border-radius:8px;padding:6px 10px;font-size:12.5px;cursor:pointer;
+  }
+  .mini:hover{border-color:var(--red);color:var(--txt)}
+  .mini--del:hover{border-color:#ff4b52;color:#ff4b52}
+
+  .campos{display:grid;gap:14px}
+  .campos label{display:grid;gap:6px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2)}
+  .campos input,.campos textarea,.campos select{
+    background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 13px;
+    font-size:15px;letter-spacing:normal;text-transform:none;color:var(--txt);
+    font-family:var(--sans);resize:vertical;width:100%;
+  }
+  .campos input:focus,.campos textarea:focus,.campos select:focus{
+    outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(224,31,38,.14);
+  }
+  .dos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:560px){.dos{grid-template-columns:1fr}}
+  .pista-c{font-size:12px;color:var(--txt-2);letter-spacing:normal;text-transform:none;margin:-2px 0 0}
+
+  .aviso{padding:13px 16px;border-radius:10px;font-size:14px;margin:0 0 18px;display:none}
+  .aviso.on{display:block}
+  .aviso--ok{background:rgba(33,192,122,.12);border:1px solid rgba(33,192,122,.4);color:#21c07a}
+  .aviso--err{background:rgba(224,31,38,.12);border:1px solid rgba(224,31,38,.45);color:#ff6b70}
+
+  .login{max-width:380px;margin:14vh auto 0}
+  .nota{
+    margin-top:22px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;
+    font-size:13px;color:var(--txt-2);line-height:1.5;
+  }
+  .oculto{display:none!important}
+  .vacio{color:var(--txt-2);font-size:14px}
+  .prev{margin-top:8px;border-radius:10px;max-height:150px;display:none}
+  .prev.on{display:block}
+</style>
+</head>
+<body>
+
+<!-- ============================ ENTRAR ============================ -->
+<section id="pLogin" class="adm login">
+  <h1 style="font-family:var(--disp);text-transform:uppercase;font-size:24px;margin:0 0 6px">Panel de noticias</h1>
+  <p style="color:var(--txt-2);font-size:14px;margin:0 0 24px">CB Dominicos Zaragoza</p>
+
+  <div id="avLogin" class="aviso aviso--err"></div>
+
+  <form id="fLogin" class="campos panel-b">
+    <label>Usuario<input type="text" id="usuario" autocomplete="username" required></label>
+    <label>Contraseña<input type="password" id="clave" autocomplete="current-password" required></label>
+    <button class="btn btn--primary" type="submit" style="justify-content:center">Entrar</button>
+  </form>
+
+  <p class="nota">
+    Este panel solo funciona en tu ordenador, mientras tengas
+    <code>node tools/admin.mjs</code> en marcha. No está publicado en internet
+    ni puede estarlo: GitHub Pages no ejecuta código.
+  </p>
+</section>
+
+<!-- ============================ PANEL ============================ -->
+<div id="pAdmin" class="oculto">
+  <div class="adm adm__top">
+    <h1>Noticias</h1>
+    <button class="btn btn--ghost" id="bNueva" type="button">Nueva noticia</button>
+    <span class="adm__sp"></span>
+    <button class="mini" id="bSalir" type="button">Salir</button>
+  </div>
+
+  <div class="adm">
+    <div id="aviso" class="aviso"></div>
+
+    <div class="adm__grid">
+      <!-- listado -->
+      <section class="panel-b">
+        <h2>Publicadas (<span id="cuenta">0</span>)</h2>
+        <div id="lista" class="lista"></div>
+      </section>
+
+      <!-- formulario -->
+      <section class="panel-b">
+        <h2 id="tituloForm">Nueva noticia</h2>
+
+        <form id="fNoticia" class="campos">
+          <input type="hidden" id="idOriginal">
+
+          <label>Título *
+            <input type="text" id="titulo" maxlength="140" required>
+          </label>
+
+          <label>Descripción *
+            <textarea id="descripcion" rows="2" maxlength="300" required></textarea>
+            <span class="pista-c">La frase del listado, y la que sale en Google. 120–160 caracteres va bien.</span>
+          </label>
+
+          <div class="dos">
+            <label>Fecha *
+              <input type="date" id="fecha" required>
+            </label>
+            <label>Categoría
+              <input type="text" id="categoria" list="cats" maxlength="40" placeholder="Competición">
+              <datalist id="cats">
+                <option>Competición</option><option>Club</option><option>Escuela</option>
+                <option>Torneos</option><option>Inscripciones</option>
+              </datalist>
+            </label>
+          </div>
+
+          <label>Contenido
+            <textarea id="contenido" rows="8"></textarea>
+            <span class="pista-c">Un párrafo por línea. Se guarda como texto, nunca como HTML.</span>
+          </label>
+
+          <label>Imagen
+            <select id="imagen"></select>
+          </label>
+          <label style="letter-spacing:normal;text-transform:none;font-size:13px;color:var(--txt-2)">
+            …o sube una nueva
+            <input type="file" id="ficheroImg" accept=".jpg,.jpeg,.png,.webp">
+          </label>
+          <img id="prev" class="prev" alt="Vista previa de la imagen elegida">
+
+          <label>Texto alternativo de la imagen
+            <input type="text" id="imagenAlt" maxlength="160" placeholder="Qué se ve en la foto">
+            <span class="pista-c">Lo lee quien no ve la imagen. Descríbela con naturalidad.</span>
+          </label>
+
+          <div class="dos">
+            <label>Enlace (opcional)
+              <input type="url" id="enlace" placeholder="https://…">
+            </label>
+            <label>Texto del enlace
+              <input type="text" id="textoEnlace" maxlength="60" placeholder="Más información">
+            </label>
+          </div>
+
+          <div class="dos">
+            <label>Mención (opcional)
+              <input type="text" id="mencion" maxlength="120">
+            </label>
+            <label>Autor
+              <input type="text" id="autor" maxlength="80" placeholder="CB Dominicos Zaragoza">
+            </label>
+          </div>
+
+          <div class="dos">
+            <label>Fecha en pantalla (opcional)
+              <input type="text" id="fechaTexto" maxlength="40" placeholder="11–12 jun 2022">
+            </label>
+            <label>Corregida el (opcional)
+              <input type="date" id="fechaModificacion">
+              <span class="pista-c">Solo si corriges algo ya publicado.</span>
+            </label>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+            <button class="btn btn--primary" type="submit">Guardar</button>
+            <button class="btn btn--ghost" type="button" id="bCancelar">Cancelar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <p class="nota">
+      Al guardar se escribe el JSON, se regenera la web entera (listado,
+      portada, páginas y sitemap) y ya puedes mirarla en
+      <a href="http://127.0.0.1:8000" target="_blank" rel="noopener" style="color:var(--red)">localhost:8000</a>
+      si tienes el servidor levantado. <b>Nada de esto está publicado todavía:</b>
+      para que se vea en internet hay que hacer <code>git add</code>,
+      <code>git commit</code> y <code>git push</code>.
+    </p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var ficha = null;
+  var imagenes = [];
+
+  /* --- utilidades ---------------------------------------------------- */
+
+  function decir(texto, ok) {
+    var a = $('aviso');
+    a.textContent = texto;
+    a.className = 'aviso on ' + (ok ? 'aviso--ok' : 'aviso--err');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function callar() { $('aviso').className = 'aviso'; }
+
+  function api(ruta, opciones) {
+    opciones = opciones || {};
+    opciones.headers = Object.assign(
+      { 'Content-Type': 'application/json', Authorization: 'Bearer ' + ficha },
+      opciones.headers || {}
+    );
+    return fetch(ruta, opciones).then(function (r) {
+      return r.json().then(function (d) {
+        if (!r.ok) throw new Error(d.error || ('Error ' + r.status));
+        return d;
+      });
+    });
+  }
+
+  /* --- entrar --------------------------------------------------------- */
+
+  $('fLogin').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var av = $('avLogin');
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usuario: $('usuario').value, clave: $('clave').value })
+    })
+      .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error); return d; }); })
+      .then(function (d) {
+        ficha = d.ficha;
+        try { sessionStorage.setItem('adm', ficha); } catch (e) {}
+        $('pLogin').classList.add('oculto');
+        $('pAdmin').classList.remove('oculto');
+        cargar();
+      })
+      .catch(function (err) {
+        av.textContent = err.message;
+        av.className = 'aviso aviso--err on';
+      });
+  });
+
+  $('bSalir').addEventListener('click', function () {
+    api('/api/logout', { method: 'POST' }).catch(function () {});
+    try { sessionStorage.removeItem('adm'); } catch (e) {}
+    location.reload();
+  });
+
+  /* --- listado -------------------------------------------------------- */
+
+  function cargar() {
+    return api('/api/noticias').then(function (d) {
+      imagenes = d.imagenes || [];
+      pintarImagenes();
+      pintarLista(d.noticias || []);
+    }).catch(function (e) { decir(e.message, false); });
+  }
+
+  function pintarLista(noticias) {
+    var cont = $('lista');
+    cont.textContent = '';
+    $('cuenta').textContent = noticias.length;
+
+    if (!noticias.length) {
+      var v = document.createElement('p');
+      v.className = 'vacio';
+      v.textContent = 'Todavía no hay ninguna. Empieza con «Nueva noticia».';
+      cont.appendChild(v);
+      return;
+    }
+
+    noticias.forEach(function (n) {
+      var fila = document.createElement('div');
+      fila.className = 'item';
+      fila.dataset.id = n.id;
+
+      var img = document.createElement('img');
+      img.src = n.imagen ? '/img/' + n.imagen : '/img/images/logo.jpg';
+      img.alt = '';
+      fila.appendChild(img);
+
+      var mid = document.createElement('div');
+      var t = document.createElement('div');
+      t.className = 'item__t';
+      t.textContent = n.titulo || '(sin título)';
+      var f = document.createElement('div');
+      f.className = 'item__d';
+      f.textContent = (n.fecha || '') + (n.categoria ? ' · ' + n.categoria : '');
+      mid.appendChild(t); mid.appendChild(f);
+      fila.appendChild(mid);
+
+      var bs = document.createElement('div');
+      bs.className = 'item__b';
+
+      var ed = document.createElement('button');
+      ed.className = 'mini'; ed.type = 'button'; ed.textContent = 'Editar';
+      ed.addEventListener('click', function () { editar(n, fila); });
+
+      var bo = document.createElement('button');
+      bo.className = 'mini mini--del'; bo.type = 'button'; bo.textContent = 'Borrar';
+      bo.addEventListener('click', function () { borrar(n); });
+
+      bs.appendChild(ed); bs.appendChild(bo);
+      fila.appendChild(bs);
+      cont.appendChild(fila);
+    });
+  }
+
+  function pintarImagenes() {
+    var sel = $('imagen');
+    var actual = sel.value;
+    sel.textContent = '';
+
+    var nada = document.createElement('option');
+    nada.value = '';
+    nada.textContent = '— sin imagen (se usa el escudo) —';
+    sel.appendChild(nada);
+
+    imagenes.forEach(function (ruta) {
+      var o = document.createElement('option');
+      o.value = ruta;
+      o.textContent = ruta;
+      sel.appendChild(o);
+    });
+
+    sel.value = actual;
+    verPrev();
+  }
+
+  function verPrev() {
+    var v = $('imagen').value;
+    var p = $('prev');
+    if (v) { p.src = '/img/' + v; p.className = 'prev on'; }
+    else { p.removeAttribute('src'); p.className = 'prev'; }
+  }
+
+  $('imagen').addEventListener('change', verPrev);
+
+  /* --- formulario ----------------------------------------------------- */
+
+  function limpiar() {
+    $('fNoticia').reset();
+    $('idOriginal').value = '';
+    $('tituloForm').textContent = 'Nueva noticia';
+    $('autor').value = 'CB Dominicos Zaragoza';
+    verPrev();
+    Array.prototype.forEach.call(document.querySelectorAll('.item'), function (i) { i.classList.remove('is-sel'); });
+  }
+
+  function editar(n, fila) {
+    callar();
+    $('idOriginal').value = n.id || '';
+    $('tituloForm').textContent = 'Editando: ' + (n.titulo || '');
+    $('titulo').value = n.titulo || '';
+    $('descripcion').value = n.descripcion || '';
+    $('fecha').value = n.fecha || '';
+    $('fechaModificacion').value = n.fechaModificacion || '';
+    $('fechaTexto').value = n.fechaTexto || '';
+    $('categoria').value = n.categoria || '';
+    $('contenido').value = Array.isArray(n.contenido) ? n.contenido.join('\n') : (n.contenido || '');
+    $('imagen').value = n.imagen || '';
+    $('imagenAlt').value = n.imagenAlt || '';
+    $('enlace').value = n.enlace || '';
+    $('textoEnlace').value = n.textoEnlace || '';
+    $('mencion').value = n.mencion || '';
+    $('autor').value = n.autor || '';
+    verPrev();
+
+    Array.prototype.forEach.call(document.querySelectorAll('.item'), function (i) { i.classList.remove('is-sel'); });
+    if (fila) fila.classList.add('is-sel');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  $('bNueva').addEventListener('click', function () { callar(); limpiar(); });
+  $('bCancelar').addEventListener('click', function () { callar(); limpiar(); });
+
+  $('fNoticia').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var datos = {
+      idOriginal: $('idOriginal').value || '',
+      id: $('idOriginal').value || '',
+      titulo: $('titulo').value,
+      descripcion: $('descripcion').value,
+      fecha: $('fecha').value,
+      fechaModificacion: $('fechaModificacion').value,
+      fechaTexto: $('fechaTexto').value,
+      categoria: $('categoria').value,
+      contenido: $('contenido').value,
+      imagen: $('imagen').value,
+      imagenAlt: $('imagenAlt').value,
+      enlace: $('enlace').value,
+      textoEnlace: $('textoEnlace').value,
+      mencion: $('mencion').value,
+      autor: $('autor').value
+    };
+
+    api('/api/noticias', { method: 'POST', body: JSON.stringify(datos) })
+      .then(function (d) {
+        if (d.generador && !d.generador.ok) {
+          decir('Guardada, pero el generador ha fallado: ' + d.generador.salida, false);
+        } else {
+          decir('Guardada y web regenerada. Recuerda hacer commit y push para publicarla.', true);
+        }
+        limpiar();
+        return cargar();
+      })
+      .catch(function (err) { decir(err.message, false); });
+  });
+
+  /* --- borrar --------------------------------------------------------- */
+
+  function borrar(n) {
+    if (!window.confirm('¿Borrar «' + (n.titulo || n.id) + '»?\n\nSe borra su JSON y su página. La foto se queda en images/noticias/.')) return;
+
+    api('/api/noticias/' + encodeURIComponent(n.id), { method: 'DELETE' })
+      .then(function () {
+        decir('Borrada. Recuerda hacer commit y push.', true);
+        limpiar();
+        return cargar();
+      })
+      .catch(function (err) { decir(err.message, false); });
+  }
+
+  /* --- subir imagen --------------------------------------------------- */
+
+  $('ficheroImg').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+
+    if (f.size > 5 * 1024 * 1024) { decir('La imagen pasa de 5 MB.', false); this.value = ''; return; }
+
+    var lector = new FileReader();
+    lector.onload = function () {
+      var base64 = String(lector.result).split(',')[1];
+
+      api('/api/imagen', { method: 'POST', body: JSON.stringify({ nombre: f.name, datos: base64 }) })
+        .then(function (d) {
+          if (imagenes.indexOf(d.ruta) === -1) imagenes.push(d.ruta);
+          imagenes.sort();
+          pintarImagenes();
+          $('imagen').value = d.ruta;
+          verPrev();
+          decir('Imagen subida a ' + d.ruta, true);
+        })
+        .catch(function (err) { decir(err.message, false); });
+    };
+    lector.readAsDataURL(f);
+    this.value = '';
+  });
+
+  /* --- sesión recordada ----------------------------------------------- */
+
+  try {
+    var guardada = sessionStorage.getItem('adm');
+    if (guardada) {
+      ficha = guardada;
+      api('/api/noticias').then(function (d) {
+        imagenes = d.imagenes || [];
+        pintarImagenes();
+        pintarLista(d.noticias || []);
+        $('pLogin').classList.add('oculto');
+        $('pAdmin').classList.remove('oculto');
+      }).catch(function () {
+        sessionStorage.removeItem('adm');
+        ficha = null;
+      });
+    }
+  } catch (e) {}
+
+  limpiar();
+})();
+</script>
+</body>
+</html>

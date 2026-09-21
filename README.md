@@ -1,55 +1,63 @@
 # Web del CB Dominicos Zaragoza
 
-Este repositorio contiene la web del club en dos formas: el diseño original en
-HTML estático —que es lo que está publicado, en GitHub Pages, sobre
-`baloncestodominicos.es`— y ese mismo diseño convertido en un tema y un plugin
-de WordPress, listos para instalar si algún día se vuelve a ese camino.
+La web del club: HTML, CSS y JavaScript, sin compilación ni dependencias,
+publicada en GitHub Pages sobre `baloncestodominicos.es`.
 
 ```
 .
-├── dominicosweb/              ← el trabajo
-│   ├── index.html             diseño original (referencia, no se toca)
+├── dominicosweb/              ← la web
+│   ├── index.html             portada
+│   ├── noticias.html          listado de noticias
+│   ├── 404.html               página no encontrada
 │   ├── styles.css
-│   ├── script.js
-│   ├── images/
+│   ├── script.js              interacciones comunes a todas las páginas
+│   ├── robots.txt
+│   ├── sitemap.xml            lo genera el script, no se edita a mano
+│   ├── manifest.webmanifest
 │   ├── CNAME                  dominio de GitHub Pages
-│   │
-│   ├── dominicos-theme/       tema de WordPress
-│   ├── dominicos-core/        plugin de WordPress
-│   ├── dist/                  los dos ZIP instalables
-│   └── INSTALACION.md         guía paso a paso
+│   ├── images/                fotos del sitio
+│   │   └── noticias/          fotos de las noticias
+│   ├── noticias/              una noticia = un .json  (+ el .html generado)
+│   ├── tools/                 herramientas locales, NO se publican
+│   │   ├── generar-noticias.mjs
+│   │   ├── admin.mjs          panel de noticias (servidor local)
+│   │   └── admin.html
+│   └── NOTICIAS.md            cómo publicar una noticia
 │
 └── baloncestodominicos.es/    copia de la web antigua (Divi), solo consulta
 ```
 
-## Instalar en WordPress
+## Publicar una noticia
 
-No hace falta para la web publicada; solo si se vuelve a WordPress.
-En `dominicosweb/dist/` hay dos archivos:
+Con el panel:
 
-1. **`dominicos-core.zip`** → Plugins → Añadir nuevo → Subir plugin → Activar
-2. **`dominicos-theme.zip`** → Apariencia → Temas → Añadir nuevo → Subir tema → Activar
+```bash
+cd dominicosweb
+node tools/admin.mjs        # y abre http://127.0.0.1:4321
+```
 
-Y ya está. Al entrar al panel, el tema se configura solo: crea la portada y la
-página de noticias, las asigna en Ajustes, monta los menús de cabecera y pie,
-pone los enlaces permanentes, sube el escudo y carga los 9 equipos y las 3
-noticias que ya tenía la web, con sus fotos.
+O a mano, creando un JSON en `dominicosweb/noticias/`. En los dos casos, para
+que se vea en internet hay que hacer commit y push.
 
-El detalle completo, y qué hacer después, está en
-[dominicosweb/INSTALACION.md](dominicosweb/INSTALACION.md).
+El panel corre **solo en local**, porque GitHub Pages no ejecuta código y una
+contraseña metida en el JavaScript de una web estática no protege nada. Está
+explicado, con las alternativas si se quisiera online, en
+[dominicosweb/NOTICIAS.md](dominicosweb/NOTICIAS.md).
 
 ## Publicación
 
 La web está publicada en **GitHub Pages**, servida directamente desde este
 repositorio en el dominio `baloncestodominicos.es`.
 
-Lo que se publica es solo la web estática: `index.html`, `styles.css`,
-`script.js` y `images/`. El tema y el plugin de WordPress **no** se publican,
-porque Pages no ejecuta PHP; siguen en el repositorio por si algún día se
-vuelve a una instalación de WordPress.
-
 Cada `git push` a `main` que toque `dominicosweb/` vuelve a publicar la web
 automáticamente, mediante [.github/workflows/pages.yml](.github/workflows/pages.yml).
+Antes de empaquetar, el workflow ejecuta `tools/generar-noticias.mjs`, que
+reconstruye la página de cada noticia, el listado de `noticias.html`, las tres
+noticias de la portada y el sitemap a partir de los JSON. Los `.json` no se
+publican: son la fuente, y servirlos además de las páginas daría el mismo texto
+en dos direcciones. Si un JSON está mal, la publicación falla ahí y la web
+publicada se queda como estaba.
+
 Para publicar a mano sin cambiar nada: pestaña Actions → «Publicar la web» →
 Run workflow.
 
@@ -80,38 +88,46 @@ Cuando el DNS haya propagado (de minutos a 24 h), en Settings → Pages aparece
 «DNS check successful» y se puede marcar **Enforce HTTPS**, que emite el
 certificado de Let's Encrypt.
 
-## Qué hace cada pieza
-
-**`dominicos-theme`** es el diseño. El CSS es literalmente `styles.css`, con un
-bloque añadido al final para las pantallas que la web estática no tenía
-(listado de noticias, ficha de noticia, ficha de equipo). El JavaScript es
-`script.js` con comprobaciones para que funcione en todas las plantillas.
-
-**`dominicos-core`** son los datos: el tipo de contenido Equipos, sus
-categorías, los datos de contacto del club, los PDF de inscripción y el
-formulario. Vive aparte a propósito, para que esa información siga existiendo
-si algún día se cambia el diseño.
-
-Las noticias usan las **Entradas** de WordPress, sin nada a medida.
-
 ## Desarrollo
 
-No hay compilación ni dependencias: son PHP, CSS y JavaScript planos. Para
-regenerar los ZIP tras un cambio:
+No hay que instalar nada. Para ver la web en local:
 
 ```bash
 cd dominicosweb
-rm -f dist/*.zip
-zip -rq dist/dominicos-theme.zip dominicos-theme
-zip -rq dist/dominicos-core.zip  dominicos-core
+node tools/generar-noticias.mjs   # regenera noticias, listados y sitemap
+python3 -m http.server 8000       # y abre http://localhost:8000
 ```
+
+Hace falta el servidor porque los enlaces del menú empiezan por `/` (apuntan a
+la raíz del sitio) y con doble clic (`file://`) esa raíz sería la del disco.
 
 Para comprobar la sintaxis antes de subir nada:
 
 ```bash
-find dominicosweb/dominicos-theme dominicosweb/dominicos-core -name '*.php' -exec php -l {} \;
-node --check dominicosweb/dominicos-theme/assets/js/main.js
+node --check dominicosweb/script.js
+node --check dominicosweb/tools/generar-noticias.mjs
 ```
+
+## Formulario de contacto
+
+Lo envía [Formspree](https://formspree.io): el `action` del formulario, en
+`dominicosweb/index.html`, lleva el id del formulario. Ese id es público y va
+en el HTML a la vista; **no es un secreto**.
+
+Nunca debe ponerse en el repositorio un token de GitHub, una contraseña ni una
+clave de API: todo lo que hay en `dominicosweb/` se sirve tal cual a cualquiera
+que pida la URL.
+
+## Historia
+
+Hasta 2026 la web fue un WordPress con el tema Divi. De ahí salen la copia de
+consulta de `baloncestodominicos.es/` y los textos y fechas de las noticias
+antiguas.
+
+Durante la migración existió también una versión de este mismo diseño como tema
+y plugin de WordPress (`dominicos-theme`, `dominicos-core`). Se eliminó al pasar
+a estático, porque GitHub Pages no ejecuta PHP. Si alguna vez hiciera falta,
+está en el historial de git, en el commit anterior a su borrado.
 
 ## Cómo se obtuvo la copia de la web antigua
 

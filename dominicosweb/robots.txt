@@ -1,0 +1,13 @@
+# CB Dominicos Zaragoza — baloncestodominicos.es
+#
+# La web es pública entera: se indexa todo. No se bloquea el CSS, el
+# JavaScript ni las imágenes, porque Google necesita cargarlos para ver la
+# página como la ve una persona.
+#
+# robots.txt no protege nada: solo pide a los buscadores que se porten bien.
+# Lo que no deba ser público, sencillamente no se sube.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://baloncestodominicos.es/sitemap.xml

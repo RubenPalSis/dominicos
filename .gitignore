@@ -1,0 +1,52 @@
+# Copia con wget de la web antigua (WordPress + Divi). Son 1,5 GB de archivos
+# generados que solo sirven de consulta: no forman parte de la web nueva.
+baloncestodominicos.es/
+
+# Credenciales. Ninguna de estas debe llegar nunca al repositorio: lo que se
+# sube a GitHub Pages se sirve tal cual a cualquiera que pida la URL.
+.env
+.env.*
+!.env.example
+credentials.json
+service-account*.json
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+secrets.*
+
+# Copias de seguridad y paquetes sueltos
+*.bak
+*.old
+*.orig
+*.sql
+*.tar
+*.tar.gz
+*.rar
+copia-*/
+backup*/
+
+# Registros y temporales
+*.log
+tmp/
+.cache/
+
+# Dependencias, por si algún día se instala alguna herramienta local.
+# La web publicada no usa ninguna: es HTML, CSS y JavaScript a pelo.
+node_modules/
+
+# Basura del sistema y de los editores
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/settings.json
+
+# NO se ignora nada de dominicosweb/: ahí está la web que publica GitHub
+# Pages (index.html, noticias.html, 404.html, styles.css, script.js,
+# noticias.js, robots.txt, sitemap.xml, manifest.webmanifest, images/,
+# noticias/, tools/ y CNAME). Si algo de eso se ignorara, dejaría de
+# publicarse.

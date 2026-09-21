@@ -3,13 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CB Dominicos Zaragoza — Club de Baloncesto</title>
-<meta name="description" content="Club Baloncesto Dominicos Zaragoza. Escuela, categorías de formación y senior. Ven a jugar con nosotros.">
+<!-- El title empieza por «Baloncesto Dominicos Zaragoza» porque es como se
+     busca al club, y coincide con el H1 de la portada. -->
+<title>Baloncesto Dominicos Zaragoza — Club de baloncesto base</title>
+<meta name="description" content="Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: escuela, benjamín, alevín, infantil, cadete, junior y senior. Ven a jugar con nosotros.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://baloncestodominicos.es/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="CB Dominicos Zaragoza">
+<meta property="og:title" content="Baloncesto Dominicos Zaragoza — Club de baloncesto base">
+<meta property="og:description" content="Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: de la escuela al senior.">
+<meta property="og:url" content="https://baloncestodominicos.es/">
+<meta property="og:image" content="https://baloncestodominicos.es/images/hero.jpg">
+<meta property="og:image:alt" content="Partido de categoría benjamín del CB Dominicos en pista exterior">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Baloncesto Dominicos Zaragoza — Club de baloncesto base">
+<meta name="twitter:description" content="Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: de la escuela al senior.">
+<meta name="twitter:image" content="https://baloncestodominicos.es/images/hero.jpg">
+
+<!-- GOOGLE SEARCH CONSOLE
+     Si al dar de alta el sitio eliges verificar por «Etiqueta HTML», Google te
+     dará una línea como esta:
+       <meta name="google-site-verification" content="EL_CODIGO_QUE_TE_DEN">
+     Pégala justo aquí debajo, tal cual, sin cambiar nada. Solo hace falta en
+     esta página (la portada).
+
+     Alternativa sin tocar código, y la recomendada si el dominio es tuyo:
+     verificar por DNS con un registro TXT en el proveedor del dominio. Así
+     cubres de una vez el dominio entero. -->
+
 <link rel="icon" href="images/favicon.jpg">
+<link rel="apple-touch-icon" href="images/logo.jpg">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SportsOrganization",
+      "@id": "https://baloncestodominicos.es/#club",
+      "name": "Club Baloncesto Dominicos",
+      "alternateName": "CB Dominicos Zaragoza",
+      "sport": "Baloncesto",
+      "url": "https://baloncestodominicos.es/",
+      "logo": "https://baloncestodominicos.es/images/logo.jpg",
+      "image": "https://baloncestodominicos.es/images/hero.jpg",
+      "email": "baloncestodominicos@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Zaragoza",
+        "addressCountry": "ES"
+      },
+      "sameAs": [
+        "https://instagram.com/cbdominicos",
+        "https://x.com/dominicosbasket"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "name": "CB Dominicos Zaragoza",
+      "url": "https://baloncestodominicos.es/",
+      "inLanguage": "es-ES",
+      "publisher": { "@id": "https://baloncestodominicos.es/#club" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -50,7 +116,7 @@
   <!-- HERO -->
   <section class="hero" id="top">
     <div class="hero__media">
-      <img src="images/hero.jpg" alt="Partido de categoría benjamín del CB Dominicos en pista exterior">
+      <img src="images/hero.jpg" alt="Partido de categoría benjamín del CB Dominicos en pista exterior" fetchpriority="high" decoding="async" width="1047" height="1400">
     </div>
     <div class="hero__in">
       <p class="eyebrow"><span class="dot"></span>Temporada 2022–2023</p>
@@ -110,11 +176,15 @@
           <p class="kicker">Equipos</p>
           <h2 class="h2">Una categoría para cada edad</h2>
         </div>
-        <div class="filters" role="tablist" aria-label="Filtrar equipos">
-          <button class="chip is-on" data-filter="all" role="tab" aria-selected="true">Todos</button>
-          <button class="chip" data-filter="base" role="tab" aria-selected="false">Base</button>
-          <button class="chip" data-filter="formacion" role="tab" aria-selected="false">Formación</button>
-          <button class="chip" data-filter="senior" role="tab" aria-selected="false">Senior</button>
+        <!-- Botones de filtro, no pestañas: no hay paneles que mostrar y
+             ocultar, solo tarjetas que se filtran. Con role="tab" un lector
+             de pantalla anunciaba pestañas inexistentes y buscaba su panel.
+             aria-pressed describe lo que de verdad pasa: un botón activo. -->
+        <div class="filters" role="group" aria-label="Filtrar equipos por categoría">
+          <button class="chip is-on" type="button" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="chip" type="button" data-filter="base" aria-pressed="false">Base</button>
+          <button class="chip" type="button" data-filter="formacion" aria-pressed="false">Formación</button>
+          <button class="chip" type="button" data-filter="senior" aria-pressed="false">Senior</button>
         </div>
       </header>
 
@@ -184,26 +254,32 @@
           <p class="kicker">Noticias</p>
           <h2 class="h2">Lo último en la pista</h2>
         </div>
+        <a class="btn btn--ghost" href="noticias.html">Todas las noticias</a>
       </header>
+      <!-- Las 3 noticias más recientes. Las escribe tools/generar-noticias.mjs
+           al publicar: antes estaban a mano y había que acordarse de
+           actualizarlas. No editar aquí dentro. -->
       <div class="news">
-        <a class="news__it reveal" href="#">
-          <span class="news__d">11 jun 2022</span>
+      <!-- NOTICIAS:INICIO -->
+        <a class="news__it reveal" href="noticias/dia-del-deporte-bajo-aragon.html">
+          <span class="news__d"><time datetime="2022-06-11">11 jun 2022</time></span>
           <h3>Benjamín y Cadete en el Día del Deporte del Bajo Aragón</h3>
           <p>Jornada completa de partidos y convivencia con clubes de la comarca.</p>
           <span class="news__go">Leer</span>
         </a>
-        <a class="news__it reveal" href="#">
-          <span class="news__d">11–12 jun 2022</span>
+        <a class="news__it reveal" href="noticias/infantil-final-four-copa-primavera.html">
+          <span class="news__d"><time datetime="2022-06-11">11–12 jun 2022</time></span>
           <h3>El Infantil, en la Final Four de la Copa Primavera</h3>
           <p>Dos días de competición para cerrar la temporada por todo lo alto.</p>
           <span class="news__go">Leer</span>
         </a>
-        <a class="news__it reveal" href="#">
-          <span class="news__d">22 abr 2022</span>
+        <a class="news__it reveal" href="noticias/torneo-de-cuarte.html">
+          <span class="news__d"><time datetime="2022-04-22">22 abr 2022</time></span>
           <h3>Torneo de Cuarte</h3>
           <p>Otro clásico del calendario del club, con varios equipos desplazados.</p>
           <span class="news__go">Leer</span>
         </a>
+      <!-- NOTICIAS:FIN -->
       </div>
     </div>
   </section>
@@ -218,12 +294,18 @@
           <p class="lead">Descarga la ficha de tu categoría, rellénala y envíala por correo o entrégasela al responsable de tu equipo.</p>
           <a class="btn btn--primary" href="mailto:baloncestodominicos@gmail.com?subject=Inscripci%C3%B3n%20temporada">Enviar inscripción <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></a>
         </div>
+        <!-- Los PDF todavía no están en el repositorio. Mientras no lo estén,
+             cada ficha se ve en su sitio pero no enlaza a ninguna parte: antes
+             ponía href="#", que no llevaba al documento sino al principio de
+             la página. Cuando subas un PDF a documentos/, cambia su <span
+             class="docs__soon"> por:
+             <a href="documentos/ARCHIVO.pdf" download><span>TÍTULO</span><em>PDF</em></a> -->
         <ul class="docs">
-          <li><a href="#"><span>Autorización de derechos de imagen</span><em>PDF</em></a></li>
-          <li><a href="#"><span>Benjamín, Alevín, Infantil y Cadete</span><em>PDF</em></a></li>
-          <li><a href="#"><span>Escuela infantil y primaria</span><em>PDF</em></a></li>
-          <li><a href="#"><span>Junior</span><em>PDF</em></a></li>
-          <li><a href="#"><span>Senior</span><em>PDF</em></a></li>
+          <li><span class="docs__soon"><span>Autorización de derechos de imagen</span><em>Próximamente</em></span></li>
+          <li><span class="docs__soon"><span>Benjamín, Alevín, Infantil y Cadete</span><em>Próximamente</em></span></li>
+          <li><span class="docs__soon"><span>Escuela infantil y primaria</span><em>Próximamente</em></span></li>
+          <li><span class="docs__soon"><span>Junior</span><em>Próximamente</em></span></li>
+          <li><span class="docs__soon"><span>Senior</span><em>Próximamente</em></span></li>
         </ul>
       </div>
     </div>
@@ -243,9 +325,20 @@
           <li><span>X / Twitter</span><a href="https://x.com/dominicosbasket" target="_blank" rel="noopener">@dominicosbasket</a></li>
         </ul>
       </div>
-      <form class="form reveal" id="form" novalidate>
-        <label>Nombre<input type="text" name="nombre" required placeholder="Tu nombre"></label>
-        <label>Email<input type="email" name="email" required placeholder="tu@email.com"></label>
+      <!-- ┌───────────────────────────────────────────────────────────────┐
+           │ FORMSPREE: sustituye TU_ID_DE_FORMSPREE por el id de tu       │
+           │ formulario. Lo encuentras en formspree.io → tu formulario →   │
+           │ Integration; es la última parte de la URL que te dan, algo    │
+           │ como https://formspree.io/f/abcdwxyz                          │
+           │                                                               │
+           │ Ese id es público: va en el HTML y cualquiera puede verlo.    │
+           │ No es un secreto y no hay que esconderlo. Mientras no lo      │
+           │ cambies, el formulario no envía nada y avisa en pantalla.     │
+           └───────────────────────────────────────────────────────────────┘ -->
+      <form class="form reveal" id="form" method="POST"
+            action="https://formspree.io/f/TU_ID_DE_FORMSPREE">
+        <label>Nombre<input type="text" name="nombre" required maxlength="80" autocomplete="name" placeholder="Tu nombre"></label>
+        <label>Email<input type="email" name="email" required maxlength="120" autocomplete="email" placeholder="tu@email.com"></label>
         <label>Categoría
           <select name="categoria">
             <option>Escuela</option><option>Benjamín</option><option>Alevín</option>
@@ -253,9 +346,21 @@
             <option>Junior</option><option>Senior Femenino</option><option>Senior Masculino</option>
           </select>
         </label>
-        <label>Mensaje<textarea name="mensaje" rows="4" required placeholder="Cuéntanos..."></textarea></label>
+        <label>Mensaje<textarea name="mensaje" rows="4" required maxlength="2000" placeholder="Cuéntanos..."></textarea></label>
+
+        <!-- Asunto del correo que llega al club. Lo lee Formspree. -->
+        <input type="hidden" name="_subject" value="Contacto desde baloncestodominicos.es">
+
+        <!-- Trampa para bots, la que Formspree descarta sola: invisible y
+             fuera del recorrido del teclado para quien navega de verdad. -->
+        <p class="hp" aria-hidden="true">
+          <label>No rellenes este campo
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          </label>
+        </p>
+
         <button class="btn btn--primary" type="submit">Enviar</button>
-        <p class="form__msg" id="formMsg" role="status"></p>
+        <p class="form__msg" id="formMsg" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -270,6 +375,7 @@
     </div>
     <nav class="foot__nav" aria-label="Pie">
       <a href="#club">Club</a><a href="#equipos">Equipos</a><a href="#pista">Instalaciones</a>
+      <a href="noticias.html">Noticias</a>
       <a href="#inscripciones">Inscripciones</a><a href="#contacto">Contacto</a>
     </nav>
     <p class="foot__legal">© <span id="year">2026</span> CB Dominicos Zaragoza · Aviso legal · Política de privacidad · Cookies</p>
