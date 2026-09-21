@@ -39,7 +39,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       # Sin dependencias que instalar: el generador es Node pelado. Si un JSON
       # está mal, falla aquí y no se publica nada roto.
