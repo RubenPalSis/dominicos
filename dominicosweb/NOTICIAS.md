@@ -1,75 +1,13 @@
 # Cómo publicar una noticia
 
-Una noticia es **un archivo de texto** en `noticias/`. Se puede escribir a
-mano, o con el panel que viene incluido.
+Una noticia es **un archivo de texto** en `noticias/`. Escribes ese archivo y
+todo lo demás —su página, el listado, la portada y el sitemap— se genera solo.
 
-- **[Con el panel](#el-panel)** — un formulario, en tu ordenador. Lo más cómodo.
-- **[A mano](#el-archivo-de-la-noticia)** — editando el JSON. Útil desde el
-  móvil o desde la web de GitHub.
-
-Las dos formas hacen exactamente lo mismo: escribir ese archivo.
+No hay panel, ni contraseñas, ni base de datos. Solo el JSON y un comando.
 
 ---
 
-## El panel
-
-```bash
-cd dominicosweb
-node tools/admin.mjs
-```
-
-Y abre **http://127.0.0.1:4321**
-
-    usuario:    Ent-Ruben
-    contraseña: Ruben@2026
-
-Desde ahí puedes crear, editar y borrar noticias, y subir fotos. Al guardar, el
-panel escribe el JSON, copia la imagen a `images/noticias/` y regenera la web
-entera (listado, portada, páginas y sitemap).
-
-**Lo que el panel NO hace es publicar.** Cuando termines:
-
-```bash
-git add dominicosweb
-git commit -m "Noticias"
-git push
-```
-
-### Por qué el panel es local y no está en la web
-
-Puede parecer más cómodo tenerlo en `baloncestodominicos.es/admin`, pero ahí no
-funcionaría como panel de verdad:
-
-GitHub Pages **solo sirve archivos**; no ejecuta código. No hay nada al otro
-lado que pueda comprobar una contraseña. Un login publicado sería JavaScript
-que dice «si la clave es X, enseña el formulario» — y ese JavaScript lo lee
-cualquiera pulsando Ctrl+U. Lo mismo con Base64 o cualquier ofuscación: eso
-esconde la clave de una mirada rápida, no de quien la busque.
-
-Y hay un problema mayor: para que el panel guardara la noticia en el
-repositorio haría falta un **token de GitHub** dentro de la página. Quien lo
-copiara podría escribir en el repositorio, o borrarlo.
-
-Al correr en tu máquina hay un servidor real —el que arrancas tú— que comprueba
-la contraseña de verdad, y no hay ningún token en ninguna parte. Por eso
-`tools/` no se publica, y el workflow **se detiene** si alguna vez detecta el
-panel o la contraseña entre los archivos a publicar.
-
-Si en algún momento quieres publicar noticias desde el móvil, mira
-[la última sección](#si-algún-día-quieres-un-panel-online).
-
-### Cambiar la contraseña
-
-Está en `tools/admin.mjs`, arriba. También se puede cambiar sin tocar el
-código:
-
-```bash
-ADMIN_USER=otro ADMIN_PASS='otra clave' node tools/admin.mjs
-```
-
----
-
-## Lo corto (a mano)
+## Lo corto
 
 1. Crea `noticias/AAAA-MM-DD-nombre-corto.json` copiando el ejemplo de abajo.
 2. Sube la foto a `images/noticias/`.
@@ -186,7 +124,7 @@ Si tienes Node y Python a mano:
 
 ```bash
 cd dominicosweb
-node tools/generar-noticias.mjs   # crea las páginas y el índice
+node tools/generar-noticias.mjs   # crea las páginas y los listados
 python3 -m http.server 8000       # y abre http://localhost:8000
 ```
 

@@ -70,11 +70,8 @@ jobs:
           # Nada de PHP ni de JSON de noticias en lo publicado.
           test -z "$(find _site -name '*.php')"          || { echo "Hay PHP publicado"; exit 1; }
           test -z "$(find _site/noticias -name '*.json')" || { echo "Hay JSON de noticias publicado"; exit 1; }
-          # El panel de administración es una herramienta local y lleva la
-          # contraseña dentro: si alguna vez acabara en _site, quedaría
-          # publicada. Antes de que eso pase, se para la publicación.
-          test -z "$(find _site -name 'admin.*')"        || { echo "El panel de administración NO debe publicarse"; exit 1; }
-          grep -rql 'Ruben@2026' _site && { echo "Hay una contraseña en lo publicado"; exit 1; } || true
+          # tools/ son herramientas de trabajo, no forman parte de la web.
+          test -z "$(find _site -name '*.mjs')"          || { echo "Hay herramientas publicadas"; exit 1; }
           # El listado tiene que llevar dentro las noticias, no un hueco.
           grep -q 'ncard__link' _site/noticias.html \
             || { echo "noticias.html no lleva el listado dentro"; exit 1; }

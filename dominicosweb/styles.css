@@ -297,9 +297,13 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .lb__x:hover{background:rgba(255,255,255,.14)}
 @keyframes fade{from{opacity:0}}
 
-/* --- animación de entrada ------------------------------------------------ */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
-.reveal.is-in{opacity:1;transform:none}
+/* --- animación de entrada ------------------------------------------------
+   Va bajo `.js`, que pone un script del <head> antes de pintar. Sin esa
+   clase —JavaScript desactivado, bloqueado o que falla al cargar— los bloques
+   no se esconden y la web se lee entera. Antes se quedaban en opacity:0 para
+   siempre y no se veía absolutamente nada. */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+.js .reveal.is-in{opacity:1;transform:none}
 
 /* --- responsive ---------------------------------------------------------- */
 @media (max-width:900px){
@@ -328,7 +332,9 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   html{scroll-behavior:auto}
-  .reveal{opacity:1;transform:none}
+  /* Con la misma especificidad que `.js .reveal`, o no ganaría y el contenido
+     se quedaría escondido justo para quien pide menos movimiento. */
+  .js .reveal{opacity:1;transform:none}
 }
 
 /* --- corrección: el header se rompía entre 781 y 1000 px -----------------
@@ -495,3 +501,70 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
   .phero{padding-top:calc(88px + 28px)}
   .ncards{grid-template-columns:1fr}
 }
+
+/* ==========================================================================
+   CORRECCIÓN: la cabecera no se veía en tema claro sobre la foto
+   --------------------------------------------------------------------------
+   La barra arranca transparente y solo se le pone fondo al bajar 40 px
+   (.is-stuck). En la portada y en las noticias con foto de cabecera, debajo
+   hay una imagen oscurecida; pero sus textos usan --txt y --txt-2, que en el
+   tema claro son casi negros. Resultado: arriba del todo no se leía nada, y
+   al bajar un poco aparecía de golpe sobre el fondo blanco.
+
+   Mientras la barra está sobre la imagen —y solo entonces— usa los colores
+   claros que el tema oscuro ya tenía. En cuanto se pega (.is-stuck) o se abre
+   el menú (.menu-abierto, que pone script.js) vuelve a mandar el tema, porque
+   ahí el fondo ya es sólido.
+
+   Se aplica solo en las páginas marcadas con <body class="nav-sobre-media">:
+   la portada y las noticias que llevan foto. En el resto la barra nace sobre
+   un fondo normal y no hay nada que corregir.
+   ========================================================================== */
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .brand__txt b{color:#fff}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .brand__txt small{color:rgba(255,255,255,.78)}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .menu a{color:rgba(255,255,255,.84)}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .menu a:hover,
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .menu a.is-active{color:#fff}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .icon-btn{
+  border-color:rgba(255,255,255,.32);background:rgba(255,255,255,.12);color:#fff;
+}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .icon-btn:hover{border-color:#fff}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .burger{
+  border-color:rgba(255,255,255,.32);background:rgba(255,255,255,.12);
+}
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .burger span{background:#fff}
+
+/* El escudo es un JPG con fondo blanco recortado en círculo: sobre la foto
+   necesita un borde que lo separe, o parece una mancha. */
+.nav-sobre-media .nav:not(.is-stuck):not(.menu-abierto) .brand img{
+  box-shadow:0 0 0 1px rgba(255,255,255,.25);
+}
+
+/* --------------------------------------------------------------------------
+   CORRECCIÓN: «Noticia anterior / siguiente» cuando solo hay una
+   La rejilla es de dos columnas. En la primera y en la última noticia solo
+   hay un vecino, y la tarjeta se quedaba ocupando media fila, con el texto
+   pegado a un lado y el otro medio vacío. Si va sola, ocupa el ancho entero.
+   -------------------------------------------------------------------------- */
+.adjacent__it:only-child{grid-column:1 / -1}
+
+/* --------------------------------------------------------------------------
+   CORRECCIÓN: «Ven a jugar» se quedaba sin relleno en el menú de hamburguesa
+   En las dos franjas con menú desplegable hay un `.menu a{padding:10px 0}`
+   que, por especificidad (0,1,1), gana al `.menu__cta{padding:12px 26px}`
+   (0,1,0) que va justo debajo. La píldora roja acababa pegada al texto, sin
+   aire a los lados. Se devuelve el relleno con la especificidad necesaria.
+   -------------------------------------------------------------------------- */
+@media (max-width:1000px){
+  .menu a.menu__cta{padding:12px 26px}
+}
+
+/* --------------------------------------------------------------------------
+   CORRECCIÓN: con el menú móvil abierto, el botón de tema quedaba tapado
+   El panel desplegable es `position:fixed` y las herramientas de la derecha
+   eran estáticas, así que el panel se pintaba por encima: el botón de cambiar
+   tema desaparecía y de la hamburguesa solo se veían las tres barras (que sí
+   suben, porque llevan `transform`), sin su recuadro. Basta con ponerlas en
+   la capa de arriba.
+   -------------------------------------------------------------------------- */
+.nav__tools{position:relative;z-index:1}

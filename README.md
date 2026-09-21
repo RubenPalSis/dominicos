@@ -18,10 +18,8 @@ publicada en GitHub Pages sobre `baloncestodominicos.es`.
 │   ├── images/                fotos del sitio
 │   │   └── noticias/          fotos de las noticias
 │   ├── noticias/              una noticia = un .json  (+ el .html generado)
-│   ├── tools/                 herramientas locales, NO se publican
-│   │   ├── generar-noticias.mjs
-│   │   ├── admin.mjs          panel de noticias (servidor local)
-│   │   └── admin.html
+│   ├── tools/                 herramienta local, NO se publica
+│   │   └── generar-noticias.mjs
 │   └── NOTICIAS.md            cómo publicar una noticia
 │
 └── baloncestodominicos.es/    copia de la web antigua (Divi), solo consulta
@@ -29,19 +27,11 @@ publicada en GitHub Pages sobre `baloncestodominicos.es`.
 
 ## Publicar una noticia
 
-Con el panel:
+Se crea un archivo JSON en `dominicosweb/noticias/`, se sube la foto a
+`dominicosweb/images/noticias/` y se hace commit y push. La página de la
+noticia, el listado, las tres de la portada y el sitemap se generan solos.
 
-```bash
-cd dominicosweb
-node tools/admin.mjs        # y abre http://127.0.0.1:4321
-```
-
-O a mano, creando un JSON en `dominicosweb/noticias/`. En los dos casos, para
-que se vea en internet hay que hacer commit y push.
-
-El panel corre **solo en local**, porque GitHub Pages no ejecuta código y una
-contraseña metida en el JavaScript de una web estática no protege nada. Está
-explicado, con las alternativas si se quisiera online, en
+Paso a paso, con la tabla de campos, en
 [dominicosweb/NOTICIAS.md](dominicosweb/NOTICIAS.md).
 
 ## Publicación

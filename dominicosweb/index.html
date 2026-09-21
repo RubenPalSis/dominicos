@@ -42,6 +42,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
+<!-- Marca que hay JavaScript ANTES de pintar. El CSS solo esconde los
+     bloques animados si esta clase está: sin JS se ven directamente, en vez
+     de quedarse invisibles para siempre. -->
+<script>document.documentElement.classList.add('js')</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -77,7 +82,7 @@
 }
 </script>
 </head>
-<body>
+<body class="nav-sobre-media">
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -87,7 +92,7 @@
   <div class="nav__in">
     <a class="brand" href="#top">
       <img src="images/logo.jpg" alt="Escudo CB Dominicos Zaragoza" width="44" height="44">
-      <span><b>Dominicos</b><small>Zaragoza · Baloncesto</small></span>
+      <span class="brand__txt"><b>Dominicos</b><small>Zaragoza · Baloncesto</small></span>
     </a>
 
     <nav class="menu" id="menu" aria-label="Principal">

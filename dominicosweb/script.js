@@ -34,12 +34,16 @@
     if (!menu || !burger) return;
     menu.classList.remove('is-open');
     burger.setAttribute('aria-expanded', 'false');
+    if (nav) nav.classList.remove('menu-abierto');
   }
 
   if (burger && menu) {
     burger.addEventListener('click', function () {
       var open = menu.classList.toggle('is-open');
       burger.setAttribute('aria-expanded', String(open));
+      /* Con el panel abierto el fondo ya es sólido, así que la cabecera deja
+         de necesitar los colores claros que usa sobre la foto. */
+      if (nav) nav.classList.toggle('menu-abierto', open);
     });
     $$('#menu a').forEach(function (a) { a.addEventListener('click', closeMenu); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });

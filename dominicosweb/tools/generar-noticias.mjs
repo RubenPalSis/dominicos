@@ -297,15 +297,15 @@ function tarjetaNoticia(n) {
 
   return `        <article class="ncard reveal">
           <a class="ncard__link" href="noticias/${esc(n.slug)}.html">
-            <span class="ncard__media">
+            <div class="ncard__media">
               <img loading="lazy" decoding="async" src="${esc(img)}" alt="${esc(n.imagenAlt)}" width="600" height="400">
-${n.categoria ? `              <span class="tag ncard__tag">${esc(n.categoria)}</span>\n` : ''}            </span>
-            <span class="ncard__body">
+${n.categoria ? `              <span class="tag ncard__tag">${esc(n.categoria)}</span>\n` : ''}            </div>
+            <div class="ncard__body">
               <span class="news__d"><time datetime="${esc(n.fecha)}">${esc(n.fechaTexto)}</time></span>
               <h2 class="ncard__h">${esc(n.titulo)}</h2>
               <span class="ncard__p">${esc(n.descripcion)}</span>
 ${n.mencion ? `              <span class="news__by">${esc(n.mencion)}</span>\n` : ''}              <span class="news__go">Leer</span>
-            </span>
+            </div>
           </a>
         </article>`;
 }
@@ -454,8 +454,14 @@ ${noticia.fechaModificacion ? `<meta property="article:modified_time" content="$
 <script type="application/ld+json">
 ${escJson(jsonLd)}
 </script>
+
+<!-- Marca que hay JavaScript antes de pintar: sin esto, el CSS de las
+     animaciones dejaría el contenido invisible si el script no corre. -->
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<!-- Con foto de cabecera, la barra arranca sobre una imagen oscura y necesita
+     colores claros aunque el tema sea claro. Sin foto, no. -->
+<body${noticia.imagen ? ' class="nav-sobre-media"' : ''}>
 
 ${cabecera(base)}
 

@@ -90,8 +90,14 @@
   ]
 }
 </script>
+
+<!-- Marca que hay JavaScript antes de pintar: sin esto, el CSS de las
+     animaciones dejaría el contenido invisible si el script no corre. -->
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<!-- Con foto de cabecera, la barra arranca sobre una imagen oscura y necesita
+     colores claros aunque el tema sea claro. Sin foto, no. -->
+<body class="nav-sobre-media">
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 

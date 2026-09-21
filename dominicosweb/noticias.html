@@ -29,6 +29,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
+<!-- Marca que hay JavaScript antes de pintar: sin esto, el CSS de las
+     animaciones dejaría el contenido invisible si el script no corre. -->
+<script>document.documentElement.classList.add('js')</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -107,44 +111,44 @@
       <!-- NOTICIAS:INICIO -->
         <article class="ncard reveal">
           <a class="ncard__link" href="noticias/dia-del-deporte-bajo-aragon.html">
-            <span class="ncard__media">
+            <div class="ncard__media">
               <img loading="lazy" decoding="async" src="images/benjamin.jpg" alt="Equipo benjamín del CB Dominicos" width="600" height="400">
               <span class="tag ncard__tag">Competición</span>
-            </span>
-            <span class="ncard__body">
+            </div>
+            <div class="ncard__body">
               <span class="news__d"><time datetime="2022-06-11">11 jun 2022</time></span>
               <h2 class="ncard__h">Benjamín y Cadete en el Día del Deporte del Bajo Aragón</h2>
               <span class="ncard__p">Jornada completa de partidos y convivencia con clubes de la comarca.</span>
               <span class="news__go">Leer</span>
-            </span>
+            </div>
           </a>
         </article>
         <article class="ncard reveal">
           <a class="ncard__link" href="noticias/infantil-final-four-copa-primavera.html">
-            <span class="ncard__media">
+            <div class="ncard__media">
               <img loading="lazy" decoding="async" src="images/infantil.jpg" alt="Equipo infantil del CB Dominicos" width="600" height="400">
               <span class="tag ncard__tag">Competición</span>
-            </span>
-            <span class="ncard__body">
+            </div>
+            <div class="ncard__body">
               <span class="news__d"><time datetime="2022-06-11">11–12 jun 2022</time></span>
               <h2 class="ncard__h">El Infantil, en la Final Four de la Copa Primavera</h2>
               <span class="ncard__p">Dos días de competición para cerrar la temporada por todo lo alto.</span>
               <span class="news__go">Leer</span>
-            </span>
+            </div>
           </a>
         </article>
         <article class="ncard reveal">
           <a class="ncard__link" href="noticias/torneo-de-cuarte.html">
-            <span class="ncard__media">
+            <div class="ncard__media">
               <img loading="lazy" decoding="async" src="images/cadete.jpg" alt="Equipo cadete del CB Dominicos" width="600" height="400">
               <span class="tag ncard__tag">Competición</span>
-            </span>
-            <span class="ncard__body">
+            </div>
+            <div class="ncard__body">
               <span class="news__d"><time datetime="2022-04-22">22 abr 2022</time></span>
               <h2 class="ncard__h">Torneo de Cuarte</h2>
               <span class="ncard__p">Otro clásico del calendario del club, con varios equipos desplazados.</span>
               <span class="news__go">Leer</span>
-            </span>
+            </div>
           </a>
         </article>
       <!-- NOTICIAS:FIN -->
