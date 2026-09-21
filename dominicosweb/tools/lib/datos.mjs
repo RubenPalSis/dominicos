@@ -91,6 +91,9 @@ function leerSitio(raiz, avisa) {
     formspree: String(d.formspree || 'TU_ID_DE_FORMSPREE'),
     googleSiteVerification: String(d.googleSiteVerification || ''),
     legal: String(d.legal || ''),
+    autor: d.autor && d.autor.nombre
+      ? { nombre: String(d.autor.nombre), url: enlaceSeguro(d.autor.url) }
+      : null,
     descripcionApp: String(d.descripcionApp || ''),
     colorTema: String(d.colorTema || '#e01f26'),
     colorFondo: String(d.colorFondo || '#0b0c0f'),

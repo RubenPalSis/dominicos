@@ -181,6 +181,14 @@ components:
             fields:
               - { name: texto, label: Texto, type: string }
               - { name: asunto, label: Asunto del correo, type: string }
+          - name: pasos
+            label: Pasos para apuntarse
+            type: object
+            list: true
+            description: "Se numeran solos, en el orden en que estén aquí."
+            fields:
+              - { name: titulo, label: Paso, type: string }
+              - { name: texto, label: Explicación, type: text }
           - name: documentos
             label: Fichas
             type: object
@@ -291,7 +299,7 @@ content:
       - { name: imagenAlt, label: Qué se ve en la foto, type: string, description: "Para quien no puede verla y para los buscadores. Ponlo siempre que haya foto." }
       - { name: categoria, label: Categoría, type: select, options: { values: [Competición, Club, Escuela, Cantera, Eventos] }, description: "La etiqueta roja sobre la foto." }
       - { name: autor, label: Firma, type: string, default: CB Dominicos Zaragoza }
-      - { name: enlace, label: Enlace del botón, type: string, pattern: { regex: '^https?://.+', message: "Tiene que empezar por http:// o https://" }, description: "Opcional. Pone un botón al final de la noticia." }
+      - { name: enlace, label: Enlace del botón, type: string, pattern: { regex: '^$|^https?://.+', message: "Déjalo vacío o empieza por http:// o https://" }, description: "Opcional. Pone un botón al final de la noticia." }
       - { name: textoEnlace, label: Texto del botón, type: string, description: "Si se deja vacío, pone «Más información»." }
       - { name: mencion, label: Mención, type: string, description: "Una línea de agradecimiento o de crédito." }
       - { name: fechaTexto, label: Fecha escrita a mano, type: string, description: "Solo si la automática no sirve, p. ej. «11–12 jun 2022»." }
@@ -359,9 +367,16 @@ content:
           - { name: formspree, label: Id del formulario de Formspree, type: string, description: "Se saca de formspree.io → tu formulario → Integration. Es público: va en el HTML a la vista y no es un secreto." }
           - { name: googleSiteVerification, label: Código de Google Search Console, type: string, description: "Solo si verificas por «Etiqueta HTML». Pega aquí el valor de «content», no la etiqueta entera." }
           - { name: legal, label: Línea legal del pie, type: string }
+          - name: autor
+            label: Quién hizo la web
+            type: object
+            description: "Sale en el pie como «Página web creada por…». Déjalo vacío para no enseñarlo."
+            fields:
+              - { name: nombre, label: Nombre, type: string }
+              - { name: url, label: Enlace, type: string, pattern: { regex: '^$|^https?://.+', message: "Déjalo vacío o empieza por http:// o https://" } }
           - { name: descripcionApp, label: Descripción al instalar la web en el móvil, type: text }
-          - { name: colorTema, label: Color principal, type: string, pattern: { regex: '^#[0-9a-fA-F]{6}$', message: "Un color como #e01f26" } }
-          - { name: colorFondo, label: Color de fondo, type: string, pattern: { regex: '^#[0-9a-fA-F]{6}$', message: "Un color como #0b0c0f" } }
+          - { name: colorTema, label: Color principal, type: string, pattern: { regex: '^$|^#[0-9a-fA-F]{6}$', message: "Déjalo vacío o pon un color como #e01f26" } }
+          - { name: colorFondo, label: Color de fondo, type: string, pattern: { regex: '^$|^#[0-9a-fA-F]{6}$', message: "Déjalo vacío o pon un color como #0b0c0f" } }
 
       - name: menu
         label: Menú
@@ -421,8 +436,8 @@ content:
             label: Clave de la vista previa
             type: string
             pattern:
-              regex: '^[a-z0-9-]+$'
-              message: Solo minúsculas, números y guiones
+              regex: '^$|^[a-z0-9-]+$'
+              message: Déjalo vacío o usa solo minúsculas, números y guiones
             description: >-
               La web estará en /vista-previa/LA-CLAVE/. Cámbiala de vez en
               cuando. No es una contraseña: el repositorio es público y quien

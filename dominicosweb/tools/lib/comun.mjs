@@ -160,6 +160,15 @@ export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } 
       ${enlaces}
     </nav>
     <p class="foot__legal">© <span id="year">${new Date().getFullYear()}</span> ${esc(sitio.nombre)}${sitio.legal ? ' · ' + esc(sitio.legal) : ''}</p>
+${
+  sitio.autor
+    ? `    <p class="foot__autor">Página web creada por ${
+        sitio.autor.url
+          ? `<a href="${esc(sitio.autor.url)}" target="_blank" rel="noopener">${esc(sitio.autor.nombre)}</a>`
+          : esc(sitio.autor.nombre)
+      }</p>\n`
+    : ''
+}
   </div>
 </footer>
 

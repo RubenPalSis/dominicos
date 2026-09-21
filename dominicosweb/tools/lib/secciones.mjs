@@ -287,6 +287,16 @@ function inscripciones(s, ctx) {
     })
     .join('\n');
 
+  /* Los pasos van numerados por CSS, de ahí que sea <ol>: el orden es el
+     contenido, no un adorno. */
+  const pasos = (s.pasos || [])
+    .filter((p) => p && (p.titulo || p.texto))
+    .map(
+      (p) => `            <li>
+${p.titulo ? `              <b>${esc(p.titulo)}</b>\n` : ''}${p.texto ? `              <p>${esc(p.texto)}</p>\n` : ''}            </li>`
+    )
+    .join('\n');
+
   const b = s.boton && s.boton.texto
     ? boton(
         {
@@ -298,13 +308,19 @@ function inscripciones(s, ctx) {
       )
     : '';
 
-  /* La columna derecha lleva las fichas y el formulario, lo que haya. Van
-     dentro de un mismo bloque para que, si están los dos, se apilen en esa
-     columna en vez de descolocar la rejilla. */
-  const derecha =
-    docs || s.formulario
-      ? `        <div class="cta__r">
-${docs ? `          <ul class="docs">\n${docs}\n          </ul>\n` : ''}${s.formulario ? formulario(s.formulario, ctx) : ''}        </div>\n`
+  const izquierda =
+    (pasos ? `          <ol class="pasos">\n${pasos}\n          </ol>\n` : '') +
+    (docs ? `          <ul class="docs">\n${docs}\n          </ul>\n` : '') +
+    (b ? `          ${b}\n` : '');
+
+  const form = s.formulario ? formulario(s.formulario, ctx) : '';
+
+  /* Las dos columnas solo se montan si hay algo que poner en ellas. Con una
+     sola, ocupa el ancho entero en vez de dejar media rejilla en blanco. */
+  const columnas =
+    izquierda || form
+      ? `        <div class="cta__cols${izquierda && form ? '' : ' cta__cols--una'}">
+${izquierda ? `          <div class="cta__l">\n${izquierda}          </div>\n` : ''}${form}        </div>\n`
       : '';
 
   /* Y debajo de todo, cruzando el ancho, cómo localizar al club. */
@@ -316,11 +332,11 @@ ${docs ? `          <ul class="docs">\n${docs}\n          </ul>\n` : ''}${s.form
     ['inscrip'],
     `    <div class="wrap">
       <div class="cta reveal">
-        <div class="cta__l">
+        <header class="cta__head">
 ${s.kicker ? `          <p class="kicker kicker--on">${esc(s.kicker)}</p>\n` : ''}          <h2 class="h2 h2--xl">${tituloDeDosLineas(s)}</h2>
 ${parrafos(s.parrafos, 'lead', '          ')}
-${b ? `          ${b}\n` : ''}        </div>
-${derecha}${datos}      </div>
+        </header>
+${columnas}${datos}      </div>
     </div>`
   );
 }
