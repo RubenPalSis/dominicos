@@ -179,7 +179,7 @@
       },
       "boton": {
         "texto": "Preguntar horarios",
-        "destino": "#contacto"
+        "destino": "#inscripciones"
       },
       "foto": {
         "imagen": "images/instalaciones.jpg",
@@ -224,16 +224,6 @@
       ],
       "documentos": [],
       "formulario": {
-        "categorias": [
-          "Escuela",
-          "Benjamín",
-          "Alevín",
-          "Preinfantil",
-          "Infantil",
-          "Cadete",
-          "Junior",
-          "Senior Femenino"
-        ],
         "asunto": "Inscripción desde baloncestodominicos.es"
       },
       "mostrarEmail": true,
@@ -242,17 +232,6 @@
         "texto": "622 70 81 07"
       },
       "mostrarRedes": true
-    },
-    {
-      "tipo": "contacto",
-      "id": "contacto",
-      "kicker": "Contacto",
-      "titulo": "Escríbenos",
-      "parrafos": [
-        "Para dudas sobre equipos, horarios, inscripciones o cualquier otra cosa."
-      ],
-      "mostrarEmail": false,
-      "mostrarRedes": false
     }
   ]
 }
