@@ -63,9 +63,12 @@ jobs:
 
       - name: Comprobar que está todo
         run: |
-          for f in index.html noticias.html 404.html styles.css script.js \
-                   robots.txt sitemap.xml manifest.webmanifest \
-                   CNAME images/logo.jpg; do
+          EN_OBRAS=$(node -p "require('./dominicosweb/datos/mantenimiento.json').activo === true" 2>/dev/null || echo false)
+          echo "Modo mantenimiento: $EN_OBRAS"
+
+          # Esto tiene que estar siempre, se esté en obras o no.
+          for f in index.html 404.html styles.css script.js \
+                   robots.txt manifest.webmanifest CNAME images/logo.jpg; do
             test -f "_site/$f" || { echo "FALTA _site/$f"; exit 1; }
           done
 
@@ -76,16 +79,35 @@ jobs:
           for dir in datos paginas tools; do
             test ! -d "_site/$dir" || { echo "Se publica _site/$dir y no debería"; exit 1; }
           done
-          test -z "$(find _site/noticias -name '*.json')" || { echo "Hay JSON de noticias publicado"; exit 1; }
+          test -z "$(find _site -name '*.json' -path '*noticias*')" || { echo "Hay JSON de noticias publicado"; exit 1; }
 
-          # El listado tiene que llevar dentro las noticias, no un hueco, y la
-          # portada tiene que llevar sus secciones: si el generador fallara en
-          # silencio, saldrían páginas vacías con aspecto de estar bien.
-          grep -q 'ncard__link' _site/noticias.html || { echo "noticias.html no lleva el listado dentro"; exit 1; }
-          grep -q 'id="contacto"' _site/index.html  || { echo "index.html no lleva sus secciones"; exit 1; }
-
-          echo "Páginas de noticias: $(ls _site/noticias/*.html | wc -l)"
-          echo "Páginas sueltas:     $(( $(ls _site/*.html | wc -l) - 3 ))"
+          if [ "$EN_OBRAS" = "true" ]; then
+            # En obras, la raíz es solo el cartel y la web vive bajo la carpeta
+            # con clave. Que la portada pública NO lleve la web es justo lo que
+            # se quiere comprobar: si se colara, el mantenimiento no serviría.
+            grep -q 'content="noindex"' _site/index.html \
+              || { echo "El cartel de mantenimiento debería llevar noindex"; exit 1; }
+            ! grep -q 'id="contacto"' _site/index.html \
+              || { echo "La portada pública lleva la web entera estando en obras"; exit 1; }
+            test ! -f _site/noticias.html \
+              || { echo "El listado sigue en la raíz estando en obras"; exit 1; }
+            test -d _site/vista-previa \
+              || { echo "FALTA la carpeta de vista previa"; exit 1; }
+            grep -rq 'ncard__link' _site/vista-previa/*/noticias.html \
+              || { echo "La vista previa no lleva el listado"; exit 1; }
+            echo "Vista previa en: /$(cd _site && find vista-previa -mindepth 1 -maxdepth 1 -type d | head -1)/"
+          else
+            test -f _site/noticias.html || { echo "FALTA _site/noticias.html"; exit 1; }
+            test -f _site/sitemap.xml  || { echo "FALTA _site/sitemap.xml"; exit 1; }
+            test ! -d _site/vista-previa \
+              || { echo "Se publica la vista previa fuera del modo obras"; exit 1; }
+            # El listado tiene que llevar dentro las noticias, no un hueco, y la
+            # portada tiene que llevar sus secciones: si el generador fallara en
+            # silencio, saldrían páginas vacías con aspecto de estar bien.
+            grep -q 'ncard__link' _site/noticias.html || { echo "noticias.html no lleva el listado dentro"; exit 1; }
+            grep -q 'id="contacto"' _site/index.html  || { echo "index.html no lleva sus secciones"; exit 1; }
+            echo "Páginas de noticias: $(ls _site/noticias/*.html | wc -l)"
+          fi
 
       - uses: actions/configure-pages@v5
 

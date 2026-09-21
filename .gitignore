@@ -45,8 +45,21 @@ Thumbs.db
 .vscode/*
 !.vscode/settings.json
 
-# NO se ignora nada de dominicosweb/: ahí está la web que publica GitHub
-# Pages (index.html, noticias.html, 404.html, styles.css, script.js,
-# noticias.js, robots.txt, sitemap.xml, manifest.webmanifest, images/,
-# noticias/, tools/ y CNAME). Si algo de eso se ignorara, dejaría de
-# publicarse.
+# Lo que genera tools/generar.mjs. No se versiona: se reconstruye entero en
+# cada publicación, a partir de los archivos de datos. Tenerlo aquí además
+# solo servía para guardar copias viejas: cuando alguien edita desde el panel,
+# el workflow regenera y publica, pero no commitea nada de vuelta, así que la
+# copia del repositorio se quedaba desfasada respecto a la web publicada.
+#
+# Para verlo en local: cd dominicosweb && node tools/generar.mjs
+dominicosweb/*.html
+dominicosweb/noticias/*.html
+dominicosweb/vista-previa/
+dominicosweb/sitemap.xml
+dominicosweb/robots.txt
+dominicosweb/manifest.webmanifest
+dominicosweb/CNAME
+
+# Lo demás de dominicosweb/ SÍ se versiona: es la fuente de la que sale la
+# web (datos/, paginas/, noticias/*.json, images/, documentos/, styles.css,
+# script.js y tools/). Si algo de eso se ignorara, dejaría de publicarse.

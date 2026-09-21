@@ -19,7 +19,8 @@ son datos en JSON; todo el HTML se genera.**
 │   │   ├── menu.json          menú de arriba y del pie
 │   │   ├── portada.json       las secciones de la portada
 │   │   ├── pagina-noticias.json  textos de la cabecera del listado
-│   │   └── error404.json      la página de error
+│   │   ├── error404.json      la página de error
+│   │   └── mantenimiento.json interruptor de «volvemos enseguida»
 │   ├── paginas/               una página suelta = un .json
 │   ├── noticias/              una noticia = un .json
 │   ├── images/                fotos del sitio
@@ -37,12 +38,13 @@ son datos en JSON; todo el HTML se genera.**
 │   │       ├── secciones.mjs  un renderizador por tipo de sección
 │   │       └── noticias.mjs   tarjetas, listado y página de cada noticia
 │   │
-│   │   ── GENERADO: no editar, se sobreescribe ──
+│   │   ── GENERADO: no está en git, se reconstruye al publicar ──
 │   ├── index.html             portada
 │   ├── noticias.html          listado de noticias
 │   ├── 404.html               página no encontrada
 │   ├── <pagina>.html          una por cada paginas/<pagina>.json
 │   ├── noticias/<slug>.html   una por cada noticia
+│   ├── vista-previa/<clave>/  la web entera, solo en modo mantenimiento
 │   ├── sitemap.xml
 │   ├── robots.txt
 │   ├── manifest.webmanifest
@@ -87,6 +89,32 @@ en [EDITAR.md](dominicosweb/EDITAR.md#montar-el-panel).
 Si se añade solo en un sitio no pasa nada malo: el panel pedirá un dato que
 nadie pinta, o el generador buscará un dato que nadie rellena y lo dejará
 vacío. Pero no hará lo que se espera.
+
+### Modo mantenimiento
+
+`datos/mantenimiento.json` tiene un interruptor. Con `activo: true`, el
+generador escribe en la raíz un cartel de «volvemos enseguida» —en
+`index.html` y en `404.html`, que es como GitHub Pages sirve cualquier
+dirección que no exista— y publica la web entera bajo
+`vista-previa/<clave>/`.
+
+Esa copia se genera con dos diferencias respecto a la normal: los enlaces
+internos llevan delante `/vista-previa/<clave>`, de modo que navegar por ella
+no te devuelve al cartel, y todas sus páginas van con `noindex` y sin
+`canonical`, para que no compitan con las de verdad. El `robots.txt` también
+la excluye, y el `sitemap.xml` no se publica mientras dura.
+
+Al apagar el interruptor, la carpeta desaparece y todo vuelve a su sitio.
+
+### El HTML no está en git
+
+Lo genera el workflow en cada publicación, así que versionarlo solo servía
+para guardar copias viejas: cuando alguien edita desde el panel, CI regenera y
+publica pero no commitea nada de vuelta, y la copia del repositorio se quedaba
+desfasada respecto a la web publicada.
+
+En el repositorio están las fuentes; en la web, el resultado. Para verlo en
+local hay que ejecutar el generador (ver [Desarrollo](#desarrollo)).
 
 ### Lo que el generador garantiza
 

@@ -3,11 +3,11 @@
  * completa de cada una, con su SEO y sus datos estructurados.
  */
 
-import { esc, documento, limpiaRuta } from './comun.mjs';
+import { esc, documento, limpiaRuta, enlaceInterno } from './comun.mjs';
 
 /** Tarjeta del listado de noticias.html. */
-export function tarjetaNoticia(n, sitio) {
-  const img = n.imagen || sitio.logo;
+export function tarjetaNoticia(n, sitio, base = '') {
+  const img = base + (n.imagen || sitio.logo);
 
   return `        <article class="ncard reveal">
           <a class="ncard__link" href="noticias/${esc(n.slug)}.html">
@@ -35,8 +35,7 @@ export function filaNoticia(n) {
 }
 
 /** La página de una noticia. */
-export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu }) {
-  const base = '../';
+export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu, prefijo = '', base = '../', enObras = false }) {
   const url = `${sitio.dominio}/noticias/${noticia.slug}.html`;
   const imagen = noticia.imagen || sitio.logo;
   const imagenAbs = `${sitio.dominio}/${limpiaRuta(imagen)}`;
@@ -115,14 +114,14 @@ export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu }) {
   const nav = [];
 
   if (anterior) {
-    nav.push(`<a class="adjacent__it" href="/noticias/${esc(anterior.slug)}.html" rel="prev">
+    nav.push(`<a class="adjacent__it" href="${enlaceInterno('/noticias/' + esc(anterior.slug) + '.html', prefijo)}" rel="prev">
             <span class="news__d">Noticia anterior</span>
             <b>${esc(anterior.titulo)}</b>
           </a>`);
   }
 
   if (siguiente) {
-    nav.push(`<a class="adjacent__it adjacent__it--next" href="/noticias/${esc(siguiente.slug)}.html" rel="next">
+    nav.push(`<a class="adjacent__it adjacent__it--next" href="${enlaceInterno('/noticias/' + esc(siguiente.slug) + '.html', prefijo)}" rel="next">
             <span class="news__d">Noticia siguiente</span>
             <b>${esc(siguiente.titulo)}</b>
           </a>`);
@@ -146,7 +145,7 @@ ${
 `
     : ''
 }      <div class="wrap phero__in">
-        <a class="phero__back" href="/noticias.html">&larr; Noticias</a>
+        <a class="phero__back" href="${enlaceInterno('/noticias.html', prefijo)}">&larr; Noticias</a>
         <p class="kicker">${esc(noticia.categoria || 'Noticias')}</p>
         <h1 class="h2">${esc(noticia.titulo)}</h1>
         <p class="lead">${esc(noticia.descripcion)}</p>
@@ -177,17 +176,21 @@ ${
     sitio,
     menu,
     base,
+    prefijo,
     titulo: `${noticia.titulo} — ${sitio.nombre}`,
     /* Al compartir se ve el titular a secas: el nombre del club ya va en
        og:site_name, y repetirlo come el espacio que WhatsApp da al titular. */
     tituloCompartir: noticia.titulo,
     descripcion: noticia.descripcion,
-    canonical: url,
+    /* En vista previa la página no es la de verdad: no se anuncia como
+       canónica de nada y se pide que no se indexe. */
+    canonical: enObras ? '' : url,
+    robots: enObras ? 'noindex' : '',
     tipoOg: 'article',
     imagenCompartir: imagen,
     imagenCompartirAlt: noticia.imagenAlt,
-    metasExtra,
-    jsonLd,
+    metasExtra: enObras ? [] : metasExtra,
+    jsonLd: enObras ? null : jsonLd,
     /* Con foto de cabecera, la barra arranca sobre una imagen oscura y
        necesita colores claros aunque el tema sea claro. Sin foto, no. */
     claseBody: noticia.imagen ? 'nav-sobre-media' : '',

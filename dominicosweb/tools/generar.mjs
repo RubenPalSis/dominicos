@@ -23,11 +23,11 @@
  * de publicar, así que si se olvida ejecutarlo a mano no pasa nada.
  */
 
-import { readdirSync, readFileSync, writeFileSync, unlinkSync, existsSync, mkdirSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, unlinkSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { esc, documento, destino, boton, limpiaRuta } from './lib/comun.mjs';
+import { esc, documento, destino, boton, limpiaRuta, enlaceInterno } from './lib/comun.mjs';
 import { leerTodo } from './lib/datos.mjs';
 import { pintarSecciones } from './lib/secciones.mjs';
 import { tarjetaNoticia, filaNoticia, paginaNoticia } from './lib/noticias.mjs';
@@ -35,6 +35,23 @@ import { tarjetaNoticia, filaNoticia, paginaNoticia } from './lib/noticias.mjs';
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 const { sitio, menu, portada, paginas, noticias, errores } = leerTodo(RAIZ);
+
+/* El interruptor de mantenimiento. Cuando está puesto, el público ve un
+   cartel en cualquier dirección del sitio y la web de verdad se publica
+   entera bajo una carpeta con clave, para poder repasarla antes de
+   enseñarla. La clave no es una contraseña: el repositorio es público y
+   cualquiera que lo lea la encontrará. Sirve para que nadie dé con la
+   vista previa por casualidad, no para esconderla. */
+const rutaMant = join(RAIZ, 'datos', 'mantenimiento.json');
+const mant = existsSync(rutaMant) ? JSON.parse(readFileSync(rutaMant, 'utf8')) : {};
+const EN_OBRAS = mant.activo === true;
+const CLAVE = String(mant.clave || '').replace(/[^a-z0-9-]/gi, '') || 'vista-previa';
+
+/* La carpeta siempre cuelga de «vista-previa/», para poder ignorarla entera
+   en git sin depender de cuál sea la clave del momento. */
+const CARPETA_PREVIA = `vista-previa/${CLAVE}`;
+const PREFIJO = EN_OBRAS ? `/${CARPETA_PREVIA}` : '';
+const BASE = EN_OBRAS ? '/' : '';
 
 if (errores.length) {
   console.error('\nNo se ha generado nada. Corrige esto primero:\n');
@@ -64,8 +81,9 @@ const sinNoticias = '        <p class="nstate">Todavía no hay noticias publicad
 function construyePortada() {
   const ctx = {
     sitio,
-    base: '',
+    base: BASE,
     enPortada: true,
+    prefijo: PREFIJO,
     filasNoticias: noticias.length ? noticias.slice(0, EN_PORTADA).map(filaNoticia).join('\n') : sinNoticias,
   };
 
@@ -103,12 +121,14 @@ function construyePortada() {
   return documento({
     sitio,
     menu,
-    base: '',
+    base: BASE,
     enPortada: true,
+    prefijo: PREFIJO,
     titulo: portada.titulo,
     descripcion: portada.descripcion,
     descripcionCompartir: portada.descripcionCompartir,
-    canonical: `${sitio.dominio}/`,
+    canonical: EN_OBRAS ? '' : `${sitio.dominio}/`,
+    robots: EN_OBRAS ? 'noindex' : '',
     imagenCompartir: sitio.imagenCompartir,
     jsonLd,
     claseBody: sobreFoto ? 'nav-sobre-media' : '',
@@ -150,13 +170,13 @@ function construyeListado() {
     ],
   };
 
-  const tarjetas = noticias.length ? noticias.map((n) => tarjetaNoticia(n, sitio)).join('\n') : sinNoticias;
+  const tarjetas = noticias.length ? noticias.map((n) => tarjetaNoticia(n, sitio, BASE)).join('\n') : sinNoticias;
 
   const main = `<main id="main">
 
   <section class="phero">
     <div class="wrap phero__in">
-      <a class="phero__back" href="/">&larr; Inicio</a>
+      <a class="phero__back" href="${enlaceInterno('/', PREFIJO)}">&larr; Inicio</a>
       <p class="kicker">${esc(d.kicker || 'Actualidad')}</p>
       <h1 class="h2">${esc(d.titulo || 'Noticias')}</h1>
       <p class="lead">${esc(d.descripcion || '')}</p>
@@ -176,11 +196,14 @@ ${tarjetas}
   return documento({
     sitio,
     menu,
+    base: BASE,
+    prefijo: PREFIJO,
     titulo,
     descripcion,
-    canonical: url,
+    canonical: EN_OBRAS ? '' : url,
+    robots: EN_OBRAS ? 'noindex' : '',
     descripcionCompartir: resumen,
-    jsonLd,
+    jsonLd: EN_OBRAS ? null : jsonLd,
     main,
     imagenCompartir: sitio.imagenCompartir,
   });
@@ -192,11 +215,11 @@ ${tarjetas}
 
 function construyePagina(p) {
   const url = `${sitio.dominio}/${p.slug}.html`;
-  const ctx = { sitio, base: '', enPortada: false, filasNoticias: sinNoticias };
+  const ctx = { sitio, base: BASE, enPortada: false, prefijo: PREFIJO, filasNoticias: sinNoticias };
 
   const media = p.imagen
     ? `    <div class="phero__media">
-      <img src="${esc(p.imagen)}" alt="${esc(p.imagenAlt)}" fetchpriority="high" decoding="async">
+      <img src="${BASE}${esc(p.imagen)}" alt="${esc(p.imagenAlt)}" fetchpriority="high" decoding="async">
     </div>
 
 `
@@ -206,7 +229,7 @@ function construyePagina(p) {
 
   <section class="phero${p.imagen ? ' phero--img' : ''}">
 ${media}    <div class="wrap phero__in">
-      <a class="phero__back" href="/">&larr; Inicio</a>
+      <a class="phero__back" href="${enlaceInterno('/', PREFIJO)}">&larr; Inicio</a>
 ${p.kicker ? `      <p class="kicker">${esc(p.kicker)}</p>\n` : ''}      <h1 class="h2">${esc(p.titulo)}</h1>
       <p class="lead">${esc(p.descripcion)}</p>
     </div>
@@ -219,14 +242,16 @@ ${pintarSecciones(p.secciones, { ...ctx, primeraArriba: true })}
   return documento({
     sitio,
     menu,
+    base: BASE,
+    prefijo: PREFIJO,
     titulo: `${p.titulo} — ${sitio.nombre}`,
     descripcion: p.descripcion,
-    canonical: p.noIndexar ? '' : url,
-    robots: p.noIndexar ? 'noindex' : '',
+    canonical: p.noIndexar || EN_OBRAS ? '' : url,
+    robots: p.noIndexar || EN_OBRAS ? 'noindex' : '',
     imagenCompartir: p.imagen || sitio.imagenCompartir,
     imagenCompartirAlt: p.imagenAlt,
     claseBody: p.imagen ? 'nav-sobre-media' : '',
-    jsonLd: p.noIndexar
+    jsonLd: p.noIndexar || EN_OBRAS
       ? null
       : {
           '@context': 'https://schema.org',
@@ -261,7 +286,7 @@ function construye404() {
   const d = existsSync(ruta) ? JSON.parse(readFileSync(ruta, 'utf8')) : {};
 
   const enlaces = (d.enlaces || [])
-    .map((e) => '          ' + boton(e, false, { estilo: e.principal ? 'primario' : 'fantasma' }))
+    .map((e) => '          ' + boton(e, false, { estilo: e.principal ? 'primario' : 'fantasma', prefijo: PREFIJO }))
     .filter((s) => s.trim())
     .join('\n');
 
@@ -298,9 +323,78 @@ ${enlaces}
     sitio,
     menu,
     base: '/',
+    prefijo: PREFIJO,
     titulo: String(d.tituloSeo || 'Página no encontrada'),
     descripcion: d.descripcionSeo || d.descripcion || '',
     robots: 'noindex',
+    main,
+  });
+}
+
+/* -------------------------------------------------------------------------
+ * El cartel de mantenimiento
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Lo que ve el público mientras el interruptor está puesto. Va sin menú ni
+ * pie a propósito: todos esos enlaces llevarían a este mismo cartel, y un
+ * menú que no lleva a ninguna parte se siente roto.
+ *
+ * Se escribe en index.html y en 404.html, y como GitHub Pages sirve el
+ * 404.html ante cualquier dirección que no exista, con esos dos archivos
+ * queda cubierto el sitio entero.
+ */
+function paginaMantenimiento() {
+  const contacto = [];
+
+  if (mant.mostrarContacto !== false && sitio.email) {
+    contacto.push(`<li><span>Email</span><a href="mailto:${esc(sitio.email)}">${esc(sitio.email)}</a></li>`);
+  }
+
+  (sitio.redes || []).forEach((r) => {
+    contacto.push(
+      `<li><span>${esc(r.nombre)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.usuario || r.nombre)}</a></li>`
+    );
+  });
+
+  const main = `<main id="main">
+
+  <section class="phero">
+    <div class="wrap phero__in">
+      <img src="/${esc(limpiaRuta(sitio.logo))}" alt="" width="72" height="72">
+      <p class="kicker">${esc(mant.kicker || 'Volvemos enseguida')}</p>
+      <h1 class="h2">${esc(mant.titulo || 'Estamos renovando la web')}</h1>
+      <p class="lead">${esc(mant.texto || '')}</p>
+    </div>
+  </section>
+${
+  contacto.length
+    ? `
+  <section class="section section--top">
+    <div class="wrap">
+      <div class="empty">
+        <ul class="contact">
+          ${contacto.join('\n          ')}
+        </ul>
+      </div>
+    </div>
+  </section>
+`
+    : ''
+}
+</main>`;
+
+  return documento({
+    sitio,
+    menu,
+    base: '/',
+    titulo: `${mant.titulo || 'Estamos renovando la web'} — ${sitio.nombre}`,
+    descripcion: mant.texto || '',
+    /* noindex mientras dure: si Google pasa por aquí, es preferible que no
+       se quede con este cartel como si fuera la portada del club. Por eso
+       conviene que el mantenimiento dure horas y no días. */
+    robots: 'noindex',
+    sinNavegacion: true,
     main,
   });
 }
@@ -359,8 +453,10 @@ function robots() {
 User-agent: *
 Allow: /
 
-Sitemap: ${sitio.dominio}/sitemap.xml
-`;
+# La copia de vista previa es la misma web con otra dirección. No se rastrea,
+# para que no compita con las páginas de verdad.
+Disallow: /vista-previa/
+${EN_OBRAS ? '' : `\nSitemap: ${sitio.dominio}/sitemap.xml\n`}`;
 }
 
 function manifest() {
@@ -390,8 +486,10 @@ function manifest() {
 
 const escritos = [];
 const borrados = [];
+const producidos = new Set();
 
 function escribe(ruta, contenido) {
+  producidos.add(ruta);
   const destinoAbs = join(RAIZ, ruta);
   mkdirSync(dirname(destinoAbs), { recursive: true });
   const antes = existsSync(destinoAbs) ? readFileSync(destinoAbs, 'utf8') : null;
@@ -401,44 +499,92 @@ function escribe(ruta, contenido) {
   }
 }
 
-escribe('index.html', construyePortada());
-escribe('noticias.html', construyeListado());
-escribe('404.html', construye404());
+/* En obras, la web de verdad se escribe entera bajo la carpeta con clave y
+   la raíz se queda solo con el cartel. Fuera de obras, en la raíz. */
+const SALIDA = EN_OBRAS ? `${CARPETA_PREVIA}/` : '';
 
-paginas.forEach((p) => escribe(`${p.slug}.html`, construyePagina(p)));
+escribe(`${SALIDA}index.html`, construyePortada());
+escribe(`${SALIDA}noticias.html`, construyeListado());
+escribe(`${SALIDA}404.html`, construye404());
+
+paginas.forEach((p) => escribe(`${SALIDA}${p.slug}.html`, construyePagina(p)));
 
 noticias.forEach((noticia, i) => {
   /* "Anterior" es la más antigua; "siguiente", la más reciente. */
-  escribe(`noticias/${noticia.slug}.html`, paginaNoticia(noticia, noticias[i + 1] || null, noticias[i - 1] || null, { sitio, menu }));
+  escribe(
+    `${SALIDA}noticias/${noticia.slug}.html`,
+    paginaNoticia(noticia, noticias[i + 1] || null, noticias[i - 1] || null, {
+      sitio,
+      menu,
+      prefijo: PREFIJO,
+      base: EN_OBRAS ? '/' : '../',
+      enObras: EN_OBRAS,
+    })
+  );
 });
 
-/* Lo que sobra de una pasada anterior: al quitar una noticia o una página,
-   su .html tiene que desaparecer, o se quedaría publicado y accesible aunque
-   ya no salga en ningún listado.
+if (EN_OBRAS) {
+  const cartel = paginaMantenimiento();
+  escribe('index.html', cartel);
+  escribe('404.html', cartel);
+}
+
+/* Lo que sobra de una pasada anterior: al quitar una noticia o una página, o
+   al apagar el interruptor de mantenimiento, su .html tiene que desaparecer,
+   o se quedaría publicado y accesible aunque ya no salga en ningún listado.
 
    Se hace DESPUÉS de escribir, no antes: si se borrara primero, `escribe()`
    encontraría todo vacío y daría por cambiado lo que no ha cambiado. */
-function limpiaSobrantes(dir, esperados, fijos = []) {
-  const ruta = dir ? join(RAIZ, dir) : RAIZ;
-  for (const archivo of readdirSync(ruta).filter((f) => f.endsWith('.html'))) {
-    const slug = archivo.replace(/\.html$/, '');
-    if (fijos.includes(slug) || esperados.has(slug)) continue;
-    unlinkSync(join(ruta, archivo));
-    borrados.push(dir ? `${dir}/${archivo}` : archivo);
+function limpia(dir) {
+  const abs = dir ? join(RAIZ, dir) : RAIZ;
+  if (!existsSync(abs)) return;
+
+  for (const entrada of readdirSync(abs, { withFileTypes: true })) {
+    const rel = dir ? `${dir}/${entrada.name}` : entrada.name;
+
+    if (entrada.isDirectory()) {
+      /* Solo se limpia dentro de lo que genera este script. */
+      if (dir === '' && !['noticias', 'vista-previa'].includes(entrada.name)) continue;
+      limpia(rel);
+      if (readdirSync(join(RAIZ, rel)).length === 0) rmSync(join(RAIZ, rel), { recursive: true });
+      continue;
+    }
+
+    if (!entrada.name.endsWith('.html')) continue;
+    if (producidos.has(rel)) continue;
+
+    unlinkSync(join(RAIZ, rel));
+    borrados.push(rel);
   }
 }
 
-limpiaSobrantes('noticias', new Set(noticias.map((n) => n.slug)));
-limpiaSobrantes('', new Set(paginas.map((p) => p.slug)), ['index', 'noticias', '404']);
+limpia('');
 
-escribe('sitemap.xml', sitemap());
 escribe('robots.txt', robots());
 escribe('manifest.webmanifest', manifest());
 escribe('CNAME', sitio.dominio.replace(/^https?:\/\//, '') + '\n');
 
+/* En obras no se publica mapa del sitio: apuntaría a direcciones que ahora
+   enseñan el cartel. Si había uno de antes, se quita. */
+if (EN_OBRAS) {
+  const sm = join(RAIZ, 'sitemap.xml');
+  if (existsSync(sm)) {
+    unlinkSync(sm);
+    borrados.push('sitemap.xml');
+  }
+} else {
+  escribe('sitemap.xml', sitemap());
+}
+
 /* -------------------------------------------------------------------------
  * Resumen
  * ---------------------------------------------------------------------- */
+
+if (EN_OBRAS) {
+  console.log(`\n*** MODO MANTENIMIENTO ***`);
+  console.log(`El público ve el cartel en cualquier dirección.`);
+  console.log(`La web de verdad, en: ${sitio.dominio}/${CARPETA_PREVIA}/\n`);
+}
 
 console.log(`Portada: ${portada.secciones.length} secciones (${portada.secciones.map((s) => s.tipo).join(', ')})`);
 

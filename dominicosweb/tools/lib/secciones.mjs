@@ -21,7 +21,7 @@ function seccion(s, clases, dentro) {
 
 /** Cabecera de sección: kicker + título, y a la derecha un botón opcional. */
 function cabeceraSeccion(s, ctx, sangria = '      ') {
-  const derecha = s.boton ? boton(s.boton, ctx.enPortada) : '';
+  const derecha = s.boton ? boton(s.boton, ctx.enPortada, { prefijo: ctx.prefijo }) : '';
   return (
     `${sangria}<header class="sec-head reveal">\n` +
     `${sangria}  <div>\n` +
@@ -68,12 +68,12 @@ function hero(s, ctx) {
     : '';
 
   const botones = [
-    boton(s.botonPrincipal, ctx.enPortada, { estilo: 'primario', flecha: true }),
-    boton(s.botonSecundario, ctx.enPortada),
+    boton(s.botonPrincipal, ctx.enPortada, { estilo: 'primario', flecha: true, prefijo: ctx.prefijo }),
+    boton(s.botonSecundario, ctx.enPortada, { prefijo: ctx.prefijo }),
   ].filter(Boolean);
 
   const bajar = s.anclaBajar
-    ? `\n    <a class="hero__scroll" href="${esc(destino(s.anclaBajar, ctx.enPortada))}" aria-label="Bajar">
+    ? `\n    <a class="hero__scroll" href="${esc(destino(s.anclaBajar, ctx.enPortada, ctx.prefijo))}" aria-label="Bajar">
       <span></span>
     </a>`
     : '';
@@ -204,7 +204,7 @@ ${f.titulo || f.texto ? `        <figcaption>${f.titulo ? `<b>${esc(f.titulo)}</
     ? `        <p class="note">${s.aviso.etiqueta ? `<span class="pill">${esc(s.aviso.etiqueta)}</span> ` : ''}${esc(s.aviso.texto)}</p>\n`
     : '';
 
-  const b = s.boton ? `        ${boton(s.boton, ctx.enPortada)}\n` : '';
+  const b = s.boton ? `        ${boton(s.boton, ctx.enPortada, { prefijo: ctx.prefijo })}\n` : '';
 
   return seccion(
     s,

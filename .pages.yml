@@ -387,6 +387,40 @@ content:
           - { name: descripcionCompartir, label: Descripción al compartir, type: text }
           - { name: nombreSchema, label: Nombre para los datos estructurados, type: string }
 
+      - name: mantenimiento
+        label: Mantenimiento
+        type: file
+        path: dominicosweb/datos/mantenimiento.json
+        description: Colgar el cartel de «volvemos enseguida» mientras se trabaja en la web.
+        fields:
+          - name: activo
+            label: Poner la web en mantenimiento
+            type: boolean
+            default: false
+            description: >-
+              Marcado, cualquier dirección de la web enseña el cartel. La web
+              de verdad sigue publicándose, pero bajo la dirección de vista
+              previa de abajo, para poder repasarla antes de enseñarla.
+          - name: clave
+            label: Clave de la vista previa
+            type: string
+            pattern:
+              regex: '^[a-z0-9-]+$'
+              message: Solo minúsculas, números y guiones
+            description: >-
+              La web estará en /vista-previa/LA-CLAVE/. Cámbiala de vez en
+              cuando. No es una contraseña: el repositorio es público y quien
+              lo lea la verá; solo evita que alguien dé con la vista previa
+              por casualidad.
+          - { name: kicker, label: Línea de encima del título, type: string }
+          - { name: titulo, label: Título, type: string }
+          - { name: texto, label: Texto, type: text }
+          - name: mostrarContacto
+            label: Enseñar el correo y las redes
+            type: boolean
+            default: true
+            description: Para que puedan escribiros aunque la web esté cerrada.
+
       - name: error404
         label: Página de error
         type: file

@@ -100,6 +100,8 @@ Lo que se repite en todas las páginas.
 - **Menú**: los enlaces de arriba y los del pie.
 - **Página de noticias**: los textos de la cabecera del listado.
 - **Página de error**: lo que se ve al entrar en una dirección que no existe.
+- **Mantenimiento**: el interruptor para cerrar la web mientras se trabaja.
+  Ver [Cerrar la web temporalmente](#cerrar-la-web-temporalmente).
 
 ### Dos campos delicados
 
@@ -113,6 +115,35 @@ cambiando de dominio a propósito, y entonces hay que hacer lo que dice el
 contacto llegue a alguien. Mientras ponga `TU_ID_DE_FORMSPREE`, el formulario
 avisa en pantalla de que no está conectado en vez de tragarse los mensajes.
 Ese id es público y va en el HTML a la vista: **no es un secreto**.
+
+---
+
+## Cerrar la web temporalmente
+
+En **Ajustes → Mantenimiento** hay una casilla, «Poner la web en
+mantenimiento». Marcándola y guardando, en un par de minutos:
+
+- quien entre en `baloncestodominicos.es` —o en cualquier dirección del
+  sitio— ve un cartel de «volvemos enseguida» con el correo del club;
+- la web de verdad, con todos los cambios, se publica en
+  `baloncestodominicos.es/vista-previa/LA-CLAVE/`, y ahí puedes repasarla
+  entera antes de enseñarla.
+
+La clave sale del campo «Clave de la vista previa». Para desactivarlo,
+desmarcas la casilla y guardas: todo vuelve a su sitio y la carpeta de vista
+previa desaparece.
+
+### Lo que hay que saber
+
+**La clave no es una contraseña.** El repositorio es público, así que quien lo
+mire la encontrará. Sirve para que nadie dé con la vista previa por
+casualidad, no para esconderla de alguien que la busque.
+
+**No lo dejes puesto días.** Mientras dura, la portada pide a Google que no la
+indexe y el resto de direcciones devuelven «no encontrado». Para unas horas no
+pasa nada y se recupera solo. Semanas sí harían daño en los buscadores.
+
+**El correo sigue funcionando.** El mantenimiento solo afecta a la web.
 
 ---
 

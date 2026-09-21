@@ -56,11 +56,25 @@ export function fechaLegible(iso) {
  * de la sección visible si su href empieza por «#». Desde cualquier otra
  * página se convierte en «/#seccion», que sí sale de la página actual.
  */
-export function destino(valor, enPortada) {
+export function destino(valor, enPortada, prefijo = '') {
   const v = String(valor || '').trim();
-  if (!v) return '/';
-  if (v.startsWith('#')) return enPortada ? v : '/' + v;
+  if (!v) return prefijo + '/';
+  if (v.startsWith('#')) return enPortada ? v : prefijo + '/' + v;
+  if (v.startsWith('/')) return prefijo + v;
   return v;
+}
+
+/**
+ * Un enlace a una página del sitio, escrito desde la raíz.
+ *
+ * El prefijo es lo que hace posible la vista previa: en la web normal está
+ * vacío y los enlaces salen como «/noticias.html»; en la copia de vista
+ * previa vale «/vista-previa», y los mismos enlaces salen como
+ * «/vista-previa/noticias.html», de modo que navegar por ella no te saca de
+ * la copia y te devuelve al cartel de mantenimiento.
+ */
+export function enlaceInterno(ruta, prefijo = '') {
+  return prefijo + ruta;
 }
 
 /** La flecha de los botones principales. */
@@ -70,10 +84,10 @@ const FLECHA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6
  * Un botón. `estilo` es 'primario' o 'fantasma'; con `flecha` lleva el icono
  * de la derecha, como en la portada.
  */
-export function boton(b, enPortada, { estilo = 'fantasma', flecha = false } = {}) {
+export function boton(b, enPortada, { estilo = 'fantasma', flecha = false, prefijo = '' } = {}) {
   if (!b || !b.texto) return '';
   const clase = estilo === 'primario' ? 'btn btn--primary' : 'btn btn--ghost';
-  const href = b.destinoAbsoluto || destino(b.destino, enPortada);
+  const href = b.destinoAbsoluto || destino(b.destino, enPortada, prefijo);
   return `<a class="${clase}" href="${esc(href)}">${esc(b.texto)}${flecha ? ' ' + FLECHA : ''}</a>`;
 }
 
@@ -92,16 +106,16 @@ export function boton(b, enPortada, { estilo = 'fantasma', flecha = false } = {}
  * válida de la misma página, que Google tendría que rastrear y descartar.
  */
 
-export function cabecera(sitio, menu, { base = '', enPortada = false } = {}) {
+export function cabecera(sitio, menu, { base = '', enPortada = false, prefijo = '' } = {}) {
   const enlaces = menu.enlaces
     .map((e) => {
-      const href = enPortada && e.anclaPortada ? e.anclaPortada : destino(e.destino, enPortada);
+      const href = enPortada && e.anclaPortada ? e.anclaPortada : destino(e.destino, enPortada, prefijo);
       return `      <a href="${esc(href)}">${esc(e.texto)}</a>`;
     })
     .join('\n');
 
   const cta = menu.cta && menu.cta.texto
-    ? `\n      <a class="menu__cta" href="${esc(destino(menu.cta.destino, enPortada))}">${esc(menu.cta.texto)}</a>`
+    ? `\n      <a class="menu__cta" href="${esc(destino(menu.cta.destino, enPortada, prefijo))}">${esc(menu.cta.texto)}</a>`
     : '';
 
   return `<div class="progress" id="progress" aria-hidden="true"></div>
@@ -110,7 +124,7 @@ export function cabecera(sitio, menu, { base = '', enPortada = false } = {}) {
 
 <header class="nav" id="nav">
   <div class="nav__in">
-    <a class="brand" href="${enPortada ? '#top' : '/'}">
+    <a class="brand" href="${enPortada ? '#top' : prefijo + '/'}">
       <img src="${base}${esc(sitio.logo)}" alt="Escudo ${esc(sitio.nombre)}" width="44" height="44">
       <span class="brand__txt"><b>${esc(sitio.nombreCorto)}</b><small>${esc(sitio.rotulo)}</small></span>
     </a>
@@ -131,9 +145,9 @@ ${enlaces}${cta}
 </header>`;
 }
 
-export function pie(sitio, menu, { base = '', enPortada = false } = {}) {
+export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } = {}) {
   const enlaces = menu.pie
-    .map((e) => `<a href="${esc(destino(e.destino, enPortada))}">${esc(e.texto)}</a>`)
+    .map((e) => `<a href="${esc(destino(e.destino, enPortada, prefijo))}">${esc(e.texto)}</a>`)
     .join('');
 
   return `<footer class="foot">
@@ -153,9 +167,7 @@ export function pie(sitio, menu, { base = '', enPortada = false } = {}) {
 <div class="lb" id="lb" hidden>
   <button class="lb__x" id="lbX" type="button" aria-label="Cerrar">✕</button>
   <img id="lbImg" src="" alt="">
-</div>
-
-<script src="${base}script.js"></script>`;
+</div>`;
 }
 
 /* -------------------------------------------------------------------------
@@ -172,6 +184,7 @@ export function documento({
   menu,
   base = '',
   enPortada = false,
+  prefijo = '',
   titulo,
   tituloCompartir = '',
   descripcion,
@@ -184,6 +197,7 @@ export function documento({
   metasExtra = [],
   jsonLd = null,
   claseBody = '',
+  sinNavegacion = false,
   main,
 }) {
   const imagen = imagenCompartir || sitio.imagenCompartir;
@@ -251,12 +265,10 @@ export function documento({
 ${cabeza.join('\n')}
 </head>
 <body${claseBody ? ` class="${esc(claseBody)}"` : ''}>
-
-${cabecera(sitio, menu, { base, enPortada })}
-
+${sinNavegacion ? '' : '\n' + cabecera(sitio, menu, { base, enPortada, prefijo }) + '\n'}
 ${main}
-
-${pie(sitio, menu, { base, enPortada })}
+${sinNavegacion ? '' : '\n' + pie(sitio, menu, { base, enPortada, prefijo }) + '\n'}
+<script src="${base}script.js"></script>
 </body>
 </html>
 `;
