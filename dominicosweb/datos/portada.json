@@ -2,7 +2,7 @@
   "seo": {
     "titulo": "Baloncesto Dominicos Zaragoza — Club de baloncesto base",
     "descripcion": "Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: escuela, benjamín, alevín, infantil, cadete, junior y senior. Ven a jugar con nosotros.",
-    "descripcionCompartir": "Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: de la escuela al senior."
+    "descripcionCompartir": "Club de baloncesto formativo en Zaragoza, con equipos en todas las categorías: desde escuela hasta senior."
   },
   "secciones": [
     {
@@ -61,11 +61,13 @@
       "cifras": [
         {
           "numero": 9,
+          "sinSeparador": false,
           "texto": "categorías en competición"
         },
         {
           "numero": 6000,
           "sufijo": "+",
+          "sinSeparador": false,
           "texto": "fotos en el archivo del club"
         },
         {
@@ -75,6 +77,7 @@
         },
         {
           "numero": 2,
+          "sinSeparador": false,
           "texto": "pistas: patio y pabellón"
         }
       ]
@@ -218,24 +221,19 @@
       },
       "documentos": [
         {
-          "titulo": "Autorización de derechos de imagen",
-          "archivo": ""
+          "titulo": "Autorización de derechos de imagen"
         },
         {
-          "titulo": "Benjamín, Alevín, Infantil y Cadete",
-          "archivo": ""
+          "titulo": "Benjamín, Alevín, Infantil y Cadete"
         },
         {
-          "titulo": "Escuela infantil y primaria",
-          "archivo": ""
+          "titulo": "Escuela infantil y primaria"
         },
         {
-          "titulo": "Junior",
-          "archivo": ""
+          "titulo": "Junior"
         },
         {
-          "titulo": "Senior",
-          "archivo": ""
+          "titulo": "Senior"
         }
       ]
     },
