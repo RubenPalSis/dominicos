@@ -1,12 +1,7 @@
 # Web del CB Dominicos Zaragoza
 
 La web del club: HTML, CSS y JavaScript, sin compilación ni dependencias,
-pensada para publicarse en GitHub Pages sobre `baloncestodominicos.es`.
-
-> **Pendiente:** hoy el dominio todavía apunta al WordPress anterior, en
-> Hostinger, y GitHub Pages sigue en «Deploy from a branch». Hasta que se
-> cambien las dos cosas, lo que se ve en `baloncestodominicos.es` es la web
-> vieja. Los pasos están en [DNS](#dns).
+publicada en GitHub Pages sobre `baloncestodominicos.es`.
 
 Se edita desde un panel web, [Pages CMS](https://pagescms.org), que no es más
 que un formulario sobre los archivos de este repositorio. **Todo el contenido
@@ -135,11 +130,30 @@ Settings → Pages, además de los registros DNS.
 ### DNS
 
 El dominio está registrado en **Hostinger**, con sus nameservers
-(`ns1.dns-parking.com`, `ns2.dns-parking.com`). No hay que cambiarlos: basta
-con editar los registros.
+(`ns1.dns-parking.com`, `ns2.dns-parking.com`). El correo del club vive en ese
+mismo DNS, así que ahí conviven dos cosas: los registros que llevan la web a
+GitHub y los que llevan el correo a Hostinger.
 
-**El correo del club vive en este mismo DNS.** Mover la web no lo afecta,
-pero borrar de más sí. Estos registros **no se tocan nunca**:
+**Para la web** (GitHub Pages):
+
+| Tipo  | Nombre | Valor               |
+|-------|--------|---------------------|
+| A     | `@`    | `185.199.108.153`   |
+| A     | `@`    | `185.199.109.153`   |
+| A     | `@`    | `185.199.110.153`   |
+| A     | `@`    | `185.199.111.153`   |
+| CNAME | `www`  | `rubenpalsis.github.io.` |
+
+Los cuatro registros A son los servidores de GitHub Pages: van los cuatro, no
+uno, y **los cuatro con el nombre `@`**. Es fácil equivocarse aquí: si en
+«Nombre» se pone un número en vez de `@`, no da error, pero se crea un
+subdominio (`1.baloncestodominicos.es`) que no hace nada, y el dominio se
+queda con menos servidores de los que debería.
+
+El CNAME de `www` hace que `www.baloncestodominicos.es` redirija al dominio
+sin `www`.
+
+**Para el correo** (Hostinger). Estos **no se tocan nunca**:
 
 | Tipo  | Nombre                          | Para qué             |
 |-------|---------------------------------|----------------------|
@@ -152,43 +166,29 @@ pero borrar de más sí. Estos registros **no se tocan nunca**:
 Y **nunca** hay que pulsar «Restablecer registros DNS» en el panel de
 Hostinger: borra todo, incluido el correo.
 
-Para que el dominio sirva la web de GitHub Pages:
-
-| Acción     | Tipo  | Nombre | Valor                        |
-|------------|-------|--------|------------------------------|
-| **Borrar** | ALIAS | `@`    | `baloncestodominicos.es.cdn.hstgr.net` |
-| Añadir     | A     | `@`    | `185.199.108.153`            |
-| Añadir     | A     | `@`    | `185.199.109.153`            |
-| Añadir     | A     | `@`    | `185.199.110.153`            |
-| Añadir     | A     | `@`    | `185.199.111.153`            |
-| **Editar** | CNAME | `www`  | `rubenpalsis.github.io.`     |
-
-El `ALIAS @` es lo que manda el dominio al hosting anterior. Hay que borrarlo
-**antes** de añadir los registros A: no pueden convivir los dos en `@`.
-
-Los cuatro A son los servidores de GitHub Pages: se ponen los cuatro, no uno.
-El CNAME de `www` hace que `www.baloncestodominicos.es` lleve al dominio sin
-`www`.
-
 El `A ftp` es del hosting anterior. No estorba; se puede quitar al cancelarlo.
 
-### El orden importa
+### Si alguna vez hay que rehacer esto
 
-Primero GitHub, después el DNS. Al revés, el dominio apuntaría a un sitio que
-todavía no sirve nada.
+Por si se cambia de dominio o se monta en otro repositorio. En orden, porque
+importa:
 
-1. **Settings → Pages → Source: «GitHub Actions».** Mientras esté en «Deploy
-   from a branch», el workflow sube su paquete, dice que ha ido bien y GitHub
-   sirve otra cosa: el README renderizado por Jekyll. Es un fallo silencioso,
-   porque el workflow sale en verde igualmente.
-2. Comprobar que en «Custom domain» aparece `baloncestodominicos.es`. Debería
-   ponerse solo, porque el paquete publicado incluye el archivo `CNAME`.
-3. Los cambios de DNS de la tabla de arriba.
-4. Cuando aparezca «DNS check successful», marcar **Enforce HTTPS**, que emite
-   el certificado de Let's Encrypt.
-
-Los registros tienen TTL de 300 segundos, así que el cambio se nota en
-minutos, no en horas.
+1. **Settings → Pages → Source: «GitHub Actions».** Si está en «Deploy from a
+   branch», el workflow sube su paquete, **sale en verde** y GitHub sirve otra
+   cosa: el `README.md` renderizado por Jekyll. Es el fallo más traicionero de
+   todo esto, porque no avisa de nada.
+2. Cambiar el origen **no republica solo**. Después de tocarlo hay que lanzar
+   una publicación: Actions → «Publicar la web» → Run workflow.
+3. Comprobar que en «Custom domain» aparece el dominio. Se pone solo, porque
+   el paquete publicado incluye el archivo `CNAME`, que sale de
+   `datos/sitio.json`.
+4. Los registros DNS de arriba. Si el dominio tenía un `ALIAS` o un `CNAME` en
+   `@` apuntando al hosting anterior, hay que borrarlo **antes**: no puede
+   convivir con los registros A.
+5. Esperar a que en Settings → Pages aparezca «DNS check successful» y GitHub
+   emita el certificado de Let's Encrypt. Suele tardar minutos.
+6. Entonces, y solo entonces, marcar **Enforce HTTPS**. Hasta que el
+   certificado esté emitido, la casilla no se puede marcar.
 
 ### Por qué no se puede ver en rubenpalsis.github.io
 
@@ -201,10 +201,13 @@ Para verlo antes de mover el DNS, se levanta en local (ver [Desarrollo](#desarro
 
 ### El WordPress anterior
 
-Cuando el dominio deje de apuntar a Hostinger, el WordPress seguirá allí pero
-ya no será accesible. **Antes de cancelar el hosting**, ten en cuenta que la
-copia de `baloncestodominicos.es/` de este repositorio está en `.gitignore`:
-existe solo en el ordenador donde se descargó, no en GitHub.
+El dominio ya no apunta a Hostinger, así que el WordPress sigue allí pero ya
+no es accesible desde fuera. **Antes de cancelar el hosting**, ten en cuenta
+que la copia de `baloncestodominicos.es/` de este repositorio está en
+`.gitignore`: existe solo en el ordenador donde se descargó, no en GitHub.
+
+El correo sí sigue en Hostinger, y depende de los registros MX, SPF, DKIM y
+DMARC del DNS. Cancelar el hosting sin mirar eso deja al club sin correo.
 
 ## Desarrollo
 
