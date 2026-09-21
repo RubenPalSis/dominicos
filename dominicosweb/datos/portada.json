@@ -38,24 +38,23 @@
         "Infantil",
         "Cadete",
         "Junior",
-        "Senior Fem",
-        "3x3"
+        "Senior Fem"
       ]
     },
     {
       "tipo": "texto-y-cifras",
       "id": "club",
       "kicker": "El club",
-      "titulo": "Se empieza en el patio.",
-      "tituloEnfasis": "Se acaba siendo equipo.",
+      "titulo": "No buscamos fichajes.",
+      "tituloEnfasis": "Formamos jugadores.",
       "parrafos": [
-        "El CB Dominicos es un club formativo de Zaragoza con equipos en todas las categorías, desde la escuela de primaria hasta el senior femenino. Competimos en la liga escolar y federada, en torneos y en el 3x3.",
-        "Jugamos en el patio o en el pabellón, ambos con canastas adaptables a cada categoría. Y cada partido acaba en la galería: más de 6.000 fotos de temporadas desde 2009."
+        "El CB Dominicos es un club formativo de Zaragoza con equipos en todas las categorías, desde la escuela de primaria hasta el senior femenino. Competimos en la liga escolar y federada.",
+        "Jugamos en el patio o en el pabellón, ambos con canastas adaptables a cada categoría."
       ],
       "puntos": [
         "Formación por encima del resultado",
         "Equipos mixtos en categorías base",
-        "Torneos, convivencias y campus"
+        "Torneos"
       ],
       "cifras": [
         {
@@ -92,16 +91,12 @@
           "valor": "all"
         },
         {
-          "texto": "Base",
-          "valor": "base"
+          "texto": "Escolares",
+          "valor": "escolares"
         },
         {
-          "texto": "Formación",
-          "valor": "formacion"
-        },
-        {
-          "texto": "Senior",
-          "valor": "senior"
+          "texto": "Federado",
+          "valor": "federado"
         }
       ],
       "equipos": [
@@ -111,7 +106,7 @@
           "etiqueta": "Primaria",
           "nombre": "Escuela",
           "texto": "Primeros botes, primeras canastas.",
-          "grupo": "base"
+          "grupo": "escolares"
         },
         {
           "imagen": "images/benjamin.jpg",
@@ -119,7 +114,7 @@
           "etiqueta": "Mini",
           "nombre": "Benjamín",
           "texto": "Liga escolar y torneos de primavera.",
-          "grupo": "base"
+          "grupo": "escolares"
         },
         {
           "imagen": "images/alevin.jpg",
@@ -127,47 +122,47 @@
           "etiqueta": "Mixto",
           "nombre": "Alevín",
           "texto": "Equipo mixto, mucha pista para todos.",
-          "grupo": "base"
+          "grupo": "escolares"
         },
         {
           "imagen": "images/preinfantil.jpg",
           "imagenAlt": "Equipo preinfantil",
-          "etiqueta": "Formación",
+          "etiqueta": "Escolares",
           "nombre": "Preinfantil",
           "texto": "El salto a la pista grande.",
-          "grupo": "formacion"
+          "grupo": "escolares"
         },
         {
           "imagen": "images/infantil.jpg",
           "imagenAlt": "Equipo infantil",
-          "etiqueta": "Formación",
+          "etiqueta": "Escolares",
           "nombre": "Infantil",
           "texto": "Final Four de la copa de primavera.",
-          "grupo": "formacion"
+          "grupo": "escolares"
         },
         {
           "imagen": "images/cadete.jpg",
           "imagenAlt": "Equipo cadete",
-          "etiqueta": "Formación",
+          "etiqueta": "Escolares",
           "nombre": "Cadete",
           "texto": "Ritmo, físico y lectura de juego.",
-          "grupo": "formacion"
+          "grupo": "escolares"
         },
         {
           "imagen": "images/junior.jpg",
           "imagenAlt": "Equipo junior",
-          "etiqueta": "Formación",
+          "etiqueta": "Federado",
           "nombre": "Junior",
           "texto": "La antesala del senior.",
-          "grupo": "formacion"
+          "grupo": "federado"
         },
         {
           "imagen": "images/senior-femenino.jpg",
           "imagenAlt": "Equipo senior femenino",
-          "etiqueta": "Senior",
+          "etiqueta": "Federado",
           "nombre": "Senior Femenino",
           "texto": "Competición y cantera del club.",
-          "grupo": "senior"
+          "grupo": "federado"
         }
       ]
     },
@@ -180,7 +175,6 @@
         "El calendario de entrenamientos se publica al inicio de curso. Cada equipo lo recibe además por su responsable."
       ],
       "aviso": {
-        "etiqueta": "Próximamente",
         "texto": "Consulta con el responsable de tu equipo o escríbenos."
       },
       "boton": {
@@ -211,39 +205,12 @@
       "kicker": "Inscripciones",
       "titulo": "Ven a jugar",
       "tituloSegundaLinea": "con nosotros",
-      "parrafos": [
-        "Descarga la ficha de tu categoría, rellénala y envíala por correo o entrégasela al responsable de tu equipo."
-      ],
+      "parrafos": [],
       "boton": {
         "texto": "Enviar inscripción",
         "asunto": "Inscripción temporada"
       },
-      "documentos": [
-        {
-          "titulo": "Autorización de derechos de imagen"
-        },
-        {
-          "titulo": "Benjamín, Alevín, Infantil y Cadete"
-        },
-        {
-          "titulo": "Escuela infantil y primaria"
-        },
-        {
-          "titulo": "Junior"
-        },
-        {
-          "titulo": "Senior"
-        }
-      ]
-    },
-    {
-      "tipo": "contacto",
-      "id": "contacto",
-      "kicker": "Contacto",
-      "titulo": "Escríbenos",
-      "parrafos": [
-        "Para dudas sobre equipos, horarios, inscripciones o cualquier otra cosa."
-      ],
+      "documentos": [],
       "mostrarEmail": true,
       "whatsapp": {
         "numero": "34622708107",
@@ -260,8 +227,20 @@
           "Junior",
           "Senior Femenino"
         ],
-        "asunto": "Contacto desde baloncestodominicos.es"
-      }
+        "asunto": "Inscripción desde baloncestodominicos.es"
+      },
+      "mostrarRedes": true
+    },
+    {
+      "tipo": "contacto",
+      "id": "contacto",
+      "kicker": "Contacto",
+      "titulo": "Escríbenos",
+      "parrafos": [
+        "Para dudas sobre equipos, horarios, inscripciones o cualquier otra cosa."
+      ],
+      "mostrarEmail": false,
+      "mostrarRedes": false
     }
   ]
 }

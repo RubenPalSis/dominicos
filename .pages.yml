@@ -168,7 +168,7 @@ components:
           - { name: cuantas, label: Cuántas se enseñan, type: number, default: 3 }
 
       - name: inscripciones
-        label: Inscripciones con fichas descargables
+        label: Inscripciones con formulario y fichas
         fields:
           - { name: id, label: Ancla, type: string }
           - { name: kicker, label: Línea de encima, type: string }
@@ -188,15 +188,31 @@ components:
             fields:
               - { name: titulo, label: Nombre de la ficha, type: string }
               - { name: archivo, label: PDF, type: file, options: { media: documentos }, description: "Sin PDF, la ficha se ve pero pone «Próximamente» y no enlaza a ninguna parte." }
+          - { name: mostrarEmail, label: Enseñar el correo del club, type: boolean, default: true }
+          - { name: mostrarRedes, label: Enseñar las redes del club, type: boolean, default: true }
+          - name: whatsapp
+            label: WhatsApp
+            type: object
+            fields:
+              - { name: numero, label: Número con prefijo, type: string, description: "Sin espacios ni «+», p. ej. 34622708107." }
+              - { name: texto, label: Cómo se escribe, type: string, description: "P. ej. «622 70 81 07»." }
+          - name: formulario
+            label: Formulario
+            type: object
+            description: "Si lo dejas vacío, la sección se queda sin formulario."
+            fields:
+              - { name: categorias, label: Categorías del desplegable, type: string, list: true }
+              - { name: asunto, label: Asunto del correo que llega al club, type: string }
 
       - name: contacto
-        label: Contacto con formulario
+        label: Contacto (formulario opcional)
         fields:
           - { name: id, label: Ancla, type: string }
           - { name: kicker, label: Línea de encima, type: string }
           - { name: titulo, label: Título, type: string }
           - { name: parrafos, label: Párrafos, type: text, list: true }
           - { name: mostrarEmail, label: Enseñar el correo del club, type: boolean, default: true }
+          - { name: mostrarRedes, label: Enseñar las redes del club, type: boolean, default: true }
           - name: whatsapp
             label: WhatsApp
             type: object

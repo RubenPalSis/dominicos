@@ -231,6 +231,48 @@ ${ctx.filasNoticias}
   );
 }
 
+/**
+ * Los datos de contacto del club: el correo, el WhatsApp y las redes del
+ * sitio. Los piden dos secciones, así que se arman en un solo sitio.
+ */
+function datosDeContacto(s, ctx) {
+  const filas = [];
+
+  if (s.mostrarEmail !== false && ctx.sitio.email) {
+    filas.push({ nombre: 'Email', url: `mailto:${ctx.sitio.email}`, texto: ctx.sitio.email });
+  }
+
+  if (s.whatsapp && s.whatsapp.numero) {
+    filas.push({
+      nombre: 'WhatsApp',
+      url: `https://wa.me/${s.whatsapp.numero}`,
+      texto: s.whatsapp.texto || s.whatsapp.numero,
+    });
+  }
+
+  if (s.mostrarRedes !== false) {
+    (ctx.sitio.redes || []).forEach((r) => {
+      filas.push({ nombre: r.nombre, url: r.url, texto: r.usuario || r.nombre, fuera: true });
+    });
+  }
+
+  return filas;
+}
+
+/** La lista de esos datos. La clase decide si cae en columna o en fila. */
+function listaContacto(filas, clase, sangria) {
+  const items = filas
+    .map(
+      (f) =>
+        `${sangria}  <li><span>${esc(f.nombre)}</span><a href="${esc(f.url)}"${
+          f.fuera ? ' target="_blank" rel="noopener"' : ''
+        }>${esc(f.texto)}</a></li>`
+    )
+    .join('\n');
+
+  return `${sangria}<ul class="${clase}">\n${items}\n${sangria}</ul>\n`;
+}
+
 function inscripciones(s, ctx) {
   const docs = (s.documentos || [])
     .map((d) => {
@@ -241,7 +283,7 @@ function inscripciones(s, ctx) {
       const dentro = archivo
         ? `<a href="${ctx.base}${esc(archivo)}" download><span>${esc(d.titulo)}</span><em>PDF</em></a>`
         : `<span class="docs__soon"><span>${esc(d.titulo)}</span><em>Próximamente</em></span>`;
-      return `          <li>${dentro}</li>`;
+      return `            <li>${dentro}</li>`;
     })
     .join('\n');
 
@@ -256,6 +298,19 @@ function inscripciones(s, ctx) {
       )
     : '';
 
+  /* La columna derecha lleva las fichas y el formulario, lo que haya. Van
+     dentro de un mismo bloque para que, si están los dos, se apilen en esa
+     columna en vez de descolocar la rejilla. */
+  const derecha =
+    docs || s.formulario
+      ? `        <div class="cta__r">
+${docs ? `          <ul class="docs">\n${docs}\n          </ul>\n` : ''}${s.formulario ? formulario(s.formulario, ctx) : ''}        </div>\n`
+      : '';
+
+  /* Y debajo de todo, cruzando el ancho, cómo localizar al club. */
+  const filas = datosDeContacto(s, ctx);
+  const datos = filas.length ? listaContacto(filas, 'contact contact--fila cta__datos', '        ') : '';
+
   return seccion(
     s,
     ['inscrip'],
@@ -265,54 +320,26 @@ function inscripciones(s, ctx) {
 ${s.kicker ? `          <p class="kicker kicker--on">${esc(s.kicker)}</p>\n` : ''}          <h2 class="h2 h2--xl">${tituloDeDosLineas(s)}</h2>
 ${parrafos(s.parrafos, 'lead', '          ')}
 ${b ? `          ${b}\n` : ''}        </div>
-${
-  docs
-    ? `        <ul class="docs">
-${docs}
-        </ul>
-`
-    : ''
-}      </div>
+${derecha}${datos}      </div>
     </div>`
   );
 }
 
 function contacto(s, ctx) {
-  const filas = [];
-
-  if (s.mostrarEmail !== false && ctx.sitio.email) {
-    filas.push(`          <li><span>Email</span><a href="mailto:${esc(ctx.sitio.email)}">${esc(ctx.sitio.email)}</a></li>`);
-  }
-
-  if (s.whatsapp && s.whatsapp.numero) {
-    filas.push(
-      `          <li><span>WhatsApp</span><a href="https://wa.me/${esc(s.whatsapp.numero)}">${esc(s.whatsapp.texto || s.whatsapp.numero)}</a></li>`
-    );
-  }
-
-  (ctx.sitio.redes || []).forEach((r) => {
-    filas.push(
-      `          <li><span>${esc(r.nombre)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.usuario || r.nombre)}</a></li>`
-    );
-  });
-
+  const filas = datosDeContacto(s, ctx);
+  const lista = filas.length ? listaContacto(filas, 'contact', '        ') : '';
   const form = s.formulario ? formulario(s.formulario, ctx) : '';
 
+  /* Sin formulario no hay segunda columna: la rejilla dejaría medio ancho
+     en blanco al lado del texto. */
   return seccion(
     s,
     ['contacto'],
-    `    <div class="wrap grid-2">
+    `    <div class="wrap${form ? ' grid-2' : ''}">
       <div class="reveal">
 ${s.kicker ? `        <p class="kicker">${esc(s.kicker)}</p>\n` : ''}        <h2 class="h2">${esc(s.titulo)}</h2>
 ${parrafos(s.parrafos, 'lead', '        ')}
-${
-  filas.length
-    ? `        <ul class="contact">
-${filas.join('\n')}
-        </ul>
-`
-    : ''
-}      </div>
+${lista}      </div>
 ${form}    </div>`
   );
 }

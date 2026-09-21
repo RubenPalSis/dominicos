@@ -243,7 +243,7 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .cta{
   border-radius:calc(var(--r) + 10px);padding:clamp(34px,5vw,70px);
   background:linear-gradient(135deg,#c2161c 0%,var(--red) 45%,#8e0f14 100%);
-  color:#fff;display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,5vw,60px);align-items:center;
+  color:#fff;display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,5vw,60px);align-items:start;
   box-shadow:0 30px 80px rgba(224,31,38,.28);position:relative;overflow:hidden;
 }
 .cta::before{
@@ -253,6 +253,28 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .cta .lead{color:rgba(255,255,255,.85)}
 .cta .btn--primary{background:#fff;color:var(--red);box-shadow:none}
 .cta .btn--primary:hover{background:#111;color:#fff}
+.cta__l{align-self:center}
+.cta__r{display:grid;gap:clamp(20px,3vw,28px)}
+/* El formulario va dentro del panel rojo: aquí se le da un fondo propio para
+   que se despegue del degradado, y campos claros para que el texto se lea. */
+.cta .form{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3)}
+.cta .form label{color:rgba(255,255,255,.85)}
+.cta .form input,.cta .form select,.cta .form textarea{
+  background:rgba(255,255,255,.96);border-color:transparent;color:#14161a;
+}
+.cta .form input:focus,.cta .form select:focus,.cta .form textarea:focus{
+  border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.35);
+}
+.cta .form__msg{color:#fff}
+.cta .form__msg.ok{color:#c6f7e0}
+/* Los datos de contacto, en una sola línea por debajo de las dos columnas. */
+.cta__datos{
+  grid-column:1/-1;margin:clamp(6px,1.5vw,16px) 0 0;
+  padding-top:clamp(22px,3vw,30px);border-top:1px solid rgba(255,255,255,.3);
+}
+.cta__datos span{color:rgba(255,255,255,.7)}
+.cta__datos a{color:#fff}
+.cta__datos a:hover{color:#fff;opacity:.7}
 .docs{list-style:none;margin:0;padding:0;display:grid;gap:10px;position:relative}
 .docs a{
   display:flex;justify-content:space-between;align-items:center;gap:16px;
@@ -268,6 +290,10 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .contact span{width:110px;flex:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2)}
 .contact a{font-size:clamp(16px,1.9vw,19px);transition:color .2s}
 .contact a:hover{color:var(--red)}
+/* Misma lista, en horizontal: sin líneas divisorias y con el rótulo encima. */
+.contact--fila{display:flex;flex-wrap:wrap;gap:14px clamp(28px,5vw,64px)}
+.contact--fila li{display:grid;gap:3px;padding:0;border-bottom:0}
+.contact--fila span{width:auto}
 
 .form{display:grid;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(24px,3.5vw,38px)}
 .form label{display:grid;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2)}
