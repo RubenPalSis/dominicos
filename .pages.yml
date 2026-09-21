@@ -415,11 +415,13 @@ content:
           - { name: kicker, label: Línea de encima del título, type: string }
           - { name: titulo, label: Título, type: string }
           - { name: texto, label: Texto, type: text }
+          - { name: telefonoNombre, label: De quién es el teléfono, type: string, description: "Aparece delante del número. Por ejemplo: Itziar (coordinadora)." }
+          - { name: telefono, label: Teléfono, type: string, description: "Con prefijo. Déjalo vacío si no quieres enseñar ninguno." }
           - name: mostrarContacto
-            label: Enseñar el correo y las redes
+            label: Enseñar el teléfono, el correo y las redes
             type: boolean
             default: true
-            description: Para que puedan escribiros aunque la web esté cerrada.
+            description: Para que puedan llamaros o escribiros aunque la web esté cerrada.
 
       - name: error404
         label: Página de error

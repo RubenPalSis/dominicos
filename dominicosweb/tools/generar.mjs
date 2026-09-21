@@ -347,6 +347,15 @@ ${enlaces}
 function paginaMantenimiento() {
   const contacto = [];
 
+  /* El teléfono va el primero: mientras la web está cerrada es la vía más
+     rápida, y conviene que se vea sin bajar. El href se queda solo con los
+     dígitos y el «+», que es lo que entiende el marcador del móvil. */
+  if (mant.mostrarContacto !== false && mant.telefono) {
+    const marcar = String(mant.telefono).replace(/[^+\d]/g, '');
+    const rotulo = mant.telefonoNombre ? `${mant.telefonoNombre} · ${mant.telefono}` : mant.telefono;
+    contacto.push(`<li><span>Teléfono</span><a href="tel:${esc(marcar)}">${esc(rotulo)}</a></li>`);
+  }
+
   if (mant.mostrarContacto !== false && sitio.email) {
     contacto.push(`<li><span>Email</span><a href="mailto:${esc(sitio.email)}">${esc(sitio.email)}</a></li>`);
   }
