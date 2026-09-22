@@ -72,6 +72,13 @@ jobs:
             test -f "_site/$f" || { echo "FALTA _site/$f"; exit 1; }
           done
 
+          # Ojo al tocar las comprobaciones de abajo: solo se ejecuta una de las
+          # dos ramas, así que un fallo en la otra no se ve hasta que se
+          # cambia el interruptor de mantenimiento. Se apoyan en el ancla
+          # "inscripciones" (la última sección de la portada) y en la clase
+          # "nbox__link" (las cajas del listado de noticias): si se renombra
+          # alguna de las dos, hay que cambiarlas aquí también.
+
           # Nada de PHP, ni de fuentes, ni de herramientas en lo publicado.
           for patron in '*.php' '*.mjs' '*.md'; do
             test -z "$(find _site -name "$patron")" || { echo "Hay $patron publicado"; exit 1; }
@@ -87,13 +94,13 @@ jobs:
             # se quiere comprobar: si se colara, el mantenimiento no serviría.
             grep -q 'content="noindex"' _site/index.html \
               || { echo "El cartel de mantenimiento debería llevar noindex"; exit 1; }
-            ! grep -q 'id="contacto"' _site/index.html \
+            ! grep -q 'id="inscripciones"' _site/index.html \
               || { echo "La portada pública lleva la web entera estando en obras"; exit 1; }
             test ! -f _site/noticias.html \
               || { echo "El listado sigue en la raíz estando en obras"; exit 1; }
             test -d _site/vista-previa \
               || { echo "FALTA la carpeta de vista previa"; exit 1; }
-            grep -rq 'ncard__link' _site/vista-previa/*/noticias.html \
+            grep -rq 'nbox__link' _site/vista-previa/*/noticias.html \
               || { echo "La vista previa no lleva el listado"; exit 1; }
             echo "Vista previa en: /$(cd _site && find vista-previa -mindepth 1 -maxdepth 1 -type d | head -1)/"
           else
@@ -104,8 +111,8 @@ jobs:
             # El listado tiene que llevar dentro las noticias, no un hueco, y la
             # portada tiene que llevar sus secciones: si el generador fallara en
             # silencio, saldrían páginas vacías con aspecto de estar bien.
-            grep -q 'ncard__link' _site/noticias.html || { echo "noticias.html no lleva el listado dentro"; exit 1; }
-            grep -q 'id="contacto"' _site/index.html  || { echo "index.html no lleva sus secciones"; exit 1; }
+            grep -q 'nbox__link' _site/noticias.html || { echo "noticias.html no lleva el listado dentro"; exit 1; }
+            grep -q 'id="inscripciones"' _site/index.html || { echo "index.html no lleva sus secciones"; exit 1; }
             echo "Páginas de noticias: $(ls _site/noticias/*.html | wc -l)"
           fi
 
