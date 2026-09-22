@@ -10,7 +10,7 @@
  * se pinte va en `ctx`.
  */
 
-import { esc, boton, destino, limpiaRuta, enlaceSeguro } from './comun.mjs';
+import { esc, boton, limpiaRuta, enlaceSeguro } from './comun.mjs';
 
 /** Envoltura común: <section class="section ..." id="...">. */
 function seccion(s, clases, dentro) {
@@ -78,12 +78,6 @@ function hero(s, ctx) {
     boton(s.botonSecundario, ctx.enPortada, { prefijo: ctx.prefijo }),
   ].filter(Boolean);
 
-  const bajar = s.anclaBajar
-    ? `\n    <a class="hero__scroll" href="${esc(destino(s.anclaBajar, ctx.enPortada, ctx.prefijo))}" aria-label="Bajar">
-      <span></span>
-    </a>`
-    : '';
-
   return `  <section class="hero" id="${esc(s.id || 'top')}">
 ${media}    <div class="hero__in">
 ${s.eyebrow ? `      <p class="eyebrow"><span class="dot"></span>${esc(s.eyebrow)}</p>\n` : ''}      <h1 class="hero__h1">
@@ -93,7 +87,7 @@ ${s.texto ? `      <p class="hero__p">${esc(s.texto)}</p>\n` : ''}${
     botones.length
       ? `      <div class="hero__cta">\n${botones.map((b) => '        ' + b).join('\n')}\n      </div>\n`
       : ''
-  }    </div>${bajar}
+  }    </div>
   </section>`;
 }
 
@@ -404,20 +398,31 @@ ${p.titulo ? `              <b>${esc(p.titulo)}</b>\n` : ''}${p.texto ? `       
       )
     : '';
 
+  const form = s.formulario ? formulario(s.formulario, ctx) : '';
+
+  /* El titular va dentro de la columna de la izquierda, no cruzando el panel
+     entero: con el formulario al lado, un titular a todo lo ancho dejaba el
+     texto arriba y media columna de rojo vacío debajo de los pasos. Juntos,
+     las dos columnas acaban casi a la misma altura. */
+  const cabecera =
+    `          <header class="cta__head">\n` +
+    (s.kicker ? `            <p class="kicker kicker--on">${esc(s.kicker)}</p>\n` : '') +
+    `            <h2 class="h2 h2--xl">${tituloDeDosLineas(s)}</h2>\n` +
+    (parrafos(s.parrafos, 'lead', '            ') ? parrafos(s.parrafos, 'lead', '            ') + '\n' : '') +
+    `          </header>\n`;
+
   const izquierda =
+    cabecera +
     (pasos ? `          <ol class="pasos">\n${pasos}\n          </ol>\n` : '') +
     (docs ? `          <ul class="docs">\n${docs}\n          </ul>\n` : '') +
     (b ? `          ${b}\n` : '');
 
-  const form = s.formulario ? formulario(s.formulario, ctx) : '';
-
-  /* Las dos columnas solo se montan si hay algo que poner en ellas. Con una
-     sola, ocupa el ancho entero en vez de dejar media rejilla en blanco. */
-  const columnas =
-    izquierda || form
-      ? `        <div class="cta__cols${izquierda && form ? '' : ' cta__cols--una'}">
-${izquierda ? `          <div class="cta__l">\n${izquierda}          </div>\n` : ''}${form}        </div>\n`
-      : '';
+  /* Sin formulario no hay dos columnas: el texto ocupa el ancho entero en vez
+     de dejar media rejilla en blanco. */
+  const columnas = `        <div class="cta__cols${form ? '' : ' cta__cols--una'}">
+          <div class="cta__l">
+${izquierda}          </div>
+${form}        </div>\n`;
 
   /* Y debajo de todo, cruzando el ancho, cómo localizar al club. */
   const filas = datosDeContacto(s, ctx);
@@ -428,10 +433,6 @@ ${izquierda ? `          <div class="cta__l">\n${izquierda}          </div>\n` :
     ['inscrip'],
     `    <div class="wrap">
       <div class="cta reveal">
-        <header class="cta__head">
-${s.kicker ? `          <p class="kicker kicker--on">${esc(s.kicker)}</p>\n` : ''}          <h2 class="h2 h2--xl">${tituloDeDosLineas(s)}</h2>
-${parrafos(s.parrafos, 'lead', '          ')}
-        </header>
 ${columnas}${datos}      </div>
     </div>`
   );
