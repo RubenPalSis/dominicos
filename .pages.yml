@@ -407,7 +407,7 @@ content:
             label: Enlaces legales del pie
             type: object
             list: true
-            description: "Aviso legal, privacidad y cookies. Son páginas del sitio: se crean en «Páginas» y aquí se enlazan."
+            description: "Aviso legal y política de privacidad. Son páginas del sitio: se crean en «Páginas» y aquí se enlazan."
             fields:
               - { name: texto, label: Texto, type: string }
               - { name: destino, label: Destino, type: string, description: "P. ej. «/aviso-legal.html»." }

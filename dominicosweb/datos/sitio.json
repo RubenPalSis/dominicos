@@ -26,8 +26,7 @@
   "googleSiteVerification": "",
   "legales": [
     { "texto": "Aviso legal", "destino": "/aviso-legal.html" },
-    { "texto": "Política de privacidad", "destino": "/politica-de-privacidad.html" },
-    { "texto": "Cookies", "destino": "/cookies.html" }
+    { "texto": "Política de privacidad", "destino": "/politica-de-privacidad.html" }
   ],
   "autor": {
     "nombre": "Ruben Palacio",
