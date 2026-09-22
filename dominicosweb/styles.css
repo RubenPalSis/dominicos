@@ -233,13 +233,33 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .shot img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .8s ease}
 .shot:hover img{transform:scale(1.05)}
 
-/* Foto que se va turnando con otras. Todas ocupan exactamente la misma caja:
-   la primera manda el tamaño y las demás se superponen encima, así que al
-   cambiar no se mueve nada de sitio. Sin JavaScript se queda la primera, que
-   es la única visible de salida. */
-.shot--turno .shot__img + .shot__img{position:absolute;inset:0;height:100%}
-.shot--turno .shot__img{opacity:0;transition:opacity .9s ease,transform .8s ease}
+/* Fotos que se van turnando. La caja manda el tamaño (4/3, igual que una
+   foto suelta) y todas van dentro superpuestas, así que al cambiar no se
+   mueve nada de sitio ni se ve una debajo de otra. Sin JavaScript se queda
+   la primera puesta, que es la única visible de salida. */
+.shot__fotos{position:relative}
+.shot--turno .shot__fotos{aspect-ratio:4/3}
+.shot--turno .shot__img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .9s ease,transform .8s ease;
+}
 .shot--turno .shot__img.is-on{opacity:1}
+
+/* Las barritas de abajo: una por foto, la puesta más ancha y en blanco. Se
+   pueden tocar para saltar a esa foto, y entonces el turno vuelve a contar
+   desde cero. Sin JavaScript no se enseñan, que no llevarían a ninguna parte. */
+.shot__barras{position:absolute;inset:auto 0 18px 0;z-index:2;display:flex;justify-content:center;gap:8px}
+.shot__barra{
+  width:34px;height:3px;padding:0;border:0;border-radius:99px;cursor:pointer;
+  background:rgba(255,255,255,.42);box-shadow:0 1px 3px rgba(0,0,0,.45);
+  transition:background .3s ease,width .3s ease;
+}
+.shot__barra:hover{background:rgba(255,255,255,.72)}
+.shot__barra.is-on{width:44px;background:#fff}
+.shot__barra:focus-visible{outline:2px solid #fff;outline-offset:4px}
+html:not(.js) .shot__barras{display:none}
+/* Hueco para que el texto del pie no quede pegado a las barras. */
+.shot--turno figcaption{padding-bottom:44px}
 @media (prefers-reduced-motion:reduce){
   .shot--turno .shot__img{transition:none}
 }

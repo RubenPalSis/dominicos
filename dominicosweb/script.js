@@ -143,30 +143,57 @@
   }
 
   /* ---- fotos que se van turnando ---------------------------------------- */
-  /* Las de «Instalaciones»: la primera es la que manda y las demás se van
-     relevando cada tantos milisegundos (data-turno). Se para mientras la
-     pestaña está en segundo plano, que si no cambiaría a solas para nadie, y
-     no arranca siquiera si el navegador pide menos movimiento. */
+  /* Las de «Instalaciones»: van una encima de otra en la misma caja y se
+     relevan cada tantos milisegundos (data-turno). Debajo hay una barrita por
+     foto, que marca cuál está puesta y sirve para saltar a otra a mano; al
+     tocarla el turno vuelve a contar desde cero, para no cambiar de foto justo
+     después de haberla elegido. El paso solo se para mientras la pestaña está
+     en segundo plano, que si no cambiaría a solas para nadie, y no arranca
+     siquiera si el navegador pide menos movimiento: entonces solo se cambia a
+     mano con las barras. */
   var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   $$('.shot--turno').forEach(function (figura) {
-    var fotos = $$('.shot__img', figura);
-    if (quieto || fotos.length < 2) return;
+    var fotos  = $$('.shot__img', figura);
+    var barras = $$('.shot__barra', figura);
+    if (fotos.length < 2) return;
 
-    var cada = parseInt(figura.dataset.turno, 10) || 5000;
-    var i = 0;
+    var cada  = parseInt(figura.dataset.turno, 10) || 5000;
+    var i     = 0;
     var reloj = null;
 
-    function pasa() {
+    function pon(n) {
       fotos[i].classList.remove('is-on');
       fotos[i].setAttribute('aria-hidden', 'true');
-      i = (i + 1) % fotos.length;
+      if (barras[i]) {
+        barras[i].classList.remove('is-on');
+        barras[i].removeAttribute('aria-current');
+      }
+
+      i = (n + fotos.length) % fotos.length;
+
       fotos[i].classList.add('is-on');
       fotos[i].removeAttribute('aria-hidden');
+      if (barras[i]) {
+        barras[i].classList.add('is-on');
+        barras[i].setAttribute('aria-current', 'true');
+      }
     }
 
-    function arranca() { if (!reloj) reloj = setInterval(pasa, cada); }
+    function arranca() {
+      if (!reloj && !quieto) reloj = setInterval(function () { pon(i + 1); }, cada);
+    }
     function para() { clearInterval(reloj); reloj = null; }
+
+    barras.forEach(function (barra, n) {
+      barra.addEventListener('click', function (e) {
+        /* La figura entera abre el lightbox al pulsarla; la barra no. */
+        e.stopPropagation();
+        pon(n);
+        para();
+        arranca();
+      });
+    });
 
     document.addEventListener('visibilitychange', function () {
       document.hidden ? para() : arranca();

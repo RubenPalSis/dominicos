@@ -209,18 +209,38 @@ function panelYFoto(s, ctx) {
     ...(Array.isArray(f.masImagenes) ? f.masImagenes : []).filter((m) => m && m.imagen),
   ].filter((m) => m.imagen);
 
+  const varias = fotos.length > 1;
+
   const capas = fotos
     .map(
       (m, i) =>
-        `        <img class="shot__img${i === 0 ? ' is-on' : ''}" loading="lazy" decoding="async"` +
+        `          <img class="shot__img${i === 0 ? ' is-on' : ''}" loading="lazy" decoding="async"` +
         ` src="${ctx.base}${esc(limpiaRuta(m.imagen))}" alt="${esc(m.imagenAlt)}"${i === 0 ? '' : ' aria-hidden="true"'}>`
     )
     .join('\n');
 
+  /* Una barrita por foto, debajo, para saltar a mano sin esperar al turno.
+     Van escritas en el HTML y no las pinta el script, pero el CSS solo las
+     enseña si hay JavaScript: sin él no harían nada. */
+  const barras = varias
+    ? `        <div class="shot__barras" role="group" aria-label="Fotos de ${esc(f.titulo || s.titulo)}">
+${fotos
+  .map(
+    (m, i) =>
+      `          <button type="button" class="shot__barra${i === 0 ? ' is-on' : ''}"` +
+      `${i === 0 ? ' aria-current="true"' : ''} aria-label="Ver la foto ${i + 1} de ${fotos.length}"></button>`
+  )
+  .join('\n')}
+        </div>
+`
+    : '';
+
   const figura = fotos.length
-    ? `      <figure class="shot reveal${fotos.length > 1 ? ' shot--turno' : ''}"${fotos.length > 1 ? ' data-turno="5000"' : ''}>
+    ? `      <figure class="shot reveal${varias ? ' shot--turno' : ''}"${varias ? ' data-turno="5000"' : ''}>
+        <div class="shot__fotos">
 ${capas}
-${f.titulo || f.texto ? `        <figcaption>${f.titulo ? `<b>${esc(f.titulo)}</b> ` : ''}${esc(f.texto)}</figcaption>\n` : ''}      </figure>\n`
+        </div>
+${barras}${f.titulo || f.texto ? `        <figcaption>${f.titulo ? `<b>${esc(f.titulo)}</b> ` : ''}${esc(f.texto)}</figcaption>\n` : ''}      </figure>\n`
     : '';
 
   const aviso = s.aviso && (s.aviso.texto || s.aviso.etiqueta)
