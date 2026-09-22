@@ -87,7 +87,7 @@ components:
           - { name: id, label: Ancla, type: string }
           - { name: kicker, label: Línea de encima, type: string }
           - { name: titulo, label: Título, type: string }
-          - { name: tituloEnfasis, label: Segunda línea del título, type: string, description: "Se pinta debajo y en cursiva. Opcional." }
+          - { name: tituloEnfasis, label: Final del título en rojo, type: string, description: "Sigue en la misma frase, en rojo. Opcional." }
           - { name: parrafos, label: Párrafos, type: text, list: true }
           - { name: puntos, label: Lista con marcas, type: string, list: true }
           - name: cifras

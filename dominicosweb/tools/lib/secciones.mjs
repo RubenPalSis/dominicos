@@ -41,10 +41,16 @@ function parrafos(lista, clase, sangria) {
     .join('\n');
 }
 
-/** Un título que ocupa dos líneas, la segunda opcionalmente en cursiva. */
+/**
+ * El título de una sección, con dos maneras de resaltar el final.
+ *
+ * `tituloEnfasis` va en la misma frase, en rojo, y se parte donde quepa: es
+ * una palabra destacada, no un renglón aparte.
+ * `tituloSegundaLinea` sí fuerza el salto, que es justo para lo que está.
+ */
 function tituloDeDosLineas(s) {
   const primera = esc(s.titulo);
-  if (s.tituloEnfasis) return `${primera}<br><em>${esc(s.tituloEnfasis)}</em>`;
+  if (s.tituloEnfasis) return `${primera} <em>${esc(s.tituloEnfasis)}</em>`;
   if (s.tituloSegundaLinea) return `${primera}<br>${esc(s.tituloSegundaLinea)}`;
   return primera;
 }
