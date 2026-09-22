@@ -58,9 +58,10 @@
       ],
       "cifras": [
         {
-          "numero": 9,
+          "numero": 150,
+          "sufijo": "+",
           "sinSeparador": false,
-          "texto": "categorías en competición"
+          "texto": "jugadores y jugadoras"
         },
         {
           "numero": 6000,
@@ -69,14 +70,14 @@
           "texto": "fotos en el archivo del club"
         },
         {
-          "numero": 2009,
-          "sinSeparador": true,
-          "texto": "temporadas documentadas desde"
+          "numero": 8,
+          "sinSeparador": false,
+          "texto": "equipos en competición"
         },
         {
-          "numero": 2,
+          "numero": 10,
           "sinSeparador": false,
-          "texto": "pistas: patio y pabellón"
+          "texto": "canastas entre patio y pabellón"
         }
       ]
     },
