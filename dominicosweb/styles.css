@@ -221,6 +221,17 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .card__body p{margin:0;font-size:13.5px;color:rgba(255,255,255,.72)}
 .tag{display:inline-block;padding:4px 11px;border-radius:99px;background:var(--red);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
 .card.is-hidden{display:none}
+/* En el móvil siguen siendo dos por fila. Con `auto-fill` y un mínimo de
+   270 px caía una sola, a todo lo ancho: cada equipo ocupaba media pantalla y
+   ver los ocho era un viaje. A dos, se abarcan de un vistazo. Como la tarjeta
+   mide la mitad, el texto de dentro también se achica, o no cabría. */
+@media (max-width:620px){
+  .cards{grid-template-columns:1fr 1fr;gap:12px}
+  .card__body{padding:14px}
+  .card__body h3{font-size:17px;margin:6px 0 3px}
+  .card__body p{font-size:12px;line-height:1.4}
+  .card .tag{padding:3px 8px;font-size:9.5px;letter-spacing:.08em}
+}
 
 /* --- pista --------------------------------------------------------------- */
 .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(28px,4vw,46px)}
