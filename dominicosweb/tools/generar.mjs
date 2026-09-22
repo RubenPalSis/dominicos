@@ -397,11 +397,6 @@ function paginaMantenimiento() {
     )
     .join('\n          ');
 
-  /* La franja de categorías de abajo. Si no se dice otra cosa, se cogen las
-     del rótulo de la portada, para no repetirlas escritas en dos sitios. */
-  const ticker = (portada.secciones.find((s) => s.tipo === 'ticker') || {}).palabras || [];
-  const palabras = Array.isArray(mant.palabras) && mant.palabras.length ? mant.palabras : ticker;
-
   /* El fondo: la misma foto que la portada, muy oscurecida. Si no hay, la
      sección se queda con el degradado rojo y sigue funcionando. */
   const fondo = limpiaRuta(mant.imagen || sitio.imagenCompartir);
@@ -459,19 +454,8 @@ ${
 `
     : ''
 }    </div>
-${
-  palabras.length
-    ? `
-    <div class="mant__ticker" aria-hidden="true">
-      <div class="ticker__track">
-${[0, 1]
-  .map(() => palabras.map((p) => `        <span>${esc(p)}</span><i>●</i>`).join('\n'))
-  .join('\n')}
-      </div>
-    </div>
-`
-    : ''
-}  </section>
+
+  </section>
 
 </main>`;
 

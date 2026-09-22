@@ -678,12 +678,11 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
    ========================================================================== */
 /* `body` ya trae `overflow-x:hidden` de la hoja de arriba; aquí no se toca
    el vertical, o en una pantalla baja no se podría llegar a los botones. */
-/* Dos filas: el cartel, que se estira y se centra en lo que sobre, y la
-   franja de categorías pegada abajo. Puesta así y no con `position:absolute`,
-   la franja nunca se sale de la pantalla ni tapa los botones cuando el
-   contenido no cabe: la página crece y se puede bajar. */
+/* Ocupa la pantalla de alto como mínimo. Si el contenido no cabe —una
+   pantalla baja, el texto largo—, la página crece y se puede bajar, en vez
+   de recortarse. */
 .mant{
-  position:relative;min-height:100svh;display:grid;grid-template-rows:1fr auto;
+  position:relative;min-height:100svh;display:grid;
   overflow:hidden;background:#0b0c0f;color:#fff;
 }
 
@@ -785,19 +784,6 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .mant__redes span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
 .mant__redes b{font-size:15px;font-weight:600}
 
-/* La franja de categorías, pegada abajo del todo. */
-.mant__ticker{
-  position:relative;z-index:3;overflow:hidden;
-  padding:14px 0;border-top:1px solid rgba(255,255,255,.14);
-  background:rgba(11,12,15,.55);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-}
-.mant__ticker span{
-  font-family:var(--disp);font-size:clamp(15px,1.9vw,22px);text-transform:uppercase;
-  letter-spacing:-.02em;white-space:nowrap;color:rgba(255,255,255,.72);
-}
-.mant__ticker i{color:var(--red-2);font-style:normal;font-size:12px}
-
 @media (max-width:560px){
   .mant__btns .btn{width:100%;justify-content:center}
 }
@@ -805,5 +791,5 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 /* Quien prefiere no ver movimiento no ve ninguno: ni el aro, ni el latido,
    ni la franja de abajo. */
 @media (prefers-reduced-motion:reduce){
-  .mant__escudo::before,.mant__kicker i,.mant__ticker .ticker__track{animation:none}
+  .mant__escudo::before,.mant__kicker i{animation:none}
 }

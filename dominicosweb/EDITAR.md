@@ -136,8 +136,7 @@ previa desaparece.
 
 En esa misma pantalla se cambia lo que dice el cartel: la línea de encima, el
 título —una línea por bloque, y la última sale en rojo—, el texto, el teléfono
-y la foto de fondo. Lo que se deja vacío tira de lo que ya hay en la web: la
-foto de la portada y las categorías del rótulo.
+y la foto de fondo. Si la foto se deja vacía, se usa la de la portada.
 
 ### Lo que hay que saber
 

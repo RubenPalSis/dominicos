@@ -458,7 +458,6 @@ content:
           - { name: lineas, label: Título en pantalla, type: string, list: true, description: "Una línea por bloque. La última sale en rojo. Si se deja vacío, se usa el título de arriba en una sola línea." }
           - { name: texto, label: Texto, type: text }
           - { name: imagen, label: Foto de fondo, type: image, options: { media: fotos }, description: "Sale muy oscurecida, detrás del título. Si se deja vacía, se usa la de la portada." }
-          - { name: palabras, label: Categorías de la franja de abajo, type: string, list: true, description: "Si se deja vacío, se usan las mismas que en la portada." }
           - { name: telefono, label: Teléfono, type: string, description: "Con prefijo. Sale como botón de llamar. Déjalo vacío si no quieres enseñar ninguno." }
           - name: mostrarContacto
             label: Enseñar el teléfono, el correo y las redes
