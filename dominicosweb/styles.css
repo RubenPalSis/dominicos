@@ -382,15 +382,12 @@ html:not(.js) .shot__barras{display:none}
 .cta__datos{
   list-style:none;margin:0;padding:clamp(18px,2.4vw,24px) 0 0;
   border-top:1px solid rgba(255,255,255,.28);
-  display:grid;grid-template-columns:1fr;gap:clamp(10px,1.2vw,14px);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.2vw,14px);
 }
 /* Las columnas van a mano y no con `auto-fit`: el correo del club es largo y
    con reparto automático había una franja en la que entraban cuatro tarjetas
-   estrechas y el correo se partía por la mitad de la palabra. Dos filas de
-   dos antes que eso. */
-@media (min-width:640px){
-  .cta__datos{grid-template-columns:1fr 1fr}
-}
+   estrechas y el correo se partía por la mitad de la palabra. Dos por fila
+   siempre, y cuatro solo cuando hay sitio de sobra. */
 @media (min-width:1280px){
   .cta__datos{grid-template-columns:repeat(4,1fr)}
 }
@@ -409,6 +406,24 @@ html:not(.js) .shot__barras{display:none}
    entra de un renglón en la tarjeta. El corte es la red de seguridad por si
    algún día se pone uno más largo. */
 .cta__datos b{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+/* Con dos tarjetas por fila en un móvil, cada una mide unos 150 px y el
+   correo del club —29 caracteres— tiene que caber ahí. Se gana sitio por
+   todos lados: el panel rojo se estrecha, la tarjeta se aprieta y el texto se
+   mide contra el ancho de la pantalla, para que «baloncestodominicos» entre
+   siempre de un renglón y el arroba caiga en el segundo. */
+@media (max-width:560px){
+  .section.inscrip .cta{padding:22px 16px}
+  .cta__datos a{padding:11px 11px}
+  .cta__datos span{font-size:9.5px;letter-spacing:.09em}
+  .cta__datos b{font-size:clamp(11px,3.2vw,14px)}
+}
+/* En los móviles más estrechos hay que apurar un poco más para que el correo
+   siga cayendo en dos renglones y no se parta a media palabra. */
+@media (max-width:400px){
+  .cta__datos{gap:8px}
+  .cta__datos a{padding:10px 9px}
+  .cta__datos b{font-size:clamp(10px,2.9vw,13px)}
+}
 .docs{list-style:none;margin:0;padding:0;display:grid;gap:10px;position:relative}
 .docs a{
   display:flex;justify-content:space-between;align-items:center;gap:16px;
@@ -503,9 +518,18 @@ html:not(.js) .shot__barras{display:none}
   .foot__cols{grid-template-columns:1fr 1fr;gap:34px clamp(24px,4vw,40px)}
   .foot__brand{grid-column:1 / -1}
 }
+/* En el móvil no se apila todo: las secciones a la izquierda y el contacto a
+   la derecha, que son dos listas cortas y se abarcan de un vistazo, y el
+   escudo con el nombre debajo de las dos. Antes iban los tres bloques uno
+   encima de otro y el pie se hacía larguísimo. */
 @media (max-width:480px){
-  .foot__cols{grid-template-columns:1fr}
-  .foot__bar{justify-content:flex-start}
+  .foot__cols{grid-template-columns:1fr 1fr;gap:28px 16px}
+  .foot__brand{grid-column:1 / -1;order:2}
+  .foot__col a{font-size:13.5px}
+  .foot__col--con a{gap:2px 8px}
+  /* El nombre de la red debajo del usuario: al lado no cabe en media columna. */
+  .foot__col--con em{flex-basis:100%}
+  .foot__bar{justify-content:flex-start;margin-top:clamp(26px,5vw,34px)}
 }
 
 /* --- lightbox ------------------------------------------------------------ */

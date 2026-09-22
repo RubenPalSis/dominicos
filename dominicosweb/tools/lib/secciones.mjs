@@ -10,7 +10,7 @@
  * se pinte va en `ctx`.
  */
 
-import { esc, boton, limpiaRuta, enlaceSeguro } from './comun.mjs';
+import { esc, boton, limpiaRuta, enlaceSeguro, partible } from './comun.mjs';
 
 /** Envoltura común: <section class="section ..." id="...">. */
 function seccion(s, clases, dentro) {
@@ -359,7 +359,7 @@ function listaContacto(filas, clase, sangria, { enlaceEntero = false } = {}) {
          caja entera y no solo el renglón de abajo, que en un móvil es una
          diana de tres milímetros. */
       return enlaceEntero
-        ? `${sangria}  <li><a href="${esc(f.url)}"${fuera}><span>${esc(f.nombre)}</span><b>${esc(f.texto)}</b></a></li>`
+        ? `${sangria}  <li><a href="${esc(f.url)}"${fuera}><span>${esc(f.nombre)}</span><b>${partible(f.texto)}</b></a></li>`
         : `${sangria}  <li><span>${esc(f.nombre)}</span><a href="${esc(f.url)}"${fuera}>${esc(f.texto)}</a></li>`;
     })
     .join('\n');

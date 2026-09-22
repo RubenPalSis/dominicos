@@ -30,6 +30,20 @@ export function limpiaRuta(ruta) {
 }
 
 /** Solo dejamos pasar enlaces con un esquema seguro. */
+/**
+ * Un texto que puede partirse por el arroba.
+ *
+ * El correo del club mide 29 caracteres y no cabe de un renglón en una
+ * columna estrecha de móvil. Sin ayuda, el navegador lo corta por donde le
+ * pilla —«...@gmai / l.com»—; con un <wbr> delante del arroba, prefiere
+ * partir ahí y quedan dos líneas que se leen. Si no hay arroba, no cambia.
+ */
+export function partible(texto) {
+  const t = String(texto || '');
+  const i = t.indexOf('@');
+  return i > 0 ? esc(t.slice(0, i)) + '<wbr>' + esc(t.slice(i)) : esc(t);
+}
+
 export function enlaceSeguro(url) {
   if (!url) return '';
   try {
@@ -167,7 +181,7 @@ export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } 
      que salen de datos/sitio.json y pueden ser las que sean. */
   const contacto = [
     sitio.email
-      ? `        <a href="mailto:${esc(sitio.email)}">${esc(sitio.email)}</a>`
+      ? `        <a href="mailto:${esc(sitio.email)}">${partible(sitio.email)}</a>`
       : '',
     ...(sitio.redes || [])
       .filter((r) => enlaceSeguro(r.url))
