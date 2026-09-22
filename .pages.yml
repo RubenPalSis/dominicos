@@ -175,6 +175,26 @@ components:
               - { name: destino, label: Destino, type: string }
           - { name: cuantas, label: Cuántas se enseñan, type: number, default: 3 }
 
+      # Los logos no se eligen aquí: son los archivos de «Fotos» que se llaman
+      # patrocinador_1, patrocinador_2, etc. Subir el logo con ese nombre es
+      # darlo de alta, y borrarlo es darlo de baja. Lo de abajo solo sirve para
+      # ponerle nombre y web a uno concreto, que el nombre del archivo no lo
+      # sabe. Si no hay ningún logo, la franja no sale.
+      - name: patrocinadores
+        label: Logos de patrocinadores
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string, description: "Opcional. Sin él queda solo la línea de encima y los logos." }
+          - name: logos
+            label: Nombre y web de cada logo
+            type: object
+            list: true
+            fields:
+              - { name: numero, label: Número del logo, type: number, description: "El del nombre del archivo: 3 para «patrocinador_3»." }
+              - { name: nombre, label: Nombre, type: string, description: "Para quien navega a oídas, con un lector de pantalla." }
+              - { name: web, label: Web, type: string, description: "Opcional. Con ella, el logo se puede pulsar. Tiene que empezar por https://" }
+
       - name: inscripciones
         label: Inscripciones con formulario y fichas
         fields:
@@ -382,7 +402,7 @@ content:
           - { name: favicon, label: Icono de la pestaña, type: image, options: { media: fotos } }
           - { name: imagenCompartir, label: Foto al compartir la web, type: image, options: { media: fotos }, description: "La que sale al pegar el enlace de la portada en WhatsApp." }
           - { name: imagenCompartirAlt, label: Qué se ve en esa foto, type: string }
-          - { name: formspree, label: Id del formulario de Formspree, type: string, description: "Se saca de formspree.io → tu formulario → Integration. Es público: va en el HTML a la vista y no es un secreto." }
+          - { name: web3forms, label: Clave del formulario (Web3Forms), type: string, description: "Se saca de web3forms.com poniendo el correo del club. Es pública a propósito: va en el HTML a la vista y lo único que permite es mandar un correo a esa dirección." }
           - { name: googleSiteVerification, label: Código de Google Search Console, type: string, description: "Solo si verificas por «Etiqueta HTML». Pega aquí el valor de «content», no la etiqueta entera." }
           - { name: legal, label: Línea legal del pie, type: string }
           - name: autor

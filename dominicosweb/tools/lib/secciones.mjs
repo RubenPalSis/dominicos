@@ -10,7 +10,7 @@
  * se pinte va en `ctx`.
  */
 
-import { esc, boton, destino, limpiaRuta } from './comun.mjs';
+import { esc, boton, destino, limpiaRuta, enlaceSeguro } from './comun.mjs';
 
 /** Envoltura común: <section class="section ..." id="...">. */
 function seccion(s, clases, dentro) {
@@ -112,6 +112,59 @@ function ticker(s) {
       ${palabras}
     </div>
   </div>`;
+}
+
+/**
+ * Los logos de los patrocinadores.
+ *
+ * La lista no viene de la sección: son los archivos `images/patrocinador_N`
+ * que haya en el repositorio, y llegan ya ordenados en `ctx.patrocinadores`.
+ * La sección solo pone el texto que los acompaña, y puede ponerle nombre y
+ * web a un logo suelto por su número (`logos`), que es lo único que el
+ * nombre del archivo no sabe.
+ *
+ * Si no hay ningún logo, la sección no se pinta: más vale que no esté a que
+ * salga una franja vacía con un título encima.
+ */
+function patrocinadores(s, ctx) {
+  const extra = {};
+  (s.logos || []).forEach((l) => {
+    if (l && l.numero) extra[Number(l.numero)] = l;
+  });
+
+  const logos = (ctx.patrocinadores || []).map((logo) => {
+    const d = extra[logo.numero] || {};
+    const nombre = String(d.nombre || '').trim();
+    const web = enlaceSeguro(d.web);
+
+    /* Sin nombre no hay nada honesto que leer en voz alta, así que el logo
+       se marca como decorativo y no se le cuenta a nadie un «patrocinador 3»
+       que no significa nada. Con enlace sí hace falta: el enlace tiene que
+       decir a dónde va. */
+    const img =
+      `<img src="${ctx.base}${esc(logo.imagen)}" alt="${esc(nombre)}" loading="lazy" decoding="async">`;
+
+    const dentro = web
+      ? `<a href="${esc(web)}" target="_blank" rel="noopener noreferrer"${
+          nombre ? '' : ` aria-label="Web del patrocinador"`
+        }>${img}</a>`
+      : img;
+
+    return `          <li class="patro">${dentro}</li>`;
+  });
+
+  if (!logos.length) return '';
+
+  return seccion(
+    s,
+    ['patros'],
+    `    <div class="wrap">
+${s.kicker || s.titulo ? `      <div class="patros__cab reveal">
+${s.kicker ? `        <p class="kicker">${esc(s.kicker)}</p>\n` : ''}${s.titulo ? `        <h2 class="h2 h2--sm">${esc(s.titulo)}</h2>\n` : ''}      </div>\n` : ''}      <ul class="patros__lista reveal">
+${logos.join('\n')}
+      </ul>
+    </div>`
+  );
 }
 
 function textoYCifras(s, ctx) {
@@ -404,9 +457,11 @@ ${form}    </div>`
 }
 
 /**
- * El formulario lo envía Formspree. El id del formulario es público: va en el
- * HTML a la vista y no es un secreto. Mientras no se ponga uno de verdad,
- * script.js avisa en pantalla en vez de mandar el mensaje a ninguna parte.
+ * El formulario lo envía Web3Forms. La clave de acceso es pública a
+ * propósito: va en el HTML a la vista, como pide el servicio, y lo único que
+ * permite es mandar un correo a la dirección con la que se dio de alta. No es
+ * una contraseña. Mientras no se ponga una de verdad, script.js avisa en
+ * pantalla en vez de mandar el mensaje a ninguna parte.
  */
 function formulario(f, ctx) {
   const categorias = (f.categorias || [])
@@ -415,7 +470,8 @@ function formulario(f, ctx) {
 
   return `      <form class="form reveal" id="form" method="POST"
             data-email="${esc(ctx.sitio.email)}"
-            action="https://formspree.io/f/${esc(ctx.sitio.formspree)}">
+            action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="${esc(ctx.sitio.web3forms)}">
         <label>Nombre<input type="text" name="nombre" required maxlength="80" autocomplete="name" placeholder="Tu nombre"></label>
         <label>Email<input type="email" name="email" required maxlength="120" autocomplete="email" placeholder="tu@email.com"></label>
         <label>Teléfono<input type="tel" name="telefono" required maxlength="24" autocomplete="tel" inputmode="tel" placeholder="600 00 00 00"></label>
@@ -430,14 +486,17 @@ ${
     : ''
 }        <label>Mensaje<textarea name="mensaje" rows="4" required maxlength="2000" placeholder="Cuéntanos..."></textarea></label>
 
-        <!-- Asunto del correo que llega al club. Lo lee Formspree. -->
-        <input type="hidden" name="_subject" value="${esc(f.asunto || 'Contacto desde la web')}">
+        <!-- Lo que se ve en la bandeja de entrada del club: de quién viene
+             el correo y de qué va. Los dos nombres los lee Web3Forms. -->
+        <input type="hidden" name="subject" value="${esc(f.asunto || 'Contacto desde la web')}">
+        <input type="hidden" name="from_name" value="${esc(ctx.sitio.nombre)}">
 
-        <!-- Trampa para bots, la que Formspree descarta sola: invisible y
+        <!-- Trampa para bots, la que Web3Forms descarta sola: una casilla que
+             solo marca quien rellena el formulario a ciegas. Está escondida y
              fuera del recorrido del teclado para quien navega de verdad. -->
         <p class="hp" aria-hidden="true">
-          <label>No rellenes este campo
-            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          <label>No marques esta casilla
+            <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
           </label>
         </p>
 
@@ -476,6 +535,7 @@ export const TIPOS = {
   equipos,
   'panel-y-foto': panelYFoto,
   noticias,
+  patrocinadores,
   inscripciones,
   contacto,
   texto,

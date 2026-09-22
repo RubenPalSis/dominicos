@@ -207,6 +207,12 @@
       "cuantas": 3
     },
     {
+      "tipo": "patrocinadores",
+      "id": "patrocinadores",
+      "kicker": "Con el apoyo de",
+      "logos": []
+    },
+    {
       "tipo": "inscripciones",
       "id": "inscripciones",
       "kicker": "Inscripciones",

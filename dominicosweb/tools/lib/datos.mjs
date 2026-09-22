@@ -25,8 +25,37 @@ export function leerTodo(raiz) {
   const portada = leerPortada(raiz, sitio, avisa);
   const paginas = leerPaginas(raiz, sitio, avisa);
   const noticias = leerNoticias(raiz, avisa);
+  const patrocinadores = leerPatrocinadores(raiz);
 
-  return { sitio, menu, portada, paginas, noticias, errores };
+  return { sitio, menu, portada, paginas, noticias, patrocinadores, errores };
+}
+
+/* -------------------------------------------------------------------------
+ * images/patrocinador_N.*
+ * ---------------------------------------------------------------------- */
+
+const LOGO = /^patrocinador_(\d+)\.(jpe?g|png|webp|avif|gif|svg)$/i;
+
+/**
+ * Los patrocinadores no se escriben en ningún JSON: son los archivos de
+ * `images/` que se llaman `patrocinador_1`, `patrocinador_2`, etc. Subir el
+ * logo es darlo de alta, y borrarlo es darlo de baja; el número manda el
+ * orden en que salen. Así nadie tiene que tocar una lista aparte, que es
+ * justo donde se olvidaría un logo puesto o uno quitado.
+ *
+ * Los huecos dan igual: si están el 1, el 2 y el 7, salen esos tres seguidos.
+ */
+function leerPatrocinadores(raiz) {
+  const dir = join(raiz, 'images');
+  if (!existsSync(dir)) return [];
+
+  return readdirSync(dir)
+    .map((archivo) => {
+      const m = archivo.match(LOGO);
+      return m ? { numero: Number(m[1]), imagen: `images/${archivo}` } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.numero - b.numero);
 }
 
 /** Lee un JSON y avisa con claridad si no se puede. */
@@ -88,7 +117,7 @@ function leerSitio(raiz, avisa) {
     redes: (Array.isArray(d.redes) ? d.redes : [])
       .filter((r) => r && r.nombre && enlaceSeguro(r.url))
       .map((r) => ({ nombre: String(r.nombre), usuario: String(r.usuario || ''), url: enlaceSeguro(r.url) })),
-    formspree: String(d.formspree || 'TU_ID_DE_FORMSPREE'),
+    web3forms: String(d.web3forms || 'TU_CLAVE_DE_WEB3FORMS'),
     googleSiteVerification: String(d.googleSiteVerification || ''),
     legal: String(d.legal || ''),
     autor: d.autor && d.autor.nombre

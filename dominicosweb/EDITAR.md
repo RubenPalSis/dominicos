@@ -45,14 +45,38 @@ pueden:
 | Tarjetas de equipos con filtros| Las fotos de los equipos, con los botones de filtrar.   |
 | Panel de texto con foto al lado| Un bloque de texto y una foto grande al lado.           |
 | Últimas noticias               | Las noticias más recientes. Se rellena sola.            |
+| Logos de patrocinadores        | La franja de logos. Se rellena sola con las fotos que se llamen `patrocinador_1`, `patrocinador_2`… |
 | Inscripciones con fichas       | El bloque rojo con los PDF descargables.                |
 | Contacto con formulario        | Los datos de contacto y el formulario.                  |
 | Texto libre                    | Un texto con negritas, enlaces y listas. Para lo demás. |
 
-**Diseños nuevos, no.** Estas nueve secciones son las que están dibujadas. Se
+**Diseños nuevos, no.** Estas diez secciones son las que están dibujadas. Se
 pueden usar tantas veces como se quiera y en cualquier orden, pero inventar
 una sección con una pinta distinta es trabajo de programación: hay que
 añadirla al código y al panel.
+
+### Los patrocinadores
+
+La franja de logos **no tiene una lista que rellenar**. Se hace sola con las
+fotos: en **Fotos**, sube el logo con el nombre `patrocinador_1`, el siguiente
+como `patrocinador_2`, y así. Salen en ese orden, de izquierda a derecha.
+
+- **Dar de alta** un patrocinador es subir su logo con ese nombre.
+- **Darlo de baja** es borrar el archivo.
+- **Cambiar el orden** es renombrarlos. Que falte un número no importa: si
+  están el 1, el 2 y el 7, salen esos tres seguidos.
+- Si no hay ningún logo, la franja no aparece en la web.
+
+Cada logo se pinta dentro de una cajita blanca del mismo alto, así que da
+igual que uno sea alargado y otro cuadrado. Lo que conviene es que el logo
+**no traiga márgenes anchos** dentro del archivo, o se verá pequeño al lado
+de los demás.
+
+En la sección hay un apartado para **ponerle nombre y web a un logo**, por su
+número. No hace falta, pero:
+
+- el **nombre** es lo que se lee en voz alta a quien no ve la pantalla;
+- la **web** hace que el logo se pueda pulsar.
 
 ### El campo «Ancla»
 
@@ -111,10 +135,11 @@ DNS del dominio **deja la web inaccesible**. No se toca salvo que se esté
 cambiando de dominio a propósito, y entonces hay que hacer lo que dice el
 [README](../README.md#dns).
 
-**Id del formulario de Formspree**. Es lo que hace que el formulario de
-contacto llegue a alguien. Mientras ponga `TU_ID_DE_FORMSPREE`, el formulario
-avisa en pantalla de que no está conectado en vez de tragarse los mensajes.
-Ese id es público y va en el HTML a la vista: **no es un secreto**.
+**Clave del formulario (Web3Forms)**. Es lo que hace que el formulario de
+contacto llegue a alguien. Mientras ponga `TU_CLAVE_DE_WEB3FORMS`, el
+formulario avisa en pantalla de que no está conectado en vez de tragarse los
+mensajes. Esa clave es pública y va en el HTML a la vista: **no es una
+contraseña**, lo único que permite es mandar un correo al club.
 
 ---
 

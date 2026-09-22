@@ -262,8 +262,8 @@
     sections.forEach(function (s) { io3.observe(s); });
   }
 
-  /* ---- formulario de contacto (Formspree) -------------------------------
-     El formulario funciona sin JavaScript: es un POST normal a Formspree, que
+  /* ---- formulario de contacto (Web3Forms) -------------------------------
+     El formulario funciona sin JavaScript: es un POST normal a Web3Forms, que
      responde con su propia página de gracias. Con JavaScript lo enviamos por
      fetch para poder contestar aquí mismo, sin salir de la página. */
   var form = $('#form');
@@ -283,10 +283,11 @@
   if (form && form.tagName === 'FORM') {
     form.addEventListener('submit', function (e) {
       var accion = form.getAttribute('action') || '';
+      var clave  = form.querySelector('[name="access_key"]');
 
-      /* Mientras no se haya puesto el endpoint real, avisamos en vez de
-         mandar el mensaje a ninguna parte. */
-      if (accion.indexOf('TU_ID_DE_FORMSPREE') !== -1) {
+      /* Mientras no se haya puesto la clave real, avisamos en vez de mandar
+         el mensaje a ninguna parte. */
+      if (!clave || !clave.value || clave.value.indexOf('TU_CLAVE_DE_WEB3FORMS') !== -1) {
         e.preventDefault();
         decir('El formulario aún no está conectado. Escríbenos a ' + correo + '.', false);
         return;
@@ -315,7 +316,7 @@
         return;
       }
 
-      /* Sin fetch, dejamos que el navegador envíe el formulario a Formspree. */
+      /* Sin fetch, dejamos que el navegador envíe el formulario a Web3Forms. */
       if (!window.fetch) {
         decir('Enviando…', false);
         return;

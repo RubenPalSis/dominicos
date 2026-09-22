@@ -34,7 +34,7 @@ import { cajaNoticia, paginaNoticia } from './lib/noticias.mjs';
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-const { sitio, menu, portada, paginas, noticias, errores } = leerTodo(RAIZ);
+const { sitio, menu, portada, paginas, noticias, patrocinadores, errores } = leerTodo(RAIZ);
 
 /* El interruptor de mantenimiento. Cuando está puesto, el público ve un
    cartel en cualquier dirección del sitio y la web de verdad se publica
@@ -84,6 +84,7 @@ function construyePortada() {
     base: BASE,
     enPortada: true,
     prefijo: PREFIJO,
+    patrocinadores,
     /* Ya vienen de la más reciente a la más antigua, así que en la fila
        quedan por fecha de izquierda a derecha. El titular va en h3: la
        sección de la portada ya tiene su h2. */
@@ -225,7 +226,7 @@ ${cajas}
 
 function construyePagina(p) {
   const url = `${sitio.dominio}/${p.slug}.html`;
-  const ctx = { sitio, base: BASE, enPortada: false, prefijo: PREFIJO, cajasNoticias: sinNoticias };
+  const ctx = { sitio, base: BASE, enPortada: false, prefijo: PREFIJO, patrocinadores, cajasNoticias: sinNoticias };
 
   const media = p.imagen
     ? `    <div class="phero__media">

@@ -261,12 +261,19 @@ done
 
 ## Formulario de contacto
 
-Lo envía [Formspree](https://formspree.io). El id del formulario está en
-`formspree`, dentro de `datos/sitio.json`, y de ahí va al `action` del
-formulario. Ese id es público y va en el HTML a la vista; **no es un secreto**.
+Lo envía [Web3Forms](https://web3forms.com). La clave está en `web3forms`,
+dentro de `datos/sitio.json`, y de ahí va a un campo oculto (`access_key`) del
+formulario. Esa clave es pública y va en el HTML a la vista: el servicio está
+hecho así, y lo único que permite es mandar un correo a la dirección con la
+que se dio de alta. **No es una contraseña.**
 
-Mientras ponga `TU_ID_DE_FORMSPREE`, el formulario no envía nada y avisa en
+Mientras ponga `TU_CLAVE_DE_WEB3FORMS`, el formulario no envía nada y avisa en
 pantalla en vez de tragarse los mensajes.
+
+El formulario funciona sin JavaScript: es un POST normal y Web3Forms contesta
+con su propia página de gracias. Con JavaScript, `script.js` lo manda por
+`fetch` y contesta en la misma página. La casilla `botcheck`, escondida, es la
+trampa para bots que el servicio descarta sola.
 
 Nunca debe ponerse en el repositorio un token de GitHub, una contraseña ni una
 clave de API: todo lo que se publica se sirve tal cual a cualquiera que pida
