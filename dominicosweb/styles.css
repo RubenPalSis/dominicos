@@ -331,6 +331,10 @@ html:not(.js) .shot__barras{display:none}
    normal, que ahí vuelve a tener todo el ancho. */
 @media (min-width:901px){
   .cta__cols:not(.cta__cols--una) .cta__head .h2{font-size:clamp(32px,3.9vw,54px)}
+  /* El texto es más corto que el formulario, siempre: centrado, lo que sobra
+     queda repartido arriba y abajo en vez de amontonarse debajo del último
+     paso, que era lo que dejaba aquel pozo de rojo vacío. */
+  .cta__cols:not(.cta__cols--una){align-items:center}
 }
 /* Un <ol>: el orden es el contenido. Los números los pone el contador del
    CSS, así que el HTML no repite lo que ya dice la lista. */
@@ -361,14 +365,39 @@ html:not(.js) .shot__barras{display:none}
 .cta .form .btn--primary:hover{background:#0b0c0f;color:#fff}
 .cta .form__msg{color:var(--red)}
 .cta .form__msg.ok{color:#15915e}
-/* Los datos de contacto, en una sola línea por debajo de las dos columnas. */
+/* Los datos de contacto, por debajo de las dos columnas: una tarjeta por vía,
+   todas iguales y todas pulsables enteras. Se reparten solas —cuatro en
+   pantalla ancha, dos en tablet, una en móvil— sin tener que contarlas. */
 .cta__datos{
-  margin:0;padding-top:clamp(18px,2.4vw,24px);
-  border-top:1px solid rgba(255,255,255,.3);
+  list-style:none;margin:0;padding:clamp(18px,2.4vw,24px) 0 0;
+  border-top:1px solid rgba(255,255,255,.28);
+  display:grid;grid-template-columns:1fr;gap:clamp(10px,1.2vw,14px);
 }
-.cta__datos span{color:rgba(255,255,255,.7)}
-.cta__datos a{color:#fff}
-.cta__datos a:hover{color:#fff;opacity:.7}
+/* Las columnas van a mano y no con `auto-fit`: el correo del club es largo y
+   con reparto automático había una franja en la que entraban cuatro tarjetas
+   estrechas y el correo se partía por la mitad de la palabra. Dos filas de
+   dos antes que eso. */
+@media (min-width:640px){
+  .cta__datos{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1280px){
+  .cta__datos{grid-template-columns:repeat(4,1fr)}
+}
+.cta__datos a{
+  display:grid;gap:4px;padding:14px 16px;border-radius:14px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  transition:background .25s ease,border-color .25s ease,transform .25s ease;
+}
+.cta__datos a:hover{background:#fff;color:var(--red);transform:translateY(-3px)}
+.cta__datos span{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.66);
+}
+.cta__datos a:hover span{color:var(--red);opacity:.75}
+/* El correo del club mide 29 caracteres y es el que manda la medida: a 14 px
+   entra de un renglón en la tarjeta. El corte es la red de seguridad por si
+   algún día se pone uno más largo. */
+.cta__datos b{font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .docs{list-style:none;margin:0;padding:0;display:grid;gap:10px;position:relative}
 .docs a{
   display:flex;justify-content:space-between;align-items:center;gap:16px;
@@ -404,20 +433,61 @@ html:not(.js) .shot__barras{display:none}
 .form__msg.ok{color:#21c07a}
 
 /* --- footer -------------------------------------------------------------- */
-.foot{border-top:1px solid var(--line);background:var(--bg-2);padding:56px 0 40px}
-.foot__in{display:grid;gap:26px;justify-items:center;text-align:center}
+/* Tres columnas —el club, las secciones y el contacto— y debajo una línea
+   fina con el año, lo legal y la firma. El filo rojo de arriba es el mismo
+   del escudo: cierra la página con el color con el que empieza. */
+.foot{
+  position:relative;border-top:1px solid var(--line);background:var(--bg-2);
+  padding:clamp(44px,5vw,64px) 0 clamp(26px,3vw,34px);
+}
+.foot::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--red) 0%,var(--red) 22%,rgba(224,31,38,0) 78%);
+}
+.foot__cols{
+  display:grid;grid-template-columns:1.5fr 1fr 1.2fr;
+  gap:clamp(30px,4vw,56px);align-items:start;
+}
 .foot__brand{display:flex;align-items:center;gap:14px}
-.foot__brand img{border-radius:50%;background:#fff}
-.foot__brand p{margin:0;text-align:left;font-size:14px;line-height:1.4;color:var(--txt-2)}
-.foot__brand b{color:var(--txt);font-family:var(--disp);letter-spacing:.015em;text-transform:uppercase}
-.foot__nav{display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
-.foot__nav a{font-size:14px;color:var(--txt-2);transition:color .2s}
-.foot__nav a:hover{color:var(--red)}
+.foot__brand img{border-radius:50%;background:#fff;flex:none}
+.foot__brand p{margin:0;font-size:14px;line-height:1.45;color:var(--txt-2)}
+.foot__brand b{
+  display:block;color:var(--txt);font-family:var(--disp);
+  letter-spacing:.015em;text-transform:uppercase;font-size:15px;
+}
+/* Cada columna es un rótulo y una pila de enlaces, uno por renglón: en fila
+   no se distinguía cuáles eran del menú y cuáles la letra pequeña. */
+.foot__col{display:grid;gap:11px;align-content:start}
+.foot__h{
+  margin:0 0 3px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);font-weight:600;
+}
+.foot__col a{font-size:14.5px;color:var(--txt-2);transition:color .2s ease,transform .2s ease}
+.foot__col a:hover{color:var(--txt)}
+.foot__col--con a{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;overflow-wrap:anywhere}
+/* El nombre de la red, detrás del usuario y en pequeño: lo que se copia es
+   el usuario, el resto es para saber de dónde es. */
+.foot__col--con em{font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+/* La raya de abajo: año, aviso legal y firma, a los dos extremos. */
+.foot__bar{
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+  gap:10px clamp(20px,3vw,40px);
+  margin-top:clamp(34px,4vw,50px);padding-top:clamp(18px,2vw,24px);
+  border-top:1px solid var(--line);
+}
 .foot__legal{margin:0;font-size:12.5px;color:var(--txt-2)}
 /* La firma de quien hizo la web: presente, pero por debajo de lo del club. */
 .foot__autor{margin:0;font-size:12.5px;color:var(--txt-2);opacity:.75}
 .foot__autor a{color:inherit;border-bottom:1px solid var(--line);transition:color .2s,border-color .2s}
 .foot__autor a:hover{color:var(--red);border-color:var(--red)}
+@media (max-width:820px){
+  .foot__cols{grid-template-columns:1fr 1fr;gap:34px clamp(24px,4vw,40px)}
+  .foot__brand{grid-column:1 / -1}
+}
+@media (max-width:480px){
+  .foot__cols{grid-template-columns:1fr}
+  .foot__bar{justify-content:flex-start}
+}
 
 /* --- lightbox ------------------------------------------------------------ */
 .lb{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.92);display:grid;place-items:center;padding:24px;animation:fade .25s ease}

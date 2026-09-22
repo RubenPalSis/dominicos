@@ -145,30 +145,74 @@ ${enlaces}${cta}
 </header>`;
 }
 
+/**
+ * El pie.
+ *
+ * Tres columnas —quién es el club, a dónde se va desde aquí y cómo se le
+ * escribe— y debajo una línea fina con el año, lo legal y la firma. Antes era
+ * todo una pila centrada: se leía como un montón de renglones sueltos y no se
+ * distinguía el menú de la letra pequeña. En columnas, cada cosa se ve de un
+ * vistazo por dónde cae.
+ */
 export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } = {}) {
   const enlaces = menu.pie
-    .map((e) => `<a href="${esc(destino(e.destino, enPortada, prefijo))}">${esc(e.texto)}</a>`)
-    .join('');
+    .map((e) => `        <a href="${esc(destino(e.destino, enPortada, prefijo))}">${esc(e.texto)}</a>`)
+    .join('\n');
+
+  /* El correo primero, que es por donde contesta el club, y detrás las redes,
+     que salen de datos/sitio.json y pueden ser las que sean. */
+  const contacto = [
+    sitio.email
+      ? `        <a href="mailto:${esc(sitio.email)}">${esc(sitio.email)}</a>`
+      : '',
+    ...(sitio.redes || [])
+      .filter((r) => enlaceSeguro(r.url))
+      .map(
+        (r) =>
+          `        <a href="${esc(enlaceSeguro(r.url))}" target="_blank" rel="noopener">${esc(
+            r.usuario || r.nombre
+          )} <em>${esc(r.nombre)}</em></a>`
+      ),
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   return `<footer class="foot">
-  <div class="wrap foot__in">
-    <div class="foot__brand">
-      <img src="${base}${esc(sitio.logo)}" alt="" width="52" height="52">
-      <p><b>${esc(sitio.nombreLargo)}</b><br>${esc(sitio.ciudad)}</p>
-    </div>
-    <nav class="foot__nav" aria-label="Pie">
-      ${enlaces}
-    </nav>
-    <p class="foot__legal">© <span id="year">${new Date().getFullYear()}</span> ${esc(sitio.nombre)}${sitio.legal ? ' · ' + esc(sitio.legal) : ''}</p>
+  <div class="wrap">
+    <div class="foot__cols">
+      <div class="foot__brand">
+        <img src="${base}${esc(sitio.logo)}" alt="" width="56" height="56">
+        <p><b>${esc(sitio.nombreLargo)}</b><br>${esc(sitio.ciudad)}</p>
+      </div>
+
+      <nav class="foot__col" aria-label="Pie">
+        <h2 class="foot__h">Secciones</h2>
+${enlaces}
+      </nav>
+
+${
+  contacto
+    ? `      <div class="foot__col foot__col--con">
+        <h2 class="foot__h">Contacto</h2>
+${contacto}
+      </div>
+`
+    : ''
+}    </div>
+
+    <div class="foot__bar">
+      <p class="foot__legal">© <span id="year">${new Date().getFullYear()}</span> ${esc(sitio.nombre)}${
+    sitio.legal ? ' · ' + esc(sitio.legal) : ''
+  }</p>
 ${
   sitio.autor
-    ? `    <p class="foot__autor">Página web creada por ${
+    ? `      <p class="foot__autor">Página web creada por ${
         sitio.autor.url
           ? `<a href="${esc(sitio.autor.url)}" target="_blank" rel="noopener">${esc(sitio.autor.nombre)}</a>`
           : esc(sitio.autor.nombre)
       }</p>\n`
     : ''
-}
+}    </div>
   </div>
 </footer>
 

@@ -217,20 +217,15 @@
       "kicker": "Inscripciones",
       "titulo": "Ven a jugar",
       "tituloSegundaLinea": "con nosotros",
-      "parrafos": [
-        "Escríbenos y te decimos en qué equipo encaja, dónde y cuándo entrena, y qué hace falta para apuntarse. El primer paso es solo una conversación."
-      ],
+      "parrafos": [],
       "pasos": [
         {
-          "titulo": "Nos escribes",
           "texto": "Rellena el formulario con la edad del jugador o jugadora. No hace falta nada más."
         },
         {
-          "titulo": "Te contamos el encaje",
           "texto": "Te decimos en qué equipo entra, en qué pista y a qué horas entrena, y qué cuota tiene."
         },
         {
-          "titulo": "Viene a probar",
           "texto": "Un par de entrenamientos sin compromiso, para ver si le gusta antes de decidir nada."
         }
       ],

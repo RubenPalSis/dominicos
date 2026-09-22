@@ -350,14 +350,18 @@ function datosDeContacto(s, ctx) {
 }
 
 /** La lista de esos datos. La clase decide si cae en columna o en fila. */
-function listaContacto(filas, clase, sangria) {
+function listaContacto(filas, clase, sangria, { enlaceEntero = false } = {}) {
   const items = filas
-    .map(
-      (f) =>
-        `${sangria}  <li><span>${esc(f.nombre)}</span><a href="${esc(f.url)}"${
-          f.fuera ? ' target="_blank" rel="noopener"' : ''
-        }>${esc(f.texto)}</a></li>`
-    )
+    .map((f) => {
+      const fuera = f.fuera ? ' target="_blank" rel="noopener"' : '';
+
+      /* En tarjeta, el rótulo va dentro del enlace: así se puede pulsar la
+         caja entera y no solo el renglón de abajo, que en un móvil es una
+         diana de tres milímetros. */
+      return enlaceEntero
+        ? `${sangria}  <li><a href="${esc(f.url)}"${fuera}><span>${esc(f.nombre)}</span><b>${esc(f.texto)}</b></a></li>`
+        : `${sangria}  <li><span>${esc(f.nombre)}</span><a href="${esc(f.url)}"${fuera}>${esc(f.texto)}</a></li>`;
+    })
     .join('\n');
 
   return `${sangria}<ul class="${clase}">\n${items}\n${sangria}</ul>\n`;
@@ -424,9 +428,13 @@ ${p.titulo ? `              <b>${esc(p.titulo)}</b>\n` : ''}${p.texto ? `       
 ${izquierda}          </div>
 ${form}        </div>\n`;
 
-  /* Y debajo de todo, cruzando el ancho, cómo localizar al club. */
+  /* Y debajo de todo, cruzando el ancho, cómo localizar al club: una tarjeta
+     por vía, todas del mismo tamaño. En fila suelta, el correo largo y los
+     usuarios cortos dejaban unos huecos irregulares que parecían un error. */
   const filas = datosDeContacto(s, ctx);
-  const datos = filas.length ? listaContacto(filas, 'contact contact--fila cta__datos', '        ') : '';
+  const datos = filas.length
+    ? listaContacto(filas, 'cta__datos', '        ', { enlaceEntero: true })
+    : '';
 
   return seccion(
     s,
