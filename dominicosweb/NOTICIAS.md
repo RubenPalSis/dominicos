@@ -47,8 +47,8 @@ Escribas la noticia como la escribas, al llegar a GitHub se genera:
 
 - su propia página, en `noticias/nombre-corto.html`, con su título, su
   descripción, su canonical y sus datos para Google;
-- su tarjeta en el listado de `noticias.html`, la primera;
-- su fila en la portada, si entra entre las tres más recientes;
+- su caja en el listado de `noticias.html`, la primera;
+- su caja en la portada, si entra entre las tres más recientes;
 - su entrada en `sitemap.xml`.
 
 Todo eso se escribe **dentro del HTML**, no lo pinta JavaScript: es lo que hace
@@ -68,6 +68,7 @@ Vive en `noticias/` y se llama `AAAA-MM-DD-nombre-corto.json`:
   "fecha": "2026-09-21",
   "titulo": "Nuevo patrocinador para Baloncesto Dominicos",
   "descripcion": "Una frase que resuma la noticia. Es lo que se ve en el listado y lo que sale en Google.",
+  "subtitulo": "La entradilla que va debajo del titular, a todo el ancho.",
   "contenido": [
     "El primer párrafo de la noticia.",
     "El segundo. Cada frase entre comillas es un párrafo.",
@@ -75,6 +76,10 @@ Vive en `noticias/` y se llama `AAAA-MM-DD-nombre-corto.json`:
   ],
   "imagen": "images/noticias/nuevo-patrocinador.jpg",
   "imagenAlt": "Foto de la firma del acuerdo",
+  "galeria": [
+    { "imagen": "images/noticias/firma-1.jpg", "imagenAlt": "El equipo con la nueva equipación", "pie": "Presentación en el pabellón" },
+    { "imagen": "images/noticias/firma-2.jpg", "imagenAlt": "Detalle del escudo bordado" }
+  ],
   "categoria": "Club",
   "enlace": "https://ejemplo.es/nota-de-prensa",
   "textoEnlace": "Más información",
@@ -89,10 +94,12 @@ Vive en `noticias/` y se llama `AAAA-MM-DD-nombre-corto.json`:
 |---------------|--------------|---------------------------------------------------------------------|
 | `fecha`       | Sí           | `AAAA-MM-DD`. Ordena el listado y es la fecha real de publicación.   |
 | `titulo`      | Sí           | El titular.                                                          |
-| `descripcion` | Sí           | El resumen del listado y la `meta description` de Google.            |
-| `contenido`   | No           | El cuerpo, en párrafos. Si falta, se usa la `descripcion`.           |
-| `imagen`      | No           | Ruta desde la raíz, **sin barra delante**. Si falta, se usa el escudo. |
+| `descripcion` | Sí           | El resumen de la caja del listado y la `meta description` de Google. |
+| `subtitulo`   | No           | La entradilla, debajo del titular y a todo el ancho. Si falta, se usa la `descripcion`. |
+| `contenido`   | No           | El cuerpo, en párrafos, a media página. Si falta, se usa la `descripcion`. |
+| `imagen`      | No           | La foto principal, a media página junto al texto. Ruta desde la raíz, **sin barra delante**. Si falta, se usa el escudo. |
 | `imagenAlt`   | No           | Qué se ve en la foto, para quien no la ve. Ponlo siempre que haya foto. |
+| `galeria`     | No           | Las fotos de más, en una tira a todo el ancho al final. Cada una con `imagen`, `imagenAlt` y un `pie` opcional. |
 | `fechaTexto`  | No           | Para escribir la fecha a mano, p. ej. `"11–12 jun 2022"`.            |
 | `fechaModificacion` | No     | Solo si corriges una noticia ya publicada. Google lo usa como `dateModified`. No lo pongas «por poner». |
 | `categoria`   | No           | Etiqueta roja sobre la foto. P. ej. `Competición`, `Club`, `Escuela`. |
@@ -119,12 +126,41 @@ quien lo haya compartido y para Google.
 
 ---
 
-## La foto
+## Cómo queda maquetada
 
-Va en `images/noticias/`. Lee el [README de esa carpeta](images/noticias/README.md):
+La ficha se monta sobre una retícula de doce columnas:
+
+    ┌────────────────────────────────────────────┐
+    │ Titular                                 12 │
+    ├────────────────────────────────────────────┤
+    │ Subtítulo                               12 │
+    ├──────────────────────┬─────────────────────┤
+    │ Texto de la noticia  │ Foto principal      │
+    │                    6 │                   6 │
+    ├──────────────────────┴─────────────────────┤
+    │ Galería de fotos                        12 │
+    └────────────────────────────────────────────┘
+
+En móvil todo pasa a ancho completo, uno debajo de otro.
+
+En la portada y en el listado la noticia se ve como una caja: foto, fecha,
+titular y un botón de «Leer más». Las tres de la portada salen en la misma
+fila, de la más reciente a la más antigua, de izquierda a derecha.
+
+---
+
+## Las fotos
+
+Van en `images/noticias/`. Lee el [README de esa carpeta](images/noticias/README.md):
 dice el tamaño y el peso que conviene.
 
-Desde el panel se sube arrastrándola al campo «Foto», y va sola a esa carpeta.
+Desde el panel se suben arrastrándolas al campo «Foto principal» o al de
+«Galería de fotos», y van solas a esa carpeta.
+
+La **foto principal** se enseña entera, sin recortar, al lado del texto, y es
+la que sale en la caja del listado y al compartir el enlace. Las de la
+**galería** se recortan todas al mismo tamaño para que la tira quede pareja, y
+se abren a pantalla completa al pulsarlas.
 
 ---
 

@@ -286,11 +286,36 @@ function leerNoticias(raiz, avisa) {
       continue;
     }
 
-    const contenido = Array.isArray(datos.contenido)
-      ? datos.contenido.map(String).filter((p) => p.trim() !== '')
-      : typeof datos.contenido === 'string' && datos.contenido.trim() !== ''
+    /* Un bloque por párrafo. Al pegar un texto largo desde el móvil o desde
+       Instagram, todo cae en un solo bloque con líneas en blanco dentro; se
+       parte por ellas, o saldría como un ladrillo de texto sin separaciones.
+       El salto suelto dentro de un párrafo sí se respeta tal cual. */
+    const bruto = Array.isArray(datos.contenido)
+      ? datos.contenido
+      : typeof datos.contenido === 'string'
         ? [datos.contenido]
         : [];
+
+    const contenido = bruto
+      .flatMap((p) => String(p).split(/\n[ \t]*\n+/))
+      .map((p) => p.trim())
+      .filter((p) => p !== '');
+
+    /* Las fotos de abajo. La principal manda arriba, al lado del texto; estas
+       son el resto del reportaje y se pintan en una tira al final. */
+    const galeria = (Array.isArray(datos.galeria) ? datos.galeria : [])
+      .map((foto, i) => {
+        if (!foto) return null;
+        const ruta = typeof foto === 'string' ? foto : foto.imagen;
+        const limpia = compruebaImagen(raiz, ruta, archivo, `galeria[${i + 1}]`, avisa);
+        if (!limpia) return null;
+        return {
+          imagen: limpia,
+          imagenAlt: String((typeof foto === 'string' ? '' : foto.imagenAlt) || ''),
+          pie: String((typeof foto === 'string' ? '' : foto.pie) || ''),
+        };
+      })
+      .filter(Boolean);
 
     noticias.push({
       id,
@@ -299,9 +324,13 @@ function leerNoticias(raiz, avisa) {
       fechaModificacion: modificada,
       fechaTexto: datos.fechaTexto || fechaLegible(datos.fecha),
       titulo: String(datos.titulo),
+      /* Opcional: si no se escribe, el subtítulo es el resumen. Así una
+         noticia antigua sigue teniendo entradilla sin tocarla. */
+      subtitulo: String(datos.subtitulo || datos.descripcion),
       descripcion: String(datos.descripcion),
       contenido,
       imagen,
+      galeria,
       imagenAlt: String(datos.imagenAlt || ''),
       categoria: String(datos.categoria || ''),
       enlace: enlaceSeguro(datos.enlace),

@@ -124,7 +124,8 @@ En **Ajustes → Mantenimiento** hay una casilla, «Poner la web en
 mantenimiento». Marcándola y guardando, en un par de minutos:
 
 - quien entre en `baloncestodominicos.es` —o en cualquier dirección del
-  sitio— ve un cartel de «volvemos enseguida» con el correo del club;
+  sitio— ve un cartel de «volvemos enseguida» a pantalla completa, con el
+  escudo, una foto del club de fondo y los botones de llamar y escribir;
 - la web de verdad, con todos los cambios, se publica en
   `baloncestodominicos.es/vista-previa/LA-CLAVE/`, y ahí puedes repasarla
   entera antes de enseñarla.
@@ -132,6 +133,11 @@ mantenimiento». Marcándola y guardando, en un par de minutos:
 La clave sale del campo «Clave de la vista previa». Para desactivarlo,
 desmarcas la casilla y guardas: todo vuelve a su sitio y la carpeta de vista
 previa desaparece.
+
+En esa misma pantalla se cambia lo que dice el cartel: la línea de encima, el
+título —una línea por bloque, y la última sale en rojo—, el texto, el teléfono
+y la foto de fondo. Lo que se deja vacío tira de lo que ya hay en la web: la
+foto de la portada y las categorías del rótulo.
 
 ### Lo que hay que saber
 

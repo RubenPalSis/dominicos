@@ -224,8 +224,8 @@ function noticias(s, ctx) {
     ['noticias'],
     `    <div class="wrap">
 ${cabeceraSeccion(s, ctx)}
-      <div class="news">
-${ctx.filasNoticias}
+      <div class="nboxes">
+${ctx.cajasNoticias}
       </div>
     </div>`
   );

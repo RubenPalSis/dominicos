@@ -30,7 +30,7 @@ import { fileURLToPath } from 'node:url';
 import { esc, documento, destino, boton, limpiaRuta, enlaceInterno } from './lib/comun.mjs';
 import { leerTodo } from './lib/datos.mjs';
 import { pintarSecciones } from './lib/secciones.mjs';
-import { tarjetaNoticia, filaNoticia, paginaNoticia } from './lib/noticias.mjs';
+import { cajaNoticia, paginaNoticia } from './lib/noticias.mjs';
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -84,7 +84,15 @@ function construyePortada() {
     base: BASE,
     enPortada: true,
     prefijo: PREFIJO,
-    filasNoticias: noticias.length ? noticias.slice(0, EN_PORTADA).map(filaNoticia).join('\n') : sinNoticias,
+    /* Ya vienen de la más reciente a la más antigua, así que en la fila
+       quedan por fecha de izquierda a derecha. El titular va en h3: la
+       sección de la portada ya tiene su h2. */
+    cajasNoticias: noticias.length
+      ? noticias
+          .slice(0, EN_PORTADA)
+          .map((n) => cajaNoticia(n, sitio, { base: BASE, prefijo: PREFIJO, nivel: 3 }))
+          .join('\n')
+      : sinNoticias,
   };
 
   const jsonLd = {
@@ -170,7 +178,9 @@ function construyeListado() {
     ],
   };
 
-  const tarjetas = noticias.length ? noticias.map((n) => tarjetaNoticia(n, sitio, BASE)).join('\n') : sinNoticias;
+  const cajas = noticias.length
+    ? noticias.map((n) => cajaNoticia(n, sitio, { base: BASE, prefijo: PREFIJO, nivel: 2, resumen: true })).join('\n')
+    : sinNoticias;
 
   const main = `<main id="main">
 
@@ -185,8 +195,8 @@ function construyeListado() {
 
   <section class="section section--top">
     <div class="wrap">
-      <div class="ncards">
-${tarjetas}
+      <div class="nboxes">
+${cajas}
       </div>
     </div>
   </section>
@@ -215,7 +225,7 @@ ${tarjetas}
 
 function construyePagina(p) {
   const url = `${sitio.dominio}/${p.slug}.html`;
-  const ctx = { sitio, base: BASE, enPortada: false, prefijo: PREFIJO, filasNoticias: sinNoticias };
+  const ctx = { sitio, base: BASE, enPortada: false, prefijo: PREFIJO, cajasNoticias: sinNoticias };
 
   const media = p.imagen
     ? `    <div class="phero__media">
@@ -345,65 +355,140 @@ ${enlaces}
  * queda cubierto el sitio entero.
  */
 function paginaMantenimiento() {
-  const contacto = [];
+  const titulo = String(mant.titulo || 'Estamos renovando la web');
 
-  /* El teléfono va el primero: mientras la web está cerrada es la vía más
-     rápida, y conviene que se vea sin bajar. El href se queda solo con los
-     dígitos y el «+», que es lo que entiende el marcador del móvil. */
+  /* El titular se parte por líneas para poder pintar la última en rojo, como
+     el de la portada. Con `titulo` a secas va todo en una línea y sigue
+     valiendo: es el caso de quien no toca `lineas`. */
+  const lineas = Array.isArray(mant.lineas) && mant.lineas.length ? mant.lineas.map(String) : [titulo];
+
+  const h1 = lineas
+    .map((l, i) => `<span class="mant__l${i === lineas.length - 1 ? ' mant__l--on' : ''}">${esc(l)}</span>`)
+    .join('\n        ');
+
+  /* Los dos botones grandes: llamar y escribir. Son las dos cosas que alguien
+     quiere hacer al encontrarse la web cerrada, así que van como botones y no
+     como una lista de datos. */
+  const botones = [];
+
   if (mant.mostrarContacto !== false && mant.telefono) {
+    /* El href se queda solo con los dígitos y el «+», que es lo que entiende
+       el marcador del móvil. */
     const marcar = String(mant.telefono).replace(/[^+\d]/g, '');
-    const rotulo = mant.telefonoNombre ? `${mant.telefonoNombre} · ${mant.telefono}` : mant.telefono;
-    contacto.push(`<li><span>Teléfono</span><a href="tel:${esc(marcar)}">${esc(rotulo)}</a></li>`);
+    botones.push(`<a class="btn btn--primary" href="tel:${esc(marcar)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h3l1.5 4.5-2 1.5a12 12 0 0 0 6 6l1.5-2 4.5 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg>
+            ${esc(mant.telefono)}
+          </a>`);
   }
 
   if (mant.mostrarContacto !== false && sitio.email) {
-    contacto.push(`<li><span>Email</span><a href="mailto:${esc(sitio.email)}">${esc(sitio.email)}</a></li>`);
+    botones.push(`<a class="btn btn--ghost" href="mailto:${esc(sitio.email)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg>
+            Escríbenos
+          </a>`);
   }
 
-  (sitio.redes || []).forEach((r) => {
-    contacto.push(
-      `<li><span>${esc(r.nombre)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.usuario || r.nombre)}</a></li>`
-    );
-  });
+  const redes = (sitio.redes || [])
+    .map(
+      (r) => `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">
+            <span>${esc(r.nombre)}</span>
+            <b>${esc(r.usuario || r.nombre)}</b>
+          </a></li>`
+    )
+    .join('\n          ');
+
+  /* La franja de categorías de abajo. Si no se dice otra cosa, se cogen las
+     del rótulo de la portada, para no repetirlas escritas en dos sitios. */
+  const ticker = (portada.secciones.find((s) => s.tipo === 'ticker') || {}).palabras || [];
+  const palabras = Array.isArray(mant.palabras) && mant.palabras.length ? mant.palabras : ticker;
+
+  /* El fondo: la misma foto que la portada, muy oscurecida. Si no hay, la
+     sección se queda con el degradado rojo y sigue funcionando. */
+  const fondo = limpiaRuta(mant.imagen || sitio.imagenCompartir);
 
   const main = `<main id="main">
 
-  <section class="phero">
-    <div class="wrap phero__in">
-      <img src="/${esc(limpiaRuta(sitio.logo))}" alt="" width="72" height="72">
-      <p class="kicker">${esc(mant.kicker || 'Volvemos enseguida')}</p>
-      <h1 class="h2">${esc(mant.titulo || 'Estamos renovando la web')}</h1>
-      <p class="lead">${esc(mant.texto || '')}</p>
-    </div>
-  </section>
+  <section class="mant">
 ${
-  contacto.length
-    ? `
-  <section class="section section--top">
-    <div class="wrap">
-      <div class="empty">
-        <ul class="contact">
-          ${contacto.join('\n          ')}
-        </ul>
-      </div>
+  fondo
+    ? `    <div class="mant__foto">
+      <img src="/${esc(fondo)}" alt="" fetchpriority="high" decoding="async">
     </div>
-  </section>
+
 `
     : ''
-}
+}${
+  fondo
+    ? ''
+    : `    <!-- Sin foto, el fondo lo pone una pista dibujada: zona, círculo y
+         línea de triples. Con foto sobra, y encima de ella solo serían rayas. -->
+    <svg class="mant__pista" viewBox="0 0 600 420" aria-hidden="true" preserveAspectRatio="xMidYMax meet">
+      <path d="M40 420V120a260 260 0 0 1 520 0v300"/>
+      <rect x="220" y="260" width="160" height="160"/>
+      <circle cx="300" cy="260" r="58"/>
+      <path d="M270 420h60"/>
+    </svg>
+
+`
+}    <div class="wrap mant__in">
+      <span class="mant__escudo">
+        <img src="/${esc(limpiaRuta(sitio.logo))}" alt="Escudo ${esc(sitio.nombre)}" width="96" height="96">
+      </span>
+
+      <p class="mant__kicker"><i></i>${esc(mant.kicker || 'Volvemos enseguida')}</p>
+
+      <h1 class="mant__h1">
+        ${h1}
+      </h1>
+
+      <p class="mant__lead">${esc(mant.texto || '')}</p>
+${
+  botones.length
+    ? `
+      <div class="mant__btns">
+          ${botones.join('\n          ')}
+      </div>
+`
+    : ''
+}${
+  redes
+    ? `
+      <ul class="mant__redes">
+          ${redes}
+      </ul>
+`
+    : ''
+}    </div>
+${
+  palabras.length
+    ? `
+    <div class="mant__ticker" aria-hidden="true">
+      <div class="ticker__track">
+${[0, 1]
+  .map(() => palabras.map((p) => `        <span>${esc(p)}</span><i>●</i>`).join('\n'))
+  .join('\n')}
+      </div>
+    </div>
+`
+    : ''
+}  </section>
+
 </main>`;
 
   return documento({
     sitio,
     menu,
     base: '/',
-    titulo: `${mant.titulo || 'Estamos renovando la web'} — ${sitio.nombre}`,
+    titulo: `${titulo} — ${sitio.nombre}`,
     descripcion: mant.texto || '',
     /* noindex mientras dure: si Google pasa por aquí, es preferible que no
        se quede con este cartel como si fuera la portada del club. Por eso
        conviene que el mantenimiento dure horas y no días. */
     robots: 'noindex',
     sinNavegacion: true,
+    /* Sin barra arriba, pero el cartel es blanco sobre foto oscura en los dos
+       temas: los colores no los pone el tema, los pone la sección. */
+    claseBody: 'mant-body',
     main,
   });
 }

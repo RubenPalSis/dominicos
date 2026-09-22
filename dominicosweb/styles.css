@@ -47,6 +47,16 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .section{padding:clamp(48px,5.5vw,84px) 0;position:relative}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:center}
 
+/* Retícula de 12 columnas. La usan las noticias: titular y entradilla a 12,
+   texto y foto principal a 6 y 6, y la galería otra vez a 12. En móvil todo
+   pasa a ancho completo, que es lo único que cabe. */
+.grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(32px,4vw,56px) clamp(24px,3vw,44px);align-items:start}
+.col-12{grid-column:span 12}
+.col-6{grid-column:span 6}
+@media (max-width:900px){
+  .col-6{grid-column:span 12}
+}
+
 .skip{position:absolute;left:-9999px;top:0;background:var(--red);color:#fff;padding:12px 18px;z-index:100}
 .skip:focus{left:12px;top:12px}
 
@@ -219,7 +229,7 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(28px,4vw,46px)}
 .note{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--txt-2);font-size:14.5px;margin:22px 0}
 .pill{background:var(--red);color:#fff;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:99px;font-weight:600}
-.shot{margin:0;border-radius:var(--r);overflow:hidden;position:relative;border:1px solid var(--line)}
+.shot{margin:0;border-radius:var(--r);overflow:hidden;position:relative;border:1px solid var(--line);cursor:zoom-in}
 .shot img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .8s ease}
 .shot:hover img{transform:scale(1.05)}
 .shot figcaption{
@@ -229,18 +239,8 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .shot figcaption b{display:block;font-family:var(--disp);text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
 
 /* --- noticias ------------------------------------------------------------ */
-.news{display:grid;gap:0;border-top:1px solid var(--line)}
-.news__it{
-  display:grid;grid-template-columns:150px 1fr auto;gap:28px;align-items:center;
-  padding:30px 8px;border-bottom:1px solid var(--line);transition:padding-left .3s ease,background .3s ease;
-}
-.news__it:hover{padding-left:24px;background:var(--card)}
+/* La fecha en rojo: sale en las cajas, en la ficha y en anterior/siguiente. */
 .news__d{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
-.news__it h3{margin:0;font-size:clamp(19px,2.2vw,25px);letter-spacing:-.02em;line-height:1.25}
-.news__it p{grid-column:2;margin:6px 0 0;color:var(--txt-2);font-size:14.5px}
-.news__go{font-size:13px;color:var(--txt-2);white-space:nowrap;display:flex;align-items:center;gap:6px}
-.news__go::after{content:"→";transition:transform .25s ease;display:inline-block}
-.news__it:hover .news__go::after{transform:translateX(6px)}
 
 /* --- inscripciones ------------------------------------------------------- */
 .cta{
@@ -370,9 +370,6 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 @media (max-width:900px){
   .grid-2{grid-template-columns:1fr}
   .cta__cols{grid-template-columns:1fr}
-  .news__it{grid-template-columns:1fr;gap:6px}
-  .news__it p{grid-column:1}
-  .news__go{display:none}
 }
 @media (max-width:780px){
   .burger{display:block}
@@ -464,25 +461,32 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 /* Lo que va justo debajo de una cabecera no necesita tanto aire arriba. */
 .section--top{padding-top:clamp(44px,6vw,80px)}
 
-/* --- tarjetas de noticia -------------------------------------------------- */
-.ncards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
-.ncard{
+/* --- cajas de noticia ----------------------------------------------------- */
+/* La misma pieza en la portada y en el listado. `auto-fit` con un mínimo de
+   280 px pone las tres de la portada en una sola fila en pantalla de sobremesa
+   —que es lo que se pide— y las va apilando sola al estrecharse. */
+.nboxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(18px,2.2vw,26px)}
+.nbox{
   border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);
   transition:transform .45s cubic-bezier(.2,.7,.3,1),box-shadow .45s ease,border-color .3s ease;
 }
-.ncard:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--red)}
-.ncard__link{display:flex;flex-direction:column;height:100%}
-.ncard__media{position:relative;display:block;overflow:hidden;aspect-ratio:3/2;background:var(--bg-3)}
-.ncard__media img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
-.ncard:hover .ncard__media img{transform:scale(1.06)}
-.ncard__tag{position:absolute;left:16px;top:16px;z-index:1}
-.ncard__body{display:flex;flex-direction:column;gap:8px;padding:22px 22px 24px;flex:1}
-.ncard__h{
-  font-family:var(--disp);font-size:20px;line-height:1.2;letter-spacing:-.02em;margin:0;
-  text-transform:none;
+.nbox:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--red)}
+.nbox__link{display:flex;flex-direction:column;height:100%}
+.nbox__media{position:relative;display:block;overflow:hidden;aspect-ratio:3/2;background:var(--bg-3)}
+.nbox__media img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.nbox:hover .nbox__media img{transform:scale(1.06)}
+.nbox__tag{position:absolute;left:16px;top:16px;z-index:1}
+.nbox__body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:22px 22px 24px;flex:1}
+.nbox__h{
+  font-family:var(--disp);font-size:clamp(18px,1.5vw,21px);line-height:1.2;letter-spacing:-.02em;
+  margin:0;text-transform:none;color:var(--txt);
 }
-.ncard__p{color:var(--txt-2);font-size:14.5px;flex:1}
-.ncard .news__go{margin-top:6px}
+.nbox__p{color:var(--txt-2);font-size:14.5px;margin:0}
+/* `margin-top:auto` deja los botones de las tres cajas a la misma altura
+   aunque un titular ocupe dos líneas y otro una. */
+.nbox__btn{margin-top:auto;padding:11px 20px;font-size:14px}
+.nbox:hover .nbox__btn{border-color:var(--red);background:var(--card)}
+.nbox:hover .nbox__btn svg{transform:translateX(4px)}
 
 /* Piezas sueltas de la línea de datos de una noticia. */
 .news__cat{color:var(--red)}
@@ -518,8 +522,44 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .prose hr{border:0;border-top:1px solid var(--line);margin:34px 0}
 
 /* --- ficha de noticia ----------------------------------------------------- */
-.single__meta{margin:0 0 26px}
+/* --- ficha de noticia: la retícula de 12 ----------------------------------- */
+/* La cabecera lleva titular, entradilla y línea de datos, cada uno a 12
+   columnas. Aquí el hueco entre filas se aprieta: son tres piezas del mismo
+   bloque, no tres secciones. */
+.phero--art .phero__in{gap:0 clamp(24px,3vw,44px)}
+.phero--art .h2{margin-bottom:0}
+.single__cab{margin-bottom:16px}
+.phero--art .single__sub{
+  max-width:70ch;margin:0 0 14px;font-size:clamp(17px,1.7vw,20px);color:var(--txt-2);
+}
+.single__meta{margin:0}
 .single__meta .news__d{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* El texto a 6. El tope de 75 ch de `.prose` ya no hace falta: la columna es
+   el tope, y dejarlo estrecharía la lectura dos veces. */
+.single__texto .prose{max-width:none}
+
+/* La foto principal a las otras 6. Sin recorte: se respeta la proporción de
+   la foto, que aquí es la protagonista y no una miniatura de una rejilla. */
+.single__foto{align-self:start}
+/* Se respeta la proporción de la foto, con un tope: un retrato hecho con el
+   móvil (9:16) ocuparía pantalla y media, y ahí sí se recorta. */
+.single__foto img{width:100%;height:auto;aspect-ratio:auto;max-height:78vh;object-fit:cover}
+.single__foto figcaption{font-size:13.5px}
+@media (min-width:901px){
+  /* Con un texto largo la foto se queda a la vista mientras se lee. */
+  .single__foto{position:sticky;top:104px}
+}
+
+/* --- galería de fotos: las 12, debajo de todo el texto --------------------- */
+.galeria{border-top:1px solid var(--line);padding-top:clamp(28px,3.5vw,44px)}
+.galeria__h{
+  font-family:var(--disp);font-size:clamp(20px,2.4vw,28px);letter-spacing:-.02em;
+  text-transform:uppercase;margin:0 0 22px;
+}
+.galeria__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:14px}
+.galeria__it figcaption{font-size:13px;padding:16px}
+
 .single__cta{margin:34px 0 0}
 .single__note{
   margin:26px 0 0;padding:18px 22px;border:1px solid var(--line);border-radius:14px;
@@ -560,7 +600,7 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 }
 @media (max-width:560px){
   .phero{padding-top:calc(88px + 28px)}
-  .ncards{grid-template-columns:1fr}
+  .nboxes{grid-template-columns:1fr}
 }
 
 /* ==========================================================================
@@ -629,3 +669,141 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
    la capa de arriba.
    -------------------------------------------------------------------------- */
 .nav__tools{position:relative;z-index:1}
+
+/* ==========================================================================
+   EL CARTEL DE MANTENIMIENTO
+   Ocupa la pantalla entera y se pinta solo: no lleva barra ni pie, porque
+   todos sus enlaces volverían a este mismo cartel. Los colores no los pone
+   el tema —es blanco sobre foto oscura en los dos—, así que van escritos.
+   ========================================================================== */
+/* `body` ya trae `overflow-x:hidden` de la hoja de arriba; aquí no se toca
+   el vertical, o en una pantalla baja no se podría llegar a los botones. */
+/* Dos filas: el cartel, que se estira y se centra en lo que sobre, y la
+   franja de categorías pegada abajo. Puesta así y no con `position:absolute`,
+   la franja nunca se sale de la pantalla ni tapa los botones cuando el
+   contenido no cabe: la página crece y se puede bajar. */
+.mant{
+  position:relative;min-height:100svh;display:grid;grid-template-rows:1fr auto;
+  overflow:hidden;background:#0b0c0f;color:#fff;
+}
+
+/* La foto del club, al fondo del todo. */
+.mant__foto{position:absolute;inset:0;z-index:0}
+.mant__foto img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+
+/* La capa de color: los dos focos rojos del club y el oscurecido que deja
+   leer el titular encima. Va aquí y no colgando de la foto para que el cartel
+   siga teniendo color cuando no hay ninguna. */
+.mant::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(90% 75% at 12% 8%,rgba(224,31,38,.42),transparent 60%),
+    radial-gradient(70% 60% at 92% 96%,rgba(224,31,38,.26),transparent 62%),
+    linear-gradient(180deg,rgba(11,12,15,.88) 0%,rgba(11,12,15,.76) 42%,rgba(11,12,15,.95) 100%);
+}
+
+/* La pista dibujada. Se apoya en el borde de abajo y se sale por los lados
+   en pantallas estrechas: es un fondo, no un diagrama que haya que ver
+   entero. */
+/* Encima de la capa de color, o el oscurecido la borraría. */
+.mant__pista{
+  position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);z-index:2;
+  width:min(150%,1100px);height:auto;
+  fill:none;stroke:rgba(255,255,255,.14);stroke-width:2;
+  pointer-events:none;
+}
+
+.mant__in{
+  position:relative;z-index:3;text-align:center;display:grid;justify-items:center;align-content:center;
+  padding:clamp(28px,5vh,64px) 0;
+}
+
+/* El escudo, con el aro rojo girando muy despacio alrededor. */
+.mant__escudo{position:relative;display:grid;place-items:center;width:clamp(106px,11vh,132px);height:clamp(106px,11vh,132px);margin-bottom:clamp(16px,2.4vh,26px)}
+.mant__escudo::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  border:2px dashed rgba(224,31,38,.75);
+  animation:mant-aro 26s linear infinite;
+}
+.mant__escudo img{
+  width:74%;height:74%;border-radius:50%;object-fit:cover;
+  box-shadow:0 12px 34px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.22);
+}
+@keyframes mant-aro{to{transform:rotate(360deg)}}
+
+/* «Volvemos enseguida», con el punto rojo latiendo al lado. */
+.mant__kicker{
+  display:inline-flex;align-items:center;gap:10px;margin:0 0 20px;
+  padding:8px 18px 8px 14px;border-radius:99px;
+  border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);
+  font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.mant__kicker i{
+  width:8px;height:8px;border-radius:50%;background:var(--red-2);flex:none;
+  box-shadow:0 0 0 0 rgba(255,75,82,.65);animation:mant-late 2.2s ease-out infinite;
+}
+@keyframes mant-late{
+  70%{box-shadow:0 0 0 12px rgba(255,75,82,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,75,82,0)}
+}
+
+.mant__h1{
+  font-family:var(--disp);text-transform:uppercase;letter-spacing:-.035em;line-height:.92;
+  font-size:clamp(38px,min(7.6vw,11.5vh),98px);margin:0;
+}
+.mant__l{display:block}
+.mant__l--on{color:var(--red-2);text-shadow:0 3px 30px rgba(224,31,38,.45)}
+
+.mant__lead{
+  max-width:54ch;margin:clamp(16px,2.4vh,24px) 0 0;color:rgba(255,255,255,.84);
+  font-size:clamp(16px,1.7vw,19px);
+}
+
+.mant__btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:clamp(22px,3.4vh,34px)}
+/* Sobre la foto el botón fantasma vuelve a su versión clara: la regla
+   `.section .btn--ghost` no llega aquí, pero sí lo haría el tema claro. */
+.mant__btns .btn--ghost{
+  border-color:rgba(255,255,255,.4);color:#fff;
+  background:rgba(255,255,255,.06);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.mant__btns .btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.16)}
+/* El icono del teléfono y el del sobre no son flechas: no se mueven. */
+.mant__btns .btn:hover svg{transform:none}
+
+.mant__redes{
+  list-style:none;padding:0;margin:clamp(20px,3.2vh,34px) 0 0;
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+}
+.mant__redes a{
+  display:grid;gap:2px;padding:12px 22px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);
+  transition:border-color .2s ease,background .2s ease,transform .2s ease;
+}
+.mant__redes a:hover{border-color:var(--red-2);background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.mant__redes span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.mant__redes b{font-size:15px;font-weight:600}
+
+/* La franja de categorías, pegada abajo del todo. */
+.mant__ticker{
+  position:relative;z-index:3;overflow:hidden;
+  padding:14px 0;border-top:1px solid rgba(255,255,255,.14);
+  background:rgba(11,12,15,.55);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+.mant__ticker span{
+  font-family:var(--disp);font-size:clamp(15px,1.9vw,22px);text-transform:uppercase;
+  letter-spacing:-.02em;white-space:nowrap;color:rgba(255,255,255,.72);
+}
+.mant__ticker i{color:var(--red-2);font-style:normal;font-size:12px}
+
+@media (max-width:560px){
+  .mant__btns .btn{width:100%;justify-content:center}
+}
+
+/* Quien prefiere no ver movimiento no ve ninguno: ni el aro, ni el latido,
+   ni la franja de abajo. */
+@media (prefers-reduced-motion:reduce){
+  .mant__escudo::before,.mant__kicker i,.mant__ticker .ticker__track{animation:none}
+}

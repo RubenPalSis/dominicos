@@ -293,10 +293,20 @@ content:
     fields:
       - { name: fecha, label: Fecha, type: date, required: true, description: "La fecha real de la noticia. Ordena el listado y es la que ve Google." }
       - { name: titulo, label: Título, type: string, required: true }
-      - { name: descripcion, label: Resumen, type: text, required: true, description: "Una o dos frases. Es lo que se ve en el listado y debajo del enlace en Google." }
-      - { name: contenido, label: Texto de la noticia, type: text, list: true, description: "Un bloque por párrafo. Si se deja vacío, la noticia enseña el resumen." }
-      - { name: imagen, label: Foto, type: image, options: { media: fotos, path: dominicosweb/images/noticias }, description: "Sale arriba de la noticia, en su tarjeta y al compartirla. Si no se pone, se usa el escudo." }
+      - { name: descripcion, label: Resumen, type: text, required: true, description: "Una o dos frases. Es lo que se ve en la caja del listado y debajo del enlace en Google." }
+      - { name: subtitulo, label: Subtítulo, type: text, description: "La entradilla que va debajo del titular, a todo el ancho. Si se deja vacío, se usa el resumen." }
+      - { name: contenido, label: Texto de la noticia, type: text, list: true, description: "Un bloque por párrafo. Va a media página, con la foto principal al lado. Si se deja vacío, la noticia enseña el resumen." }
+      - { name: imagen, label: Foto principal, type: image, options: { media: fotos, path: dominicosweb/images/noticias }, description: "Va a media página, al lado del texto, y es la que sale en la caja y al compartir. Si no se pone, se usa el escudo." }
       - { name: imagenAlt, label: Qué se ve en la foto, type: string, description: "Para quien no puede verla y para los buscadores. Ponlo siempre que haya foto." }
+      - name: galeria
+        label: Galería de fotos
+        type: object
+        list: true
+        description: "Las fotos de más. Salen en una tira a todo el ancho, al final de la noticia y debajo de todo el texto. Se abren a pantalla completa al pulsarlas."
+        fields:
+          - { name: imagen, label: Foto, type: image, options: { media: fotos, path: dominicosweb/images/noticias } }
+          - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+          - { name: pie, label: Pie de foto, type: string, description: "Opcional. Sale escrito sobre la foto." }
       - { name: categoria, label: Categoría, type: select, options: { values: [Competición, Club, Escuela, Cantera, Eventos] }, description: "La etiqueta roja sobre la foto." }
       - { name: autor, label: Firma, type: string, default: CB Dominicos Zaragoza }
       - { name: enlace, label: Enlace del botón, type: string, pattern: { regex: '^$|^https?://.+', message: "Déjalo vacío o empieza por http:// o https://" }, description: "Opcional. Pone un botón al final de la noticia." }
@@ -444,10 +454,12 @@ content:
               lo lea la verá; solo evita que alguien dé con la vista previa
               por casualidad.
           - { name: kicker, label: Línea de encima del título, type: string }
-          - { name: titulo, label: Título, type: string }
+          - { name: titulo, label: Título, type: string, description: "El que sale en la pestaña del navegador y al compartir el enlace." }
+          - { name: lineas, label: Título en pantalla, type: string, list: true, description: "Una línea por bloque. La última sale en rojo. Si se deja vacío, se usa el título de arriba en una sola línea." }
           - { name: texto, label: Texto, type: text }
-          - { name: telefonoNombre, label: De quién es el teléfono, type: string, description: "Aparece delante del número. Por ejemplo: Itziar (coordinadora)." }
-          - { name: telefono, label: Teléfono, type: string, description: "Con prefijo. Déjalo vacío si no quieres enseñar ninguno." }
+          - { name: imagen, label: Foto de fondo, type: image, options: { media: fotos }, description: "Sale muy oscurecida, detrás del título. Si se deja vacía, se usa la de la portada." }
+          - { name: palabras, label: Categorías de la franja de abajo, type: string, list: true, description: "Si se deja vacío, se usan las mismas que en la portada." }
+          - { name: telefono, label: Teléfono, type: string, description: "Con prefijo. Sale como botón de llamar. Déjalo vacío si no quieres enseñar ninguno." }
           - name: mostrarContacto
             label: Enseñar el teléfono, el correo y las redes
             type: boolean

@@ -1,37 +1,42 @@
 /**
- * Las noticias: la tarjeta del listado, la fila de la portada y la página
+ * Las noticias: la caja del listado, la caja de la portada y la página
  * completa de cada una, con su SEO y sus datos estructurados.
+ *
+ * La ficha se monta sobre una retícula de 12 columnas: el titular y la
+ * entradilla ocupan las 12, el texto y la foto principal van a 6 y 6 uno al
+ * lado del otro, y la galería vuelve a 12 debajo de todo el texto.
  */
 
 import { esc, documento, limpiaRuta, enlaceInterno } from './comun.mjs';
 
-/** Tarjeta del listado de noticias.html. */
-export function tarjetaNoticia(n, sitio, base = '') {
+/**
+ * La caja de una noticia. Es la misma pieza en la portada y en el listado:
+ * foto, fecha, titular y un botón de «Leer más». Cambian dos cosas, y por eso
+ * son parámetros: el nivel del titular (en el listado la página ya tiene un
+ * h1, en la portada la sección tiene un h2) y si se enseña el resumen.
+ *
+ * La caja entera es un solo enlace. El botón es un <span> pintado como botón
+ * a propósito: un <a> dentro de otro <a> no es HTML válido, y así toda la
+ * caja es clicable sin dejar el botón fuera del área sensible.
+ */
+export function cajaNoticia(n, sitio, { base = '', prefijo = '', nivel = 2, resumen = false } = {}) {
   const img = base + (n.imagen || sitio.logo);
+  const h = `h${nivel}`;
 
-  return `        <article class="ncard reveal">
-          <a class="ncard__link" href="noticias/${esc(n.slug)}.html">
-            <div class="ncard__media">
+  return `        <article class="nbox reveal">
+          <a class="nbox__link" href="${enlaceInterno('/noticias/' + esc(n.slug) + '.html', prefijo)}">
+            <div class="nbox__media">
               <img loading="lazy" decoding="async" src="${esc(img)}" alt="${esc(n.imagenAlt)}" width="600" height="400">
-${n.categoria ? `              <span class="tag ncard__tag">${esc(n.categoria)}</span>\n` : ''}            </div>
-            <div class="ncard__body">
+${n.categoria ? `              <span class="tag nbox__tag">${esc(n.categoria)}</span>\n` : ''}            </div>
+            <div class="nbox__body">
               <span class="news__d"><time datetime="${esc(n.fecha)}">${esc(n.fechaTexto)}</time></span>
-              <h2 class="ncard__h">${esc(n.titulo)}</h2>
-              <span class="ncard__p">${esc(n.descripcion)}</span>
-${n.mencion ? `              <span class="news__by">${esc(n.mencion)}</span>\n` : ''}              <span class="news__go">Leer</span>
+              <${h} class="nbox__h">${esc(n.titulo)}</${h}>
+${resumen ? `              <p class="nbox__p">${esc(n.descripcion)}</p>\n` : ''}              <span class="btn btn--ghost nbox__btn">Leer más
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg>
+              </span>
             </div>
           </a>
         </article>`;
-}
-
-/** Fila de la portada. El texto del enlace es el titular, no «leer más». */
-export function filaNoticia(n) {
-  return `        <a class="news__it reveal" href="noticias/${esc(n.slug)}.html">
-          <span class="news__d"><time datetime="${esc(n.fecha)}">${esc(n.fechaTexto)}</time></span>
-          <h3>${esc(n.titulo)}</h3>
-          <p>${esc(n.descripcion)}</p>
-          <span class="news__go">Leer</span>
-        </a>`;
 }
 
 /** La página de una noticia. */
@@ -52,7 +57,16 @@ export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu, prefi
         inLanguage: 'es-ES',
         mainEntityOfPage: { '@type': 'WebPage', '@id': url },
         url,
-        ...(noticia.imagen ? { image: [imagenAbs] } : {}),
+        /* Todas las fotos de la noticia, no solo la principal: es lo que
+           permite que Google enseñe la galería en los resultados. */
+        ...(noticia.imagen || noticia.galeria.length
+          ? {
+              image: [
+                ...(noticia.imagen ? [imagenAbs] : []),
+                ...noticia.galeria.map((f) => `${sitio.dominio}/${limpiaRuta(f.imagen)}`),
+              ],
+            }
+          : {}),
         ...(noticia.categoria ? { articleSection: noticia.categoria } : {}),
         ...(noticia.autor ? { author: { '@type': 'Organization', name: noticia.autor } } : {}),
         publisher: {
@@ -86,22 +100,22 @@ export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu, prefi
     meta.push('<span class="news__sep">·</span>', `<span class="news__by">${esc(noticia.autor)}</span>`);
   }
 
-  const bloques = [];
+  /* ---- columna del texto: 6 de 12 ---- */
 
-  bloques.push(`<p class="single__meta"><span class="news__d">${meta.join('\n            ')}</span></p>`);
+  const texto = [];
 
-  bloques.push(
-    `<div class="prose reveal">\n            ` +
+  texto.push(
+    `<div class="prose">\n            ` +
       parrafos.map((p) => `<p>${esc(p)}</p>`).join('\n            ') +
       `\n          </div>`
   );
 
   if (noticia.mencion) {
-    bloques.push(`<p class="single__note"><b>Mención:</b> ${esc(noticia.mencion)}</p>`);
+    texto.push(`<p class="single__note"><b>Mención:</b> ${esc(noticia.mencion)}</p>`);
   }
 
   if (noticia.enlace) {
-    bloques.push(
+    texto.push(
       `<p class="single__cta">
             <a class="btn btn--primary" href="${esc(noticia.enlace)}" target="_blank" rel="noopener noreferrer">${esc(noticia.textoEnlace)}
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg>
@@ -110,7 +124,50 @@ export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu, prefi
     );
   }
 
-  /* Anterior / siguiente en orden cronológico de lectura. */
+  const bloques = [];
+
+  /* Texto y foto van en su propia rejilla de 12, no sueltos en la de la
+     página. Es lo que acota la foto pegada (`position:sticky`) a esta fila:
+     si no, seguiría bajando y taparía la galería, que ocupa las 12.
+     Sin foto no hay media página que llenar, así que el texto se lleva las
+     12 en vez de dejar un hueco al lado. */
+  if (noticia.imagen) {
+    bloques.push(`<div class="col-12 single__cuerpo grid-12">
+          <div class="col-6 single__texto reveal">
+            ${texto.join('\n\n            ')}
+          </div>
+
+          <figure class="col-6 single__foto shot reveal">
+            <img src="${base}${esc(noticia.imagen)}" alt="${esc(noticia.imagenAlt)}" fetchpriority="high" decoding="async">
+          </figure>
+        </div>`);
+  } else {
+    bloques.push(`<div class="col-12 single__texto reveal">
+          ${texto.join('\n\n          ')}
+        </div>`);
+  }
+
+  /* ---- galería: 12 columnas, debajo de todo el texto ---- */
+
+  if (noticia.galeria.length) {
+    const fotos = noticia.galeria
+      .map(
+        (f) => `            <figure class="shot galeria__it">
+              <img loading="lazy" decoding="async" src="${base}${esc(f.imagen)}" alt="${esc(f.imagenAlt)}">
+${f.pie ? `              <figcaption>${esc(f.pie)}</figcaption>\n` : ''}            </figure>`
+      )
+      .join('\n');
+
+    bloques.push(`<section class="col-12 galeria reveal" aria-labelledby="galeria">
+          <h2 class="galeria__h" id="galeria">Galería</h2>
+          <div class="galeria__grid">
+${fotos}
+          </div>
+        </section>`);
+  }
+
+  /* ---- anterior / siguiente, también a 12 ---- */
+
   const nav = [];
 
   if (anterior) {
@@ -128,34 +185,29 @@ export function paginaNoticia(noticia, anterior, siguiente, { sitio, menu, prefi
   }
 
   if (nav.length) {
-    bloques.push(`<nav class="adjacent" aria-label="Más noticias">\n          ${nav.join('\n\n          ')}\n        </nav>`);
+    bloques.push(`<nav class="col-12 adjacent" aria-label="Más noticias">\n          ${nav.join('\n\n          ')}\n        </nav>`);
   }
 
   const main = `<main id="main">
 
   <article class="single">
 
-    <section class="phero${noticia.imagen ? ' phero--img' : ''}">
-${
-  noticia.imagen
-    ? `      <div class="phero__media">
-        <img src="${base}${esc(noticia.imagen)}" alt="${esc(noticia.imagenAlt)}" fetchpriority="high" decoding="async">
-      </div>
-
-`
-    : ''
-}      <div class="wrap phero__in">
-        <a class="phero__back" href="${enlaceInterno('/noticias.html', prefijo)}">&larr; Noticias</a>
-        <p class="kicker">${esc(noticia.categoria || 'Noticias')}</p>
-        <h1 class="h2">${esc(noticia.titulo)}</h1>
-        <p class="lead">${esc(noticia.descripcion)}</p>
+    <section class="phero phero--art">
+      <div class="wrap phero__in grid-12">
+        <div class="col-12 single__cab">
+          <a class="phero__back" href="${enlaceInterno('/noticias.html', prefijo)}">&larr; Noticias</a>
+          <p class="kicker">${esc(noticia.categoria || 'Noticias')}</p>
+          <h1 class="h2">${esc(noticia.titulo)}</h1>
+        </div>
+        <p class="col-12 lead single__sub">${esc(noticia.subtitulo)}</p>
+        <p class="col-12 single__meta"><span class="news__d">${meta.join('\n            ')}</span></p>
       </div>
     </section>
 
     <section class="section section--top">
-      <div class="wrap">
+      <div class="wrap grid-12">
 
-          ${bloques.join('\n\n          ')}
+        ${bloques.join('\n\n        ')}
 
       </div>
     </section>
@@ -191,9 +243,6 @@ ${
     imagenCompartirAlt: noticia.imagenAlt,
     metasExtra: enObras ? [] : metasExtra,
     jsonLd: enObras ? null : jsonLd,
-    /* Con foto de cabecera, la barra arranca sobre una imagen oscura y
-       necesita colores claros aunque el tema sea claro. Sin foto, no. */
-    claseBody: noticia.imagen ? 'nav-sobre-media' : '',
     main,
   });
 }
