@@ -202,6 +202,89 @@
     arranca();
   });
 
+  /* ---- carrusel de noticias (móvil) ------------------------------------- */
+  /* En el móvil la fila de noticias es un carril que se arrastra con el dedo.
+     Debajo hay una flecha a cada lado y una barrita por noticia. A diferencia
+     de las fotos de la pista, aquí no se pasa nada solo: una noticia se lee, y
+     que cambie de tarjeta a media frase es peor que no moverse. Solo manda
+     quien la mira.
+
+     Todo se hace moviendo el scroll del carril, no escondiendo tarjetas: así
+     el dedo y las flechas son lo mismo, y las barritas siguen a las dos.
+     En pantalla ancha el CSS deja el carril sin desbordar y el mando
+     escondido, así que esto no hace nada aunque se ejecute. */
+  $$('.ncar').forEach(function (carrusel) {
+    var carril  = $('.nboxes', carrusel);
+    var flechas = $$('.ncar__flecha', carrusel);
+    var barras  = $$('.ncar__barra', carrusel);
+    if (!carril) return;
+
+    var tarjetas = $$('.nbox', carril);
+    if (tarjetas.length < 2) return;
+
+    var i = 0;
+
+    /* Cuál está puesta: la que empieza más cerca del borde izquierdo del
+       carril. Se mira la posición real y no una cuenta de anchos, porque con
+       el dedo se puede parar a medio camino. */
+    function cual() {
+      var borde = carril.getBoundingClientRect().left;
+      var mejor = 0;
+      var cerca = Infinity;
+      tarjetas.forEach(function (t, n) {
+        var d = Math.abs(t.getBoundingClientRect().left - borde);
+        if (d < cerca) { cerca = d; mejor = n; }
+      });
+      return mejor;
+    }
+
+    function pinta(n) {
+      i = n;
+      barras.forEach(function (b, m) {
+        b.classList.toggle('is-on', m === n);
+        if (m === n) b.setAttribute('aria-current', 'true');
+        else b.removeAttribute('aria-current');
+      });
+      /* En los extremos la flecha se apaga en vez de quitarse, para que el
+         mando no cambie de tamaño al llegar al principio o al final. */
+      flechas.forEach(function (f) {
+        var paso = parseInt(f.dataset.ir, 10) || 0;
+        f.disabled = n + paso < 0 || n + paso > tarjetas.length - 1;
+      });
+    }
+
+    function ve(n) {
+      n = Math.max(0, Math.min(tarjetas.length - 1, n));
+      /* `scrollIntoView` movería también la página entera hacia los lados en
+         algunos navegadores; mover el scroll del carril a mano no. */
+      carril.scrollTo({
+        left: tarjetas[n].offsetLeft - tarjetas[0].offsetLeft,
+        behavior: quieto ? 'auto' : 'smooth'
+      });
+      pinta(n);
+    }
+
+    flechas.forEach(function (f) {
+      f.addEventListener('click', function () {
+        ve(i + (parseInt(f.dataset.ir, 10) || 0));
+      });
+    });
+
+    barras.forEach(function (b, n) {
+      b.addEventListener('click', function () { ve(n); });
+    });
+
+    /* Al arrastrar con el dedo manda el carril: las barritas le hacen caso a
+       él, no al revés. Se espera a que pare para no repintar en cada píxel. */
+    var espera = null;
+    carril.addEventListener('scroll', function () {
+      clearTimeout(espera);
+      espera = setTimeout(function () { pinta(cual()); }, 90);
+    }, { passive: true });
+
+    pinta(0);
+  });
+
   /* ---- lightbox de fotos ------------------------------------------------ */
   var lb    = $('#lb');
   var lbImg = $('#lbImg');

@@ -162,11 +162,12 @@ ${enlaces}${cta}
 /**
  * El pie.
  *
- * Tres columnas —quién es el club, a dónde se va desde aquí y cómo se le
- * escribe— y debajo una línea fina con el año, lo legal y la firma. Antes era
- * todo una pila centrada: se leía como un montón de renglones sueltos y no se
- * distinguía el menú de la letra pequeña. En columnas, cada cosa se ve de un
- * vistazo por dónde cae.
+ * Dos columnas —a dónde se va desde aquí y cómo se escribe al club— y debajo
+ * una línea fina con el año a la izquierda, la firma en el centro y lo legal
+ * a la derecha. Antes era todo una pila centrada: se leía como un montón de
+ * renglones sueltos y no se distinguía el menú de la letra pequeña. El escudo
+ * con el nombre y la ciudad ya está arriba, en la cabecera: repetirlo aquí
+ * solo alargaba el pie.
  */
 export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } = {}) {
   const enlaces = menu.pie
@@ -198,11 +199,6 @@ export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } 
   return `<footer class="foot">
   <div class="wrap">
     <div class="foot__cols">
-      <div class="foot__brand">
-        <img src="${base}${esc(sitio.logo)}" alt="" width="56" height="56">
-        <p><b>${esc(sitio.nombreLargo)}</b><br>${esc(sitio.ciudad)}</p>
-      </div>
-
       <nav class="foot__col" aria-label="Pie">
         <h2 class="foot__h">Secciones</h2>
 ${enlaces}
@@ -221,20 +217,19 @@ ${contacto}
     <div class="foot__bar">
       <p class="foot__legal">© <span id="year">${new Date().getFullYear()}</span> ${esc(sitio.nombre)}</p>
 ${
-  legales
-    ? `      <nav class="foot__legales" aria-label="Información legal">
-${legales}
-      </nav>
-`
-    : ''
-}
-${
   sitio.autor
     ? `      <p class="foot__autor">Página web creada por ${
         sitio.autor.url
           ? `<a href="${esc(sitio.autor.url)}" target="_blank" rel="noopener">${esc(sitio.autor.nombre)}</a>`
           : esc(sitio.autor.nombre)
       }</p>\n`
+    : ''
+}${
+  legales
+    ? `      <nav class="foot__legales" aria-label="Información legal">
+${legales}
+      </nav>
+`
     : ''
 }    </div>
   </div>

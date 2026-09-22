@@ -308,14 +308,55 @@ ${figura}    </div>`
   );
 }
 
+/**
+ * Las noticias de la portada.
+ *
+ * En pantalla ancha son tarjetas una al lado de otra. En el móvil caben de
+ * una en una, así que la fila se convierte en un carrusel y debajo va el
+ * mando: una flecha a cada lado y una barrita por noticia, igual que las
+ * fotos de «Horarios y calendario». La diferencia es que aquí no pasa nada
+ * solo: las noticias se leen, y cambiar de tarjeta mientras se está leyendo
+ * un titular es peor que quedarse quieto. Manda siempre el dedo.
+ *
+ * El mando se escribe aquí, en el HTML, y no lo pinta JavaScript: así hay
+ * una barrita por noticia desde el primer pintado. Sin JavaScript se esconde
+ * —no llevaría a ninguna parte— pero el carrusel se sigue pasando con el
+ * dedo, que es scroll de toda la vida.
+ */
 function noticias(s, ctx) {
+  const cuantas = (String(ctx.cajasNoticias).match(/class="nbox\b/g) || []).length;
+
+  const barras = Array.from({ length: cuantas }, (_, i) =>
+    `            <button type="button" class="ncar__barra${i === 0 ? ' is-on' : ''}"` +
+    `${i === 0 ? ' aria-current="true"' : ''} aria-label="Noticia ${i + 1}"></button>`
+  ).join('\n');
+
+  const flecha = (dir, texto, camino) =>
+    `          <button type="button" class="ncar__flecha" data-ir="${dir}" aria-label="${texto}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="${camino}"/></svg>
+          </button>`;
+
+  /* Con una sola noticia no hay a dónde ir: el mando sobra. */
+  const mando = cuantas > 1
+    ? `
+        <div class="ncar__mando">
+${flecha(-1, 'Noticia anterior', 'M19 12H5m6 7-7-7 7-7')}
+          <div class="ncar__barras" role="group" aria-label="Noticias">
+${barras}
+          </div>
+${flecha(1, 'Noticia siguiente', 'M5 12h14m-6-7 7 7-7 7')}
+        </div>`
+    : '';
+
   return seccion(
     s,
     ['noticias'],
     `    <div class="wrap">
 ${cabeceraSeccion(s, ctx)}
-      <div class="nboxes">
+      <div class="ncar">
+        <div class="nboxes">
 ${ctx.cajasNoticias}
+        </div>${mando}
       </div>
     </div>`
   );
