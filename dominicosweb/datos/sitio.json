@@ -24,7 +24,11 @@
   ],
   "web3forms": "f90337bf-9e4b-4fa2-8ec0-fb4e2ca31803",
   "googleSiteVerification": "",
-  "legal": "Aviso legal · Política de privacidad · Cookies",
+  "legales": [
+    { "texto": "Aviso legal", "destino": "/aviso-legal.html" },
+    { "texto": "Política de privacidad", "destino": "/politica-de-privacidad.html" },
+    { "texto": "Cookies", "destino": "/cookies.html" }
+  ],
   "autor": {
     "nombre": "Ruben Palacio",
     "url": "https://www.linkedin.com/in/ruben-palacio-sisamon-4bb30425a/"

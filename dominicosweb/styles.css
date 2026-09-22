@@ -476,6 +476,14 @@ html:not(.js) .shot__barras{display:none}
   border-top:1px solid var(--line);
 }
 .foot__legal{margin:0;font-size:12.5px;color:var(--txt-2)}
+/* Aviso legal, privacidad y cookies: son enlaces, no adorno, así que se
+   subrayan al pasar por encima como cualquier otro. */
+.foot__legales{display:flex;flex-wrap:wrap;gap:6px 18px}
+.foot__legales a{
+  font-size:12.5px;color:var(--txt-2);
+  border-bottom:1px solid transparent;transition:color .2s,border-color .2s;
+}
+.foot__legales a:hover{color:var(--red);border-bottom-color:var(--red)}
 /* La firma de quien hizo la web: presente, pero por debajo de lo del club. */
 .foot__autor{margin:0;font-size:12.5px;color:var(--txt-2);opacity:.75}
 .foot__autor a{color:inherit;border-bottom:1px solid var(--line);transition:color .2s,border-color .2s}

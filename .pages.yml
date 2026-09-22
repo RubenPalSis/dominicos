@@ -403,7 +403,14 @@ content:
           - { name: imagenCompartirAlt, label: Qué se ve en esa foto, type: string }
           - { name: web3forms, label: Clave del formulario (Web3Forms), type: string, description: "Se saca de web3forms.com poniendo el correo del club. Es pública a propósito: va en el HTML a la vista y lo único que permite es mandar un correo a esa dirección." }
           - { name: googleSiteVerification, label: Código de Google Search Console, type: string, description: "Solo si verificas por «Etiqueta HTML». Pega aquí el valor de «content», no la etiqueta entera." }
-          - { name: legal, label: Línea legal del pie, type: string }
+          - name: legales
+            label: Enlaces legales del pie
+            type: object
+            list: true
+            description: "Aviso legal, privacidad y cookies. Son páginas del sitio: se crean en «Páginas» y aquí se enlazan."
+            fields:
+              - { name: texto, label: Texto, type: string }
+              - { name: destino, label: Destino, type: string, description: "P. ej. «/aviso-legal.html»." }
           - name: autor
             label: Quién hizo la web
             type: object

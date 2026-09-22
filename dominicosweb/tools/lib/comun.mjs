@@ -159,6 +159,10 @@ export function pie(sitio, menu, { base = '', enPortada = false, prefijo = '' } 
     .map((e) => `        <a href="${esc(destino(e.destino, enPortada, prefijo))}">${esc(e.texto)}</a>`)
     .join('\n');
 
+  const legales = (sitio.legales || [])
+    .map((l) => `        <a href="${esc(destino(l.destino, enPortada, prefijo))}">${esc(l.texto)}</a>`)
+    .join('\n');
+
   /* El correo primero, que es por donde contesta el club, y detrás las redes,
      que salen de datos/sitio.json y pueden ser las que sean. */
   const contacto = [
@@ -201,9 +205,15 @@ ${contacto}
 }    </div>
 
     <div class="foot__bar">
-      <p class="foot__legal">© <span id="year">${new Date().getFullYear()}</span> ${esc(sitio.nombre)}${
-    sitio.legal ? ' · ' + esc(sitio.legal) : ''
-  }</p>
+      <p class="foot__legal">© <span id="year">${new Date().getFullYear()}</span> ${esc(sitio.nombre)}</p>
+${
+  legales
+    ? `      <nav class="foot__legales" aria-label="Información legal">
+${legales}
+      </nav>
+`
+    : ''
+}
 ${
   sitio.autor
     ? `      <p class="foot__autor">Página web creada por ${

@@ -119,7 +119,11 @@ function leerSitio(raiz, avisa) {
       .map((r) => ({ nombre: String(r.nombre), usuario: String(r.usuario || ''), url: enlaceSeguro(r.url) })),
     web3forms: String(d.web3forms || 'TU_CLAVE_DE_WEB3FORMS'),
     googleSiteVerification: String(d.googleSiteVerification || ''),
-    legal: String(d.legal || ''),
+    /* Los enlaces de la letra pequeña del pie. Son páginas del sitio como
+       cualquier otra, así que se escriben igual que un destino del menú. */
+    legales: (Array.isArray(d.legales) ? d.legales : [])
+      .filter((l) => l && l.texto && l.destino)
+      .map((l) => ({ texto: String(l.texto), destino: String(l.destino) })),
     autor: d.autor && d.autor.nombre
       ? { nombre: String(d.autor.nombre), url: enlaceSeguro(d.autor.url) }
       : null,
