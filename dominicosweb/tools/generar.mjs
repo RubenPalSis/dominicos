@@ -29,10 +29,19 @@ import { fileURLToPath } from 'node:url';
 
 import { esc, documento, destino, boton, limpiaRuta, enlaceInterno } from './lib/comun.mjs';
 import { leerTodo } from './lib/datos.mjs';
+import { ordenaNombres } from './lib/nombres.mjs';
 import { pintarSecciones } from './lib/secciones.mjs';
 import { cajaNoticia, paginaNoticia } from './lib/noticias.mjs';
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
+/* Lo primero, antes de leer nada: ponerle a cada noticia y a cada página el
+   nombre de archivo que le toca, a partir de su fecha y su título. El panel
+   las crea con un nombre provisional porque las bautiza antes de que se
+   rellene el formulario, y ese nombre es la dirección de la página. */
+for (const { de, a } of ordenaNombres(RAIZ)) {
+  console.log(`Renombrado: ${de} → ${a}`);
+}
 
 const { sitio, menu, portada, paginas, noticias, patrocinadores, errores } = leerTodo(RAIZ);
 

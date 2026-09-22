@@ -98,9 +98,10 @@ El nombre del archivo es la dirección de la página:
 
     historia-del-club  →  https://baloncestodominicos.es/historia-del-club.html
 
-El panel lo propone a partir del título y deja cambiarlo **solo al crearla**.
-Conviene acortarlo. Una vez publicada, cambiarlo rompe el enlace para quien lo
-haya compartido.
+No hay que escribirlo: el panel le pone un nombre provisional y, al publicar,
+se cambia solo por el título de la página. Si quieres uno distinto, cámbiaselo
+tú al crearla; un nombre que ya esté bien no se vuelve a tocar. Y una vez
+publicada, cambiarlo rompe el enlace para quien lo haya compartido.
 
 Dos casillas que conviene entender:
 

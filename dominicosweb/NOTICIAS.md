@@ -24,8 +24,10 @@ Ya está. Al guardar, el panel hace un commit en el repositorio y la web se
 vuelve a publicar sola en un par de minutos.
 
 Lo que el panel llama «filename» es el nombre del archivo, y **es la dirección
-de la noticia**: lo propone a partir de la fecha y el título, y solo lo deja
-cambiar al crearla. Conviene acortarlo —de eso se habla más abajo.
+de la noticia**. Sale ya puesto con un nombre provisional, del tipo
+`sin_nombre-20260921-181043.json`: **no hay que escribirlo ni tocarlo**. Al
+publicar se cambia solo por la fecha y el título de la noticia, y queda
+`2026-09-21-nuevo-patrocinador.json`. De eso se habla más abajo.
 
 Si el panel aún no está montado, mira
 [cómo montarlo](EDITAR.md#montar-el-panel).
@@ -35,6 +37,7 @@ Si el panel aún no está montado, mira
 ## A mano
 
 1. Crea `noticias/AAAA-MM-DD-nombre-corto.json` copiando el ejemplo de abajo.
+   Si no aciertas con el nombre, da igual: al publicar se corrige solo.
 2. Sube la foto a `images/noticias/`.
 3. Sube los dos archivos a GitHub (web o `git`).
 4. Espera un minuto.
@@ -116,13 +119,22 @@ Sale del **nombre del archivo**, quitándole la fecha:
     →  https://baloncestodominicos.es/noticias/nuevo-patrocinador.html
 
 Por eso el nombre tiene que ser `AAAA-MM-DD-` seguido de un nombre corto en
-minúsculas, con guiones y **sin acentos ni eñes**. Si te lo propone el panel a
-partir del título, suele salir larguísimo: acórtalo. `nuevo-patrocinador` se
-lee y se comparte mejor que
-`nuevo-patrocinador-para-baloncesto-dominicos-zaragoza`.
+minúsculas, con guiones y **sin acentos ni eñes**.
 
-Elige bien el nombre: **una vez publicada, cambiarlo rompe el enlace** para
-quien lo haya compartido y para Google.
+**Eso no lo escribes tú.** Escribas la noticia desde el panel o a mano, si el
+archivo no se llama así, al publicar se le cambia el nombre solo: se saca de
+la fecha y del título, quitando las mayúsculas, los acentos y los signos, y
+cortando por el final si sale muy largo (más de 48 letras). «¡Nuevo
+patrocinador para Baloncesto Dominicos!» del 21 de septiembre acaba en:
+
+    noticias/2026-09-21-nuevo-patrocinador-para-baloncesto-dominicos.json
+
+Si prefieres uno más corto, ponle tú el nombre —a mano, o cambiándoselo en el
+panel—: un nombre que ya esté bien no se toca nunca.
+
+Y a partir de ahí no se vuelve a mover, ni aunque cambies el título después:
+**una vez publicada, cambiar la dirección rompe el enlace** para quien lo haya
+compartido y para Google.
 
 ---
 

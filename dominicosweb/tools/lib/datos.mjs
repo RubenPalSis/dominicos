@@ -11,10 +11,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { limpiaRuta, enlaceSeguro, fechaLegible } from './comun.mjs';
 import { TIPOS } from './secciones.mjs';
-
-/* Nombres que ya usa el sitio: una página suelta no puede llamarse así, o
-   sobreescribiría la portada, el listado o la página de error. */
-const RESERVADOS = new Set(['index', 'noticias', '404', 'sitemap', 'robots', 'manifest', 'styles', 'script']);
+import { RESERVADOS } from './nombres.mjs';
 
 export function leerTodo(raiz) {
   const errores = [];
@@ -230,21 +227,27 @@ function leerPaginas(raiz, sitio, avisa) {
     const etiqueta = `paginas/${archivo}`;
     const slug = archivo.replace(/\.json$/, '');
 
+    const d = leerJson(join(dir, archivo), etiqueta, avisa);
+    if (!d) continue;
+
+    /* El título va antes que el nombre del archivo a propósito: el nombre lo
+       pone lib/nombres.mjs a partir del título, así que sin título no hay
+       nombre que valga y lo que hay que arreglar es el título. */
+    if (!d.titulo || !d.descripcion) {
+      avisa(`${etiqueta}: "titulo" y "descripcion" son obligatorios`);
+      continue;
+    }
+
     if (!/^[a-z0-9-]+$/.test(slug)) {
-      avisa(`${etiqueta}: el nombre del archivo tiene que ser en minúsculas, con guiones y sin acentos`);
+      avisa(
+        `${etiqueta}: no se ha podido ponerle nombre solo. ` +
+          'Renómbralo en minúsculas, con guiones y sin acentos'
+      );
       continue;
     }
 
     if (RESERVADOS.has(slug)) {
       avisa(`${etiqueta}: "${slug}" es un nombre reservado del sitio, elige otro`);
-      continue;
-    }
-
-    const d = leerJson(join(dir, archivo), etiqueta, avisa);
-    if (!d) continue;
-
-    if (!d.titulo || !d.descripcion) {
-      avisa(`${etiqueta}: "titulo" y "descripcion" son obligatorios`);
       continue;
     }
 
@@ -282,19 +285,30 @@ function leerNoticias(raiz, avisa) {
     /* El nombre del archivo es la identidad de la noticia: la fecha la ordena
        y el resto es la dirección de su página. Deliberadamente no se lee de
        un campo dentro del JSON: al renombrar desde el panel, ese campo se
-       quedaría atrás y la noticia se publicaría en otra dirección. */
-    const id = archivo.replace(/\.json$/, '');
+       quedaría atrás y la noticia se publicaría en otra dirección.
 
-    if (!/^\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id)) {
-      avisa(
-        `${archivo}: el nombre del archivo tiene que ser ` +
-          'AAAA-MM-DD-nombre-corto.json, en minúsculas, con guiones y sin acentos'
-      );
-      continue;
-    }
+       Aquí ya llega bien puesto: se lo pone lib/nombres.mjs justo antes de
+       leer nada, sacándolo de la fecha y del título. Primero se comprueban
+       esos dos campos, porque si falta alguno no hay de dónde sacar el
+       nombre y el aviso útil es el del campo que falta, no el del nombre. */
+    const id = archivo.replace(/\.json$/, '');
 
     if (!/^\d{4}-\d{2}-\d{2}$/.test(datos.fecha || '')) {
       avisa(`${archivo}: falta "fecha" en formato AAAA-MM-DD`);
+      continue;
+    }
+
+    if (!datos.titulo) {
+      avisa(`${archivo}: falta "titulo"`);
+      continue;
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(id)) {
+      avisa(
+        `${archivo}: no se ha podido ponerle nombre solo. ` +
+          'Renómbralo a AAAA-MM-DD-nombre-corto.json, en minúsculas, ' +
+          'con guiones y sin acentos'
+      );
       continue;
     }
 

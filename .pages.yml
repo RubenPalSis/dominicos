@@ -301,11 +301,19 @@ content:
     #
     # El nombre del archivo es la identidad de la noticia: la fecha ordena el
     # listado y el resto es la dirección de su página
-    # (`.../noticias/nombre-corto.html`). Se propone a partir de la fecha y el
-    # título, y se puede corregir al crearla —conviene acortarlo—, pero una vez
-    # publicada, cambiarlo rompe el enlace para quien lo haya compartido.
+    # (`.../noticias/nombre-corto.html`).
+    #
+    # NO hay que escribirlo: el de aquí es provisional y sale ya puesto. El
+    # panel bautiza el archivo al crearlo, cuando el formulario todavía está
+    # vacío, así que no puede sacarlo de la fecha y del título —lo intentó y
+    # salían archivos llamados «-.json»—. Se lo pone el generador al publicar,
+    # con la fecha y el título ya escritos, y queda «AAAA-MM-DD-titulo.json».
+    #
+    # A partir de ahí ya no se vuelve a tocar, ni aunque se cambie el título:
+    # cambiarlo movería la noticia de dirección y rompería el enlace para
+    # quien lo hubiera compartido.
     filename:
-      template: '{fields.fecha}-{fields.titulo}.json'
+      template: 'sin_nombre-{year}{month}{day}-{hour}{minute}{second}.json'
       field: create
 
     view:
@@ -350,8 +358,12 @@ content:
 
     # El nombre del archivo es la dirección de la página:
     # «historia-del-club.json» se publica en /historia-del-club.html.
+    #
+    # Como en las noticias, el de aquí es provisional y no hay que tocarlo: al
+    # publicar, el generador lo cambia por el título de la página. Después ya
+    # no lo vuelve a tocar, para no mover la página de dirección.
     filename:
-      template: '{fields.titulo}.json'
+      template: 'sin_nombre-{year}{month}{day}-{hour}{minute}{second}.json'
       field: create
 
     view:

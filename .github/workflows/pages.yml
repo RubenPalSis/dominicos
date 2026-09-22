@@ -18,8 +18,11 @@ on:
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
+# `contents: write` es para devolver al repositorio el nombre de archivo que
+# el generador le pone a las noticias nuevas (ver el paso «Guardar los
+# nombres»). Lo demás, para publicar en Pages.
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -43,9 +46,38 @@ jobs:
 
       # Sin dependencias que instalar: el generador es Node pelado. Si un JSON
       # está mal, falla aquí y no se publica nada roto.
+      #
+      # De paso le pone su nombre definitivo a lo que llega del panel con el
+      # nombre provisional, así que la web ya se genera con las direcciones
+      # buenas aunque el renombrado todavía no esté en el repositorio.
       - name: Generar la web
         working-directory: dominicosweb
         run: node tools/generar.mjs
+
+      # Y el renombrado se guarda, para que el panel siga editando el mismo
+      # archivo y no vuelva a crear uno provisional la próxima vez.
+      #
+      # Este commit NO dispara otra publicación: GitHub no reencadena
+      # workflows con los push hechos con GITHUB_TOKEN. Y no hace falta, la
+      # web de este mismo run ya sale bien.
+      - name: Guardar los nombres
+        run: |
+          git add dominicosweb/noticias dominicosweb/paginas
+          if git diff --cached --quiet; then
+            echo "Ningún archivo que renombrar."
+            exit 0
+          fi
+          git -c user.name='Publicador' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Nombre de archivo de lo guardado desde el panel'
+
+          # «HEAD:rama» porque checkout deja el repositorio en un commit suelto,
+          # sin rama en la que estar. Y si el push no entra —porque mientras
+          # tanto se ha guardado otra cosa desde el panel—, no se corta la
+          # publicación: la web de este run ya está bien, y el renombrado se
+          # vuelve a intentar en la siguiente.
+          git push origin "HEAD:${{ github.ref_name }}" \
+            || echo "No se ha podido guardar el renombrado. Se reintentará al publicar de nuevo."
 
       - name: Reunir los archivos que se publican
         run: |
