@@ -148,8 +148,16 @@ components:
             label: Foto
             type: object
             fields:
-              - { name: imagen, label: Foto, type: image, options: { media: fotos } }
+              - { name: imagen, label: Foto principal, type: image, options: { media: fotos }, description: "La que se ve al entrar." }
               - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+              - name: masImagenes
+                label: Fotos que se van turnando
+                type: object
+                list: true
+                description: "Se relevan con la principal cada 5 segundos, en la misma caja y al mismo tamaño. Déjalo vacío para que no cambie."
+                fields:
+                  - { name: imagen, label: Foto, type: image, options: { media: fotos } }
+                  - { name: imagenAlt, label: Qué se ve en la foto, type: string }
               - { name: titulo, label: Título del pie, type: string }
               - { name: texto, label: Pie de foto, type: string }
 

@@ -142,6 +142,39 @@
     });
   }
 
+  /* ---- fotos que se van turnando ---------------------------------------- */
+  /* Las de «Instalaciones»: la primera es la que manda y las demás se van
+     relevando cada tantos milisegundos (data-turno). Se para mientras la
+     pestaña está en segundo plano, que si no cambiaría a solas para nadie, y
+     no arranca siquiera si el navegador pide menos movimiento. */
+  var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  $$('.shot--turno').forEach(function (figura) {
+    var fotos = $$('.shot__img', figura);
+    if (quieto || fotos.length < 2) return;
+
+    var cada = parseInt(figura.dataset.turno, 10) || 5000;
+    var i = 0;
+    var reloj = null;
+
+    function pasa() {
+      fotos[i].classList.remove('is-on');
+      fotos[i].setAttribute('aria-hidden', 'true');
+      i = (i + 1) % fotos.length;
+      fotos[i].classList.add('is-on');
+      fotos[i].removeAttribute('aria-hidden');
+    }
+
+    function arranca() { if (!reloj) reloj = setInterval(pasa, cada); }
+    function para() { clearInterval(reloj); reloj = null; }
+
+    document.addEventListener('visibilitychange', function () {
+      document.hidden ? para() : arranca();
+    });
+
+    arranca();
+  });
+
   /* ---- lightbox de fotos ------------------------------------------------ */
   var lb    = $('#lb');
   var lbImg = $('#lbImg');
@@ -163,7 +196,9 @@
 
     cards.concat($$('.shot')).forEach(function (el) {
       el.addEventListener('click', function () {
-        var img = el.querySelector('img');
+        /* En las que se turnan, la que hay que ampliar es la que está puesta
+           en ese momento, no la primera del HTML. */
+        var img = el.querySelector('.shot__img.is-on') || el.querySelector('img');
         if (img) openLb(img.currentSrc || img.src, img.alt);
       });
     });
@@ -231,13 +266,25 @@
       }
 
       var d = new FormData(form);
-      var nombre  = (d.get('nombre')  || '').toString().trim();
-      var email   = (d.get('email')   || '').toString().trim();
-      var mensaje = (d.get('mensaje') || '').toString().trim();
+      var nombre   = (d.get('nombre')   || '').toString().trim();
+      var email    = (d.get('email')    || '').toString().trim();
+      var telefono = (d.get('telefono') || '').toString().trim();
+      var mensaje  = (d.get('mensaje')  || '').toString().trim();
+
+      /* Del teléfono solo se cuentan las cifras: así valen los que se
+         escriben con espacios, guiones o prefijo (+34 600 00 00 00). Nueve es
+         lo que tiene un número español, y quince el tope internacional. */
+      var cifras = telefono.replace(/\D/g, '').length;
 
       if (!nombre || !mensaje || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         e.preventDefault();
         decir('Revisa el nombre, el email y el mensaje.', false);
+        return;
+      }
+
+      if (cifras < 9 || cifras > 15) {
+        e.preventDefault();
+        decir('Revisa el teléfono: hacen falta al menos nueve cifras.', false);
         return;
       }
 

@@ -200,9 +200,26 @@ ${tarjetas}
 function panelYFoto(s, ctx) {
   const f = s.foto || {};
 
-  const figura = f.imagen
-    ? `      <figure class="shot reveal">
-        <img loading="lazy" src="${ctx.base}${esc(limpiaRuta(f.imagen))}" alt="${esc(f.imagenAlt)}">
+  /* La principal manda: es la que se ve al entrar y la única que el navegador
+     tiene que descargar para pintar la sección. Las de detrás se van turnando
+     con ella cada pocos segundos, todas en la misma caja y al mismo tamaño,
+     para que al cambiar no se mueva nada de sitio. */
+  const fotos = [
+    { imagen: f.imagen, imagenAlt: f.imagenAlt },
+    ...(Array.isArray(f.masImagenes) ? f.masImagenes : []).filter((m) => m && m.imagen),
+  ].filter((m) => m.imagen);
+
+  const capas = fotos
+    .map(
+      (m, i) =>
+        `        <img class="shot__img${i === 0 ? ' is-on' : ''}" loading="lazy" decoding="async"` +
+        ` src="${ctx.base}${esc(limpiaRuta(m.imagen))}" alt="${esc(m.imagenAlt)}"${i === 0 ? '' : ' aria-hidden="true"'}>`
+    )
+    .join('\n');
+
+  const figura = fotos.length
+    ? `      <figure class="shot reveal${fotos.length > 1 ? ' shot--turno' : ''}"${fotos.length > 1 ? ' data-turno="5000"' : ''}>
+${capas}
 ${f.titulo || f.texto ? `        <figcaption>${f.titulo ? `<b>${esc(f.titulo)}</b> ` : ''}${esc(f.texto)}</figcaption>\n` : ''}      </figure>\n`
     : '';
 
@@ -381,6 +398,7 @@ function formulario(f, ctx) {
             action="https://formspree.io/f/${esc(ctx.sitio.formspree)}">
         <label>Nombre<input type="text" name="nombre" required maxlength="80" autocomplete="name" placeholder="Tu nombre"></label>
         <label>Email<input type="email" name="email" required maxlength="120" autocomplete="email" placeholder="tu@email.com"></label>
+        <label>Teléfono<input type="tel" name="telefono" required maxlength="24" autocomplete="tel" inputmode="tel" placeholder="600 00 00 00"></label>
 ${
   categorias
     ? `        <label>Categoría

@@ -232,6 +232,17 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .shot{margin:0;border-radius:var(--r);overflow:hidden;position:relative;border:1px solid var(--line);cursor:zoom-in}
 .shot img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .8s ease}
 .shot:hover img{transform:scale(1.05)}
+
+/* Foto que se va turnando con otras. Todas ocupan exactamente la misma caja:
+   la primera manda el tamaño y las demás se superponen encima, así que al
+   cambiar no se mueve nada de sitio. Sin JavaScript se queda la primera, que
+   es la única visible de salida. */
+.shot--turno .shot__img + .shot__img{position:absolute;inset:0;height:100%}
+.shot--turno .shot__img{opacity:0;transition:opacity .9s ease,transform .8s ease}
+.shot--turno .shot__img.is-on{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .shot--turno .shot__img{transition:none}
+}
 .shot figcaption{
   position:absolute;inset:auto 0 0 0;padding:22px;color:#fff;font-size:14px;
   background:linear-gradient(transparent,rgba(0,0,0,.9));

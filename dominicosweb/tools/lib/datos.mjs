@@ -152,7 +152,12 @@ function validaSecciones(raiz, secciones, etiqueta, avisa) {
     /* Las imágenes se comprueban aquí y no al pintar: más vale fallar antes
        de escribir nada que publicar una página con una foto rota. */
     compruebaImagen(raiz, s.imagen, etiqueta, `${s.tipo}.imagen`, avisa);
-    if (s.foto) compruebaImagen(raiz, s.foto.imagen, etiqueta, `${s.tipo}.foto`, avisa);
+    if (s.foto) {
+      compruebaImagen(raiz, s.foto.imagen, etiqueta, `${s.tipo}.foto`, avisa);
+      (s.foto.masImagenes || []).forEach((m, j) =>
+        compruebaImagen(raiz, m && m.imagen, etiqueta, `${s.tipo}.foto.masImagenes[${j + 1}]`, avisa)
+      );
+    }
     (s.equipos || []).forEach((e, j) => compruebaImagen(raiz, e.imagen, etiqueta, `${s.tipo}.equipos[${j + 1}]`, avisa));
 
     return true;

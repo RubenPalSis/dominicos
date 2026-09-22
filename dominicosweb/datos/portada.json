@@ -184,6 +184,12 @@
       "foto": {
         "imagen": "images/instalaciones.jpg",
         "imagenAlt": "Patio superior con canastas del colegio Dominicos",
+        "masImagenes": [
+          {
+            "imagen": "images/pabellon.jpg",
+            "imagenAlt": "Pabellón del colegio Dominicos con las canastas montadas"
+          }
+        ],
         "titulo": "Instalaciones",
         "texto": "Patio y pabellón, con canastas adaptables a cada categoría."
       }
