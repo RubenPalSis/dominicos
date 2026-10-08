@@ -60,7 +60,7 @@
           "numero": 150,
           "sufijo": "+",
           "sinSeparador": false,
-          "texto": "jugadores y jugadoras"
+          "texto": "jugadores"
         },
         {
           "numero": 6000,
@@ -220,7 +220,7 @@
       "parrafos": [],
       "pasos": [
         {
-          "texto": "Rellena el formulario con la edad del jugador o jugadora. No hace falta nada más."
+          "texto": "Rellena el formulario con la edad del jugador. No hace falta nada más."
         },
         {
           "texto": "Te decimos en qué equipo entra, en qué pista y a qué horas entrena, y qué cuota tiene."
