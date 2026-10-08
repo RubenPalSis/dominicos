@@ -24,7 +24,6 @@ secrets.*
 *.tar
 *.tar.gz
 *.rar
-*.zip
 copia-*/
 backup*/
 
