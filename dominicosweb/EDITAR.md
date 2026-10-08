@@ -96,7 +96,7 @@ componen con las mismas secciones que la portada.
 
 El nombre del archivo es la dirección de la página:
 
-    historia-del-club  →  https://baloncestodominicos.es/historia-del-club.html
+    historia-del-club  →  https://baloncestodominicos.com/historia-del-club.html
 
 No hay que escribirlo: el panel le pone un nombre provisional y, al publicar,
 se cambia solo por el título de la página. Si quieres uno distinto, cámbiaselo
@@ -149,11 +149,11 @@ contraseña**, lo único que permite es mandar un correo al club.
 En **Ajustes → Mantenimiento** hay una casilla, «Poner la web en
 mantenimiento». Marcándola y guardando, en un par de minutos:
 
-- quien entre en `baloncestodominicos.es` —o en cualquier dirección del
+- quien entre en `baloncestodominicos.com` —o en cualquier dirección del
   sitio— ve un cartel de «volvemos enseguida» a pantalla completa, con el
   escudo, una foto del club de fondo y los botones de llamar y escribir;
 - la web de verdad, con todos los cambios, se publica en
-  `baloncestodominicos.es/vista-previa/LA-CLAVE/`, y ahí puedes repasarla
+  `baloncestodominicos.com/vista-previa/LA-CLAVE/`, y ahí puedes repasarla
   entera antes de enseñarla.
 
 La clave sale del campo «Clave de la vista previa». Para desactivarlo,

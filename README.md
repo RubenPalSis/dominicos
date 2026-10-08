@@ -1,7 +1,7 @@
 # Web del CB Dominicos Zaragoza
 
 La web del club: HTML, CSS y JavaScript, sin compilación ni dependencias,
-publicada en GitHub Pages sobre `baloncestodominicos.es`.
+publicada en GitHub Pages sobre `baloncestodominicos.com`.
 
 Se edita desde un panel web, [Pages CMS](https://pagescms.org), que no es más
 que un formulario sobre los archivos de este repositorio. **Todo el contenido
@@ -132,7 +132,7 @@ local hay que ejecutar el generador (ver [Desarrollo](#desarrollo)).
 ## Publicación
 
 La web está publicada en **GitHub Pages**, servida directamente desde este
-repositorio en el dominio `baloncestodominicos.es`.
+repositorio en el dominio `baloncestodominicos.com`.
 
 Cada `git push` a `main` que toque `dominicosweb/` vuelve a publicar la web
 automáticamente, mediante [.github/workflows/pages.yml](.github/workflows/pages.yml).
@@ -175,10 +175,10 @@ GitHub y los que llevan el correo a Hostinger.
 Los cuatro registros A son los servidores de GitHub Pages: van los cuatro, no
 uno, y **los cuatro con el nombre `@`**. Es fácil equivocarse aquí: si en
 «Nombre» se pone un número en vez de `@`, no da error, pero se crea un
-subdominio (`1.baloncestodominicos.es`) que no hace nada, y el dominio se
+subdominio (`1.baloncestodominicos.com`) que no hace nada, y el dominio se
 queda con menos servidores de los que debería.
 
-El CNAME de `www` hace que `www.baloncestodominicos.es` redirija al dominio
+El CNAME de `www` hace que `www.baloncestodominicos.com` redirija al dominio
 sin `www`.
 
 **Para el correo** (Hostinger). Estos **no se tocan nunca**:

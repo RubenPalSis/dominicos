@@ -115,7 +115,7 @@ export function boton(b, enPortada, { estilo = 'fantasma', flecha = false, prefi
  * (CSS, imágenes, script).
  *
  * Los enlaces a PÁGINAS van en absoluto desde la raíz ('/', '/noticias.html').
- * Es a propósito: la canonical de la portada es https://baloncestodominicos.es/
+ * Es a propósito: la canonical de la portada es https://baloncestodominicos.com/
  * y enlazar internamente a "index.html" apuntaría a una segunda dirección
  * válida de la misma página, que Google tendría que rastrear y descartar.
  */

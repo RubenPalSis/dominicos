@@ -116,7 +116,7 @@ Vive en `noticias/` y se llama `AAAA-MM-DD-nombre-corto.json`:
 Sale del **nombre del archivo**, quitándole la fecha:
 
     noticias/2026-09-21-nuevo-patrocinador.json
-    →  https://baloncestodominicos.es/noticias/nuevo-patrocinador.html
+    →  https://baloncestodominicos.com/noticias/nuevo-patrocinador.html
 
 Por eso el nombre tiene que ser `AAAA-MM-DD-` seguido de un nombre corto en
 minúsculas, con guiones y **sin acentos ni eñes**.

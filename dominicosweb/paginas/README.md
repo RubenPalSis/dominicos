@@ -4,7 +4,7 @@ Cada archivo `.json` de esta carpeta es una página de la web. El nombre del
 archivo es su dirección:
 
     paginas/historia-del-club.json
-    →  https://baloncestodominicos.es/historia-del-club.html
+    →  https://baloncestodominicos.com/historia-del-club.html
 
 Por eso el nombre va en minúsculas, con guiones y sin acentos ni eñes.
 
