@@ -15,9 +15,9 @@
         "Zaragoza"
       ],
       "imagen": "images/hero.jpg",
-      "imagenAlt": "Partido de categoría benjamín del CB Dominicos en pista exterior",
-      "imagenAncho": 1047,
-      "imagenAlto": 1400,
+      "imagenAlt": "Foto de grupo de la sección del CB Dominicos en el torneo Valle Escondido de Benasque",
+      "imagenAncho": 1600,
+      "imagenAlto": 900,
       "botonPrincipal": {
         "texto": "Inscríbete",
         "destino": "#inscripciones"
