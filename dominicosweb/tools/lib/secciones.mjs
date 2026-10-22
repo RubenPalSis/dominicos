@@ -207,13 +207,33 @@ function equipos(s, ctx) {
     )
     .join('\n');
 
-  const tarjetas = (s.equipos || [])
+  const usados = new Set();
+  const conCalendario = (s.equipos || []).map((e) => ({
+    ...e,
+    idCal: tienePartidos(e) ? idUnico(`cal-${slug(e.nombre)}`, usados) : '',
+  }));
+
+  /* Con calendario, la tarjeta entera es un botón que lo abre. El botón va
+     encima de todo y sin texto visible; lo que se ve es la pastilla de
+     «Calendario» de abajo, que es solo un dibujo. */
+  const tarjetas = conCalendario
     .map(
-      (e) => `        <article class="card reveal" data-cat="${esc(e.grupo)}">
+      (e) => `        <article class="card${e.idCal ? ' card--cal' : ''} reveal" data-cat="${esc(e.grupo)}">
           <img loading="lazy" src="${ctx.base}${esc(limpiaRuta(e.imagen))}" alt="${esc(e.imagenAlt)}">
-          <div class="card__body"><span class="tag">${esc(e.etiqueta)}</span><h3>${esc(e.nombre)}</h3><p>${esc(e.texto)}</p></div>
+          <div class="card__body"><span class="tag">${esc(e.etiqueta)}</span><h3>${esc(e.nombre)}</h3><p>${esc(e.texto)}</p>${
+            e.idCal ? '<span class="card__ver" aria-hidden="true">Calendario →</span>' : ''
+          }</div>${
+            e.idCal
+              ? `\n          <button class="card__abre" type="button" data-cal="${e.idCal}" aria-haspopup="dialog">Ver el calendario de ${esc(e.nombre)}</button>`
+              : ''
+          }
         </article>`
     )
+    .join('\n');
+
+  const calendarios = conCalendario
+    .filter((e) => e.idCal)
+    .map(calendario)
     .join('\n');
 
   /* Botones de filtro, no pestañas: no hay paneles que mostrar y ocultar,
@@ -240,8 +260,81 @@ ${filtros}
       <div class="cards" id="cards">
 ${tarjetas}
       </div>
-    </div>`
+${calendarios ? calendarios + '\n' : ''}    </div>`
   );
+}
+
+const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+const MESES_CORTOS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+function tienePartidos(e) {
+  return !!(e.calendario && Array.isArray(e.calendario.partidos) && e.calendario.partidos.length);
+}
+
+function slug(texto) {
+  return String(texto || 'equipo')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '') || 'equipo';
+}
+
+/** Dos equipos con el mismo nombre no pueden compartir ventana. */
+function idUnico(base, usados) {
+  let id = base;
+  for (let n = 2; usados.has(id); n++) id = `${base}-${n}`;
+  usados.add(id);
+  return id;
+}
+
+/** «2026-10-24» → «sáb 24 oct». A mediodía, para que ningún huso lo mueva de día. */
+function fechaPartido(iso) {
+  const d = new Date(`${iso}T12:00:00Z`);
+  return `${DIAS[d.getUTCDay()]} ${d.getUTCDate()} ${MESES_CORTOS[d.getUTCMonth()]}`;
+}
+
+/** La temporada sale de la primera fecha: de agosto en adelante empieza una nueva. */
+function temporada(partidos) {
+  const [a, m] = String(partidos[0].fecha).split('-').map(Number);
+  const inicio = m >= 8 ? a : a - 1;
+  return `${String(inicio).slice(-2)}/${String(inicio + 1).slice(-2)}`;
+}
+
+/**
+ * La ventana con el calendario de un equipo. Va escrita en el HTML, cerrada,
+ * y la abre script.js con el botón de la tarjeta. Cuál es el próximo partido
+ * lo marca también el script al abrirla: la web solo se regenera cuando se
+ * edita algo, así que aquí no se sabe qué día es.
+ */
+function calendario(e) {
+  const c = e.calendario;
+  const titulo = `${e.idCal}-t`;
+
+  const filas = c.partidos
+    .map((p, i) => {
+      const lugar = p.lugar === 'casa' || p.lugar === 'fuera' ? p.lugar : 'descansa';
+      const rival = lugar === 'descansa' ? 'Descansa' : esc(p.rival);
+      const marca = lugar === 'descansa' ? '' : `<span class="cal__lugar">${lugar === 'casa' ? 'Casa' : 'Fuera'}</span>`;
+      return `            <li class="cal__p cal__p--${lugar}" data-fecha="${esc(p.fecha)}">` +
+        `<span class="cal__j">J${i + 1}</span>` +
+        `<time datetime="${esc(p.fecha)}">${fechaPartido(p.fecha)}</time>` +
+        `<span class="cal__rival">${rival}</span>${marca}</li>`;
+    })
+    .join('\n');
+
+  return `      <dialog class="cal" id="${e.idCal}" aria-labelledby="${titulo}">
+        <div class="cal__in">
+          <header class="cal__head">
+            <p class="kicker">Temporada ${temporada(c.partidos)}</p>
+            <h3 class="cal__h" id="${titulo}">${esc(e.nombre)}</h3>
+${c.competicion ? `            <p class="cal__comp">${esc(c.competicion)}</p>\n` : ''}            <button class="cal__x" type="button" aria-label="Cerrar">✕</button>
+          </header>
+          <ol class="cal__lista">
+${filas}
+          </ol>
+        </div>
+      </dialog>`;
 }
 
 function panelYFoto(s, ctx) {

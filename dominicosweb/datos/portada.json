@@ -69,7 +69,7 @@
           "texto": "fotos en el archivo del club"
         },
         {
-          "numero": 8,
+          "numero": 9,
           "sinSeparador": false,
           "texto": "equipos en competición"
         },
@@ -103,66 +103,877 @@
         {
           "imagen": "images/escuela.jpg",
           "imagenAlt": "Escuela de baloncesto Dominicos",
-          "etiqueta": "Primaria",
+          "etiqueta": "Escuela",
           "nombre": "Escuela",
-          "texto": "Primeros botes, primeras canastas.",
+          "texto": "Infantil y 1.º y 2.º de Primaria. Primeros botes, primeras canastas.",
           "grupo": "escolares"
         },
         {
           "imagen": "images/benjamin.jpg",
-          "imagenAlt": "Equipo benjamín",
-          "etiqueta": "Mini",
-          "nombre": "Benjamín",
-          "texto": "Liga escolar y torneos de primavera.",
-          "grupo": "escolares"
+          "imagenAlt": "Equipo benjamín femenino",
+          "etiqueta": "Escolares",
+          "nombre": "Benjamín Fem. C",
+          "texto": "Benjamín Femenino Nivel C · 1",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Benjamín Femenino Nivel C · 1",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "Teresiano del Pilar",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "Doctor Azúa C",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-14",
+                "rival": "Baloncesto Moncayo Azul",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "Colegio Alemán - F. BZ",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "Parque Venecia - F. BZ 2018",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "Romareda 3º",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "Juan de Lanuza - F. BZ",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "María Zambrano - F. BZ",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "Teresiano del Pilar",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-06",
+                "rival": "Doctor Azúa C",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-13",
+                "rival": "Baloncesto Moncayo Azul",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-20",
+                "rival": "Colegio Alemán - F. BZ",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-27",
+                "rival": "Parque Venecia - F. BZ 2018",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-03-13",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-03-20",
+                "rival": "Romareda 3º",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-04-10",
+                "rival": "Juan de Lanuza - F. BZ",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-04-17",
+                "rival": "María Zambrano - F. BZ",
+                "lugar": "fuera"
+              }
+            ]
+          }
+        },
+        {
+          "imagen": "images/benjamin.jpg",
+          "imagenAlt": "Equipo benjamín femenino",
+          "etiqueta": "Escolares",
+          "nombre": "Benjamín Fem. B",
+          "texto": "Benjamín Femenino Nivel B · 2",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Benjamín Femenino Nivel B · 2",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "Casablanca-Patatas Gómez BFB",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "Parque Venecia - F. BZ 2017 Blanco",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-14",
+                "rival": "Baloncesto Moncayo 4C",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "Cristo Rey",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "CD San Agustín B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "Compañía de María C",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "Almozara AMPA Puerta Sancho",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "Corazonistas A",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "El Salvador BFC",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-02-06",
+                "rival": "EM El Olivar B2",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-13",
+                "rival": "Casablanca-Patatas Gómez BFB",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-20",
+                "rival": "Parque Venecia - F. BZ 2017 Blanco",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-27",
+                "rival": "Baloncesto Moncayo 4C",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-03-13",
+                "rival": "Cristo Rey",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-03-20",
+                "rival": "CD San Agustín B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-04-10",
+                "rival": "Compañía de María C",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-04-17",
+                "rival": "Almozara AMPA Puerta Sancho",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-05-08",
+                "rival": "Corazonistas A",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-05-15",
+                "rival": "El Salvador BFC",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-05-22",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-05-29",
+                "rival": "EM El Olivar B2",
+                "lugar": "casa"
+              }
+            ]
+          }
         },
         {
           "imagen": "images/alevin.jpg",
           "imagenAlt": "Equipo alevín mixto",
           "etiqueta": "Mixto",
-          "nombre": "Alevín",
-          "texto": "Equipo mixto, mucha pista para todos.",
-          "grupo": "escolares"
+          "nombre": "Alevín Mixto",
+          "texto": "Alevín Mixto",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Alevín Mixto",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "CB Ciudad de Borja - F. BZ",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "Ribera del Huerva AMX",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "Agustina Catalina - F. BZ",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "Escolapios",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "CD Bajo Aragón",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "Basket Pinseque",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "Santo Domingo de Silos",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "Pirineos Sagrado Corazón",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-06",
+                "rival": "CB Ciudad de Borja - F. BZ",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-13",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-02-20",
+                "rival": "Ribera del Huerva AMX",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-27",
+                "rival": "Agustina Catalina - F. BZ",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-03-13",
+                "rival": "Escolapios",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-03-20",
+                "rival": "CD Bajo Aragón",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-04-10",
+                "rival": "Basket Pinseque",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-04-17",
+                "rival": "Santo Domingo de Silos",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-05-08",
+                "rival": "Pirineos Sagrado Corazón",
+                "lugar": "fuera"
+              }
+            ]
+          }
         },
         {
           "imagen": "images/preinfantil.jpg",
-          "imagenAlt": "Equipo preinfantil",
+          "imagenAlt": "Equipo preinfantil femenino",
           "etiqueta": "Escolares",
-          "nombre": "Preinfantil",
-          "texto": "El salto a la pista grande.",
-          "grupo": "escolares"
+          "nombre": "Preinfantil Fem.",
+          "texto": "Preinfantil Femenino Nivel B",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Preinfantil Femenino Nivel B",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "CN Helios B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "La Salle Teruel",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-14",
+                "rival": "Alierta Augusto Salas B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "CB Valdefierro",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "CD San Agustín B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "La Salle Montemolín",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "Lycée Français Molière",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "Mercado Central OSB",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "Baloncesto Moncayo B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "CN Helios B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-06",
+                "rival": "La Salle Teruel",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-13",
+                "rival": "Alierta Augusto Salas B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-20",
+                "rival": "CB Valdefierro",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-27",
+                "rival": "CD San Agustín B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-03-13",
+                "rival": "La Salle Montemolín",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-03-20",
+                "rival": "Lycée Français Molière",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-04-10",
+                "rival": "Mercado Central OSB",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-04-17",
+                "rival": "Baloncesto Moncayo B",
+                "lugar": "casa"
+              }
+            ]
+          }
         },
         {
           "imagen": "images/infantil.jpg",
-          "imagenAlt": "Equipo infantil",
+          "imagenAlt": "Equipo infantil femenino",
           "etiqueta": "Escolares",
-          "nombre": "Infantil",
-          "texto": "Final Four de la copa de primavera.",
-          "grupo": "escolares"
+          "nombre": "Infantil Fem.",
+          "texto": "Infantil Femenino Nivel C",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Infantil Femenino Nivel C",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "Santo Domingo de Silos",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "Compañía de María B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-14",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "Baloncesto Moncayo",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "Sansueña OSB",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "Santo Domingo de Silos",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "Compañía de María B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "Baloncesto Moncayo",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "Sansueña OSB",
+                "lugar": "casa"
+              }
+            ]
+          }
         },
         {
           "imagen": "images/cadete.jpg",
-          "imagenAlt": "Equipo cadete",
+          "imagenAlt": "Equipo cadete femenino",
           "etiqueta": "Escolares",
-          "nombre": "Cadete",
-          "texto": "Ritmo, físico y lectura de juego.",
-          "grupo": "escolares"
+          "nombre": "Cadete Fem. CF1",
+          "texto": "Cadete Femenino Nivel C · CF1",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Cadete Femenino Nivel C · CF1",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "Alierta Augusto Salas D",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "Marianistas CFC4",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-14",
+                "rival": "El Salvador CFD",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "FEC Aragón B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "CB Fuentes",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "Lycée Français Molière",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "Reino de Aragón C12",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "Alierta Augusto Salas D",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "Marianistas CFC4",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "El Salvador CFD",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-06",
+                "rival": "FEC Aragón B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-13",
+                "rival": "CB Fuentes",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-20",
+                "rival": "Lycée Français Molière",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-27",
+                "rival": "Reino de Aragón C12",
+                "lugar": "casa"
+              }
+            ]
+          }
+        },
+        {
+          "imagen": "images/cadete.jpg",
+          "imagenAlt": "Equipo cadete femenino",
+          "etiqueta": "Escolares",
+          "nombre": "Cadete Fem. CF2",
+          "texto": "Cadete Femenino Nivel C · CF2",
+          "grupo": "escolares",
+          "calendario": {
+            "competicion": "Cadete Femenino Nivel C · CF2",
+            "partidos": [
+              {
+                "fecha": "2026-10-24",
+                "rival": "La Salle Montemolín 3",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-07",
+                "rival": "SMD Zuera",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-14",
+                "rival": "CD Enrique de Ossó",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-21",
+                "rival": "Romareda B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-28",
+                "rival": "La Salle Gran Vía - F. BZ",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-12",
+                "rival": "EM El Olivar B3",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-19",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-01-09",
+                "rival": "Azulejos Moncayo CBZ C",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-16",
+                "rival": "CB Valdefierro",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-23",
+                "rival": "La Salle Montemolín 3",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-06",
+                "rival": "SMD Zuera",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-13",
+                "rival": "CD Enrique de Ossó",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-20",
+                "rival": "Romareda B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-27",
+                "rival": "La Salle Gran Vía - F. BZ",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-03-13",
+                "rival": "EM El Olivar B3",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-03-20",
+                "rival": "",
+                "lugar": "descansa"
+              },
+              {
+                "fecha": "2027-04-10",
+                "rival": "Azulejos Moncayo CBZ C",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-04-17",
+                "rival": "CB Valdefierro",
+                "lugar": "fuera"
+              }
+            ]
+          }
         },
         {
           "imagen": "images/junior.jpg",
-          "imagenAlt": "Equipo junior",
+          "imagenAlt": "Equipo júnior femenino",
           "etiqueta": "Federado",
-          "nombre": "Junior",
-          "texto": "La antesala del senior.",
-          "grupo": "federado"
+          "nombre": "Júnior Fem.",
+          "texto": "Júnior Aragón Femenino 3ª",
+          "grupo": "federado",
+          "calendario": {
+            "competicion": "Júnior Aragón Femenino 3ª",
+            "partidos": [
+              {
+                "fecha": "2026-10-18",
+                "rival": "Pirineos Sagrado Corazón B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-10-25",
+                "rival": "Basket Aragón",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-08",
+                "rival": "Boscos",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-15",
+                "rival": "Zona Joven Espartidero",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-22",
+                "rival": "Muerde la Pasta Alierta B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-29",
+                "rival": "Escolapias Pompiliano",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-13",
+                "rival": "Marianistas C2",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-20",
+                "rival": "CB Huesca La Magia Escuer",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-10",
+                "rival": "CB Octavus Entrerríos",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-17",
+                "rival": "Pirineos Sagrado Corazón B",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-24",
+                "rival": "Basket Aragón",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-07",
+                "rival": "Boscos",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-14",
+                "rival": "Zona Joven Espartidero",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-21",
+                "rival": "Muerde la Pasta Alierta B",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-28",
+                "rival": "Escolapias Pompiliano",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-03-14",
+                "rival": "Marianistas C2",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-03-21",
+                "rival": "CB Huesca La Magia Escuer",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-04-04",
+                "rival": "CB Octavus Entrerríos",
+                "lugar": "fuera"
+              }
+            ]
+          }
         },
         {
           "imagen": "images/senior-femenino.jpg",
-          "imagenAlt": "Equipo senior femenino",
+          "imagenAlt": "Equipo sénior femenino",
           "etiqueta": "Federado",
-          "nombre": "Senior Femenino",
-          "texto": "Competición y cantera del club.",
-          "grupo": "federado"
+          "nombre": "Sénior Fem.",
+          "texto": "3ª Aragonesa Femenina",
+          "grupo": "federado",
+          "calendario": {
+            "competicion": "3ª Aragonesa Femenina",
+            "partidos": [
+              {
+                "fecha": "2026-10-18",
+                "rival": "Lycée Français Molière",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-10-25",
+                "rival": "CBA-Esto se Mueve",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-08",
+                "rival": "Basket Lupus SFC",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-11-15",
+                "rival": "Wiyob Barbastro",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-22",
+                "rival": "CB Valdefierro",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-11-29",
+                "rival": "CB Fuentes",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2026-12-13",
+                "rival": "Bajo Aragón",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2026-12-20",
+                "rival": "Lycée Français Molière",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-10",
+                "rival": "CBA-Esto se Mueve",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-01-17",
+                "rival": "Basket Lupus SFC",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-01-24",
+                "rival": "Wiyob Barbastro",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-07",
+                "rival": "CB Valdefierro",
+                "lugar": "casa"
+              },
+              {
+                "fecha": "2027-02-14",
+                "rival": "CB Fuentes",
+                "lugar": "fuera"
+              },
+              {
+                "fecha": "2027-02-21",
+                "rival": "Bajo Aragón",
+                "lugar": "casa"
+              }
+            ]
+          }
         }
       ]
     },

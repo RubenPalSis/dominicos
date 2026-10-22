@@ -142,6 +142,52 @@
     });
   }
 
+  /* ---- calendario de cada equipo ---------------------------------------- */
+  /* Cada tarjeta con calendario lleva un botón que abre su <dialog>, escrito
+     ya en el HTML. Al abrirlo se marcan los partidos jugados y el próximo,
+     que eso depende del día en que se mira y no del día en que se generó la
+     web. Escape lo cierra solo el navegador; aquí se añaden la ✕ y pulsar
+     fuera de la caja. */
+  function hoyIso() {
+    var d = new Date();
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+
+  function marcaCalendario(dlg) {
+    var hoy = hoyIso();
+    var proximo = null;
+    $$('.cal__p', dlg).forEach(function (p) {
+      var f = p.getAttribute('data-fecha') || '';
+      var jugado = f < hoy;
+      p.classList.toggle('is-jugado', jugado);
+      p.classList.remove('is-proximo');
+      if (!jugado && !proximo && !p.classList.contains('cal__p--descansa')) proximo = p;
+    });
+    if (proximo) proximo.classList.add('is-proximo');
+    return proximo;
+  }
+
+  $$('.card__abre').forEach(function (btn) {
+    var dlg = document.getElementById(btn.getAttribute('data-cal'));
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+
+    btn.addEventListener('click', function () {
+      var proximo = marcaCalendario(dlg);
+      dlg.showModal();
+      document.body.style.overflow = 'hidden';
+      var lista = $('.cal__lista', dlg);
+      if (lista) lista.scrollTop = proximo ? proximo.offsetTop - lista.offsetTop - 8 : 0;
+    });
+
+    dlg.addEventListener('close', function () {
+      document.body.style.overflow = '';
+      btn.focus();
+    });
+    var x = $('.cal__x', dlg);
+    if (x) x.addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  });
+
   /* ---- fotos que se van turnando ---------------------------------------- */
   /* Las de «Instalaciones»: van una encima de otra en la misma caja y se
      relevan cada tantos milisegundos (data-turno). Debajo hay una barrita por
@@ -304,7 +350,8 @@
       document.body.style.overflow = '';
     };
 
-    cards.concat($$('.shot')).forEach(function (el) {
+    /* Las tarjetas con calendario abren el calendario, no la foto. */
+    cards.filter(function (c) { return !c.classList.contains('card--cal'); }).concat($$('.shot')).forEach(function (el) {
       el.addEventListener('click', function () {
         /* En las que se turnan, la que hay que ampliar es la que está puesta
            en ese momento, no la primera del HTML. */

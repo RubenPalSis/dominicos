@@ -123,6 +123,21 @@ components:
               - { name: nombre, label: Nombre, type: string }
               - { name: texto, label: Una línea, type: string }
               - { name: grupo, label: Grupo, type: string, description: "Con qué botón de filtro aparece." }
+              - name: calendario
+                label: Calendario
+                type: object
+                description: "Si tiene partidos, al pulsar la tarjeta se abre el calendario. Déjalo vacío para que la tarjeta solo enseñe la foto."
+                fields:
+                  - { name: competicion, label: Competición, type: string, description: "P. ej. «Benjamín Femenino Nivel C · 1»." }
+                  - name: partidos
+                    label: Partidos
+                    type: object
+                    list: true
+                    description: "En orden: el primero es la jornada 1."
+                    fields:
+                      - { name: fecha, label: Fecha, type: date, required: true }
+                      - { name: rival, label: Rival, type: string, description: "Vacío si esa jornada se descansa." }
+                      - { name: lugar, label: Dónde, type: select, required: true, options: { values: [casa, fuera, descansa] } }
 
       - name: panel-y-foto
         label: Panel de texto con foto al lado

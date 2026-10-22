@@ -163,6 +163,28 @@ function leerMenu(raiz, avisa) {
  * Secciones (portada y páginas)
  * ---------------------------------------------------------------------- */
 
+/** Cada partido necesita una fecha de verdad, y rival si no es jornada de descanso. */
+function compruebaCalendario(e, etiqueta, donde, avisa) {
+  const partidos = e && e.calendario && e.calendario.partidos;
+  if (!partidos) return;
+  if (!Array.isArray(partidos)) {
+    avisa(`${etiqueta}: ${donde}: "calendario.partidos" tiene que ser una lista`);
+    return;
+  }
+  partidos.forEach((p, k) => {
+    const jornada = `${donde}, jornada ${k + 1}`;
+    if (!p || !/^\d{4}-\d{2}-\d{2}$/.test(String(p.fecha || ''))) {
+      avisa(`${etiqueta}: ${jornada}: falta la fecha o no es AAAA-MM-DD`);
+      return;
+    }
+    if (!['casa', 'fuera', 'descansa'].includes(p.lugar)) {
+      avisa(`${etiqueta}: ${jornada}: "lugar" tiene que ser casa, fuera o descansa`);
+    } else if (p.lugar !== 'descansa' && !String(p.rival || '').trim()) {
+      avisa(`${etiqueta}: ${jornada}: falta el rival`);
+    }
+  });
+}
+
 function validaSecciones(raiz, secciones, etiqueta, avisa) {
   if (!Array.isArray(secciones)) {
     avisa(`${etiqueta}: "secciones" tiene que ser una lista`);
@@ -188,7 +210,10 @@ function validaSecciones(raiz, secciones, etiqueta, avisa) {
         compruebaImagen(raiz, m && m.imagen, etiqueta, `${s.tipo}.foto.masImagenes[${j + 1}]`, avisa)
       );
     }
-    (s.equipos || []).forEach((e, j) => compruebaImagen(raiz, e.imagen, etiqueta, `${s.tipo}.equipos[${j + 1}]`, avisa));
+    (s.equipos || []).forEach((e, j) => {
+      compruebaImagen(raiz, e.imagen, etiqueta, `${s.tipo}.equipos[${j + 1}]`, avisa);
+      compruebaCalendario(e, etiqueta, `${s.tipo}.equipos[${j + 1}] (${e.nombre})`, avisa);
+    });
 
     return true;
   });
