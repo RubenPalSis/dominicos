@@ -330,6 +330,19 @@ html:not(.js) .shot__barras{display:none}
 }
 .shot figcaption b{display:block;font-family:var(--disp);text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
 
+/* Panel y foto, a la misma altura. Manda el texto: la foto se estira o se
+   encoge hasta medir lo mismo que el panel de al lado, y se recorta dentro
+   de su caja en vez de deformarse. Así no queda la foto sobresaliendo por
+   arriba y por abajo cuando el panel tiene poco texto. En el móvil van una
+   debajo de otra y la foto vuelve a su 4/3. */
+@media (min-width:901px){
+  .grid-2--igual{align-items:stretch}
+  .grid-2--igual .panel{display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+  .grid-2--igual .shot{display:flex;flex-direction:column}
+  .grid-2--igual .shot__fotos{flex:1;aspect-ratio:auto;min-height:220px}
+  .grid-2--igual .shot__img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+}
+
 /* --- patrocinadores ------------------------------------------------------ */
 /* Los logos llegan como vengan: uno en PNG con fondo blanco, otro alargado,
    otro casi cuadrado. Por eso cada uno va en la misma cajita blanca y se

@@ -392,7 +392,7 @@ ${barras}${f.titulo || f.texto ? `        <figcaption>${f.titulo ? `<b>${esc(f.t
   return seccion(
     s,
     [],
-    `    <div class="wrap grid-2">
+    `    <div class="wrap grid-2 grid-2--igual">
       <div class="panel reveal">
 ${s.kicker ? `        <p class="kicker">${esc(s.kicker)}</p>\n` : ''}        <h2 class="h2 h2--sm">${esc(s.titulo)}</h2>
 ${parrafos(s.parrafos, 'lead', '        ')}
