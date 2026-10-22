@@ -980,13 +980,8 @@
       "tipo": "panel-y-foto",
       "id": "pista",
       "kicker": "Entrenamientos",
-      "titulo": "Horarios y calendario",
-      "parrafos": [
-        "El calendario de entrenamientos se publica al inicio de curso. Cada equipo lo recibe además por su responsable."
-      ],
-      "aviso": {
-        "texto": "Consulta con el responsable de tu equipo o escríbenos."
-      },
+      "titulo": "Horarios y pistas",
+      "parrafos": [],
       "boton": {
         "texto": "Preguntar horarios",
         "destino": "#inscripciones"
