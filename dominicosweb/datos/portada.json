@@ -208,8 +208,7 @@
     {
       "tipo": "patrocinadores",
       "id": "patrocinadores",
-      "kicker": "Con el apoyo de",
-      "logos": []
+      "kicker": "Con el apoyo de"
     },
     {
       "tipo": "inscripciones",
@@ -217,28 +216,26 @@
       "kicker": "Inscripciones",
       "titulo": "Ven a jugar",
       "tituloSegundaLinea": "con nosotros",
-      "parrafos": [],
       "pasos": [
         {
-          "texto": "Rellena el formulario con la edad del jugador. No hace falta nada más."
+          "texto": "Rellena el formulario."
         },
         {
-          "texto": "Te decimos en qué equipo entra, en qué pista y a qué horas entrena, y qué cuota tiene."
+          "texto": "Contactamos contigo."
         },
         {
-          "texto": "Un par de entrenamientos sin compromiso, para ver si le gusta antes de decidir nada."
+          "texto": "Vienes a probar.. ¡y decidimos!"
         }
       ],
-      "documentos": [],
-      "formulario": {
-        "asunto": "Inscripción desde baloncestodominicos.com"
-      },
       "mostrarEmail": true,
+      "mostrarRedes": true,
       "whatsapp": {
         "numero": "34622708107",
         "texto": "622 70 81 07"
       },
-      "mostrarRedes": true
+      "formulario": {
+        "asunto": "Inscripción desde baloncestodominicos.com"
+      }
     }
   ]
 }
