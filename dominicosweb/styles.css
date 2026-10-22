@@ -206,8 +206,13 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
 .chip:hover{color:var(--txt);border-color:var(--txt-2)}
 .chip.is-on{background:var(--red);border-color:var(--red);color:#fff}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+/* Filas que se centran: si la última no se llena (diez equipos en filas de
+   cuatro, o lo que quede al filtrar), sus tarjetas van al medio en vez de
+   quedarse pegadas a la izquierda. Por eso es flex y no grid, y el ancho de
+   cada tarjeta se fija según cuántas caben por fila. */
+.cards{--por-fila:4;--hueco:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:var(--hueco)}
 .card{
+  flex:0 0 calc((100% - (var(--por-fila) - 1) * var(--hueco)) / var(--por-fila));
   position:relative;border-radius:var(--r);overflow:hidden;background:var(--bg-3);
   aspect-ratio:4/5;cursor:zoom-in;border:1px solid var(--line);
   transition:transform .45s cubic-bezier(.2,.7,.3,1),box-shadow .45s ease,opacity .35s ease;
@@ -274,12 +279,15 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-lin
   .cal__j{grid-row:1 / span 2}
   .cal__lugar{grid-column:3;grid-row:1 / span 2}
 }
-/* En el móvil siguen siendo dos por fila. Con `auto-fill` y un mínimo de
-   270 px caía una sola, a todo lo ancho: cada equipo ocupaba media pantalla y
-   ver los ocho era un viaje. A dos, se abarcan de un vistazo. Como la tarjeta
+/* Cuatro por fila en pantalla ancha, tres en la mediana y dos en el móvil.
+   Una sola, a todo lo ancho, hacía que cada equipo ocupara media pantalla y
+   ver todos fuera un viaje. A dos, se abarcan de un vistazo. Como la tarjeta
    mide la mitad, el texto de dentro también se achica, o no cabría. */
+@media (max-width:1000px){
+  .cards{--por-fila:3}
+}
 @media (max-width:620px){
-  .cards{grid-template-columns:1fr 1fr;gap:12px}
+  .cards{--por-fila:2;--hueco:12px}
   .card__body{padding:14px}
   .card__body h3{font-size:17px;margin:6px 0 3px}
   .card__body p{font-size:12px;line-height:1.4}
