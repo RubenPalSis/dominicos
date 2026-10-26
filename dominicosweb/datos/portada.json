@@ -144,7 +144,6 @@
               },
               {
                 "fecha": "2026-12-12",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -189,7 +188,6 @@
               },
               {
                 "fecha": "2027-03-13",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -267,7 +265,6 @@
               },
               {
                 "fecha": "2027-01-23",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -322,7 +319,6 @@
               },
               {
                 "fecha": "2027-05-22",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -334,7 +330,7 @@
           }
         },
         {
-          "imagen": "images/alevin.jpg",
+          "imagen": "images/img-20261025-wa00191.jpg",
           "imagenAlt": "Equipo alevín mixto",
           "etiqueta": "Mixto",
           "nombre": "Alevín Mixto",
@@ -350,7 +346,6 @@
               },
               {
                 "fecha": "2026-11-07",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -395,7 +390,6 @@
               },
               {
                 "fecha": "2027-02-13",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -561,7 +555,6 @@
               },
               {
                 "fecha": "2026-11-14",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -586,7 +579,6 @@
               },
               {
                 "fecha": "2027-01-09",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -727,7 +719,6 @@
               },
               {
                 "fecha": "2026-12-19",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -772,7 +763,6 @@
               },
               {
                 "fecha": "2027-03-20",
-                "rival": "",
                 "lugar": "descansa"
               },
               {
@@ -981,7 +971,6 @@
       "id": "pista",
       "kicker": "Entrenamientos",
       "titulo": "Pistas de juego y horarios",
-      "parrafos": [],
       "boton": {
         "texto": "Preguntar horarios",
         "destino": "#inscripciones"
