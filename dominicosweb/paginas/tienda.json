@@ -63,10 +63,6 @@
       "pedido": {
         "kicker": "Pedidos",
         "titulo": "Haz tu pedido",
-        "parrafos": [
-          "Rellena el formulario y nos llega por correo. No se paga nada aquí: te escribimos para confirmar el pedido, el pago y la entrega.",
-          "Si quieres más de una prenda, envía un pedido por cada una o cuéntanoslo en los comentarios."
-        ],
         "asunto": "Pedido desde la tienda",
         "personalizacion": ["Con nombre", "Sin nombre"]
       }

@@ -650,26 +650,53 @@ ${
 }
 
 /**
- * La tienda: los productos con su precio, las tablas de tallas y el
+ * La tienda: a la izquierda los productos, que se van turnando cada pocos
+ * segundos con su precio, y debajo las tablas de tallas; a la derecha el
  * formulario de pedido.
  *
  * No se paga nada en la web. El pedido es un correo al club, por Web3Forms
  * como el de contacto, y el club contesta para cerrarlo. Por eso el
  * desplegable de producto y el de talla salen de los mismos datos que se
- * ven arriba: lo que se pide es exactamente lo que se enseña.
+ * ven al lado: lo que se pide es exactamente lo que se enseña.
  */
 function tienda(s, ctx) {
   const productos = (s.productos || []).filter((p) => p && p.nombre);
+  const varios = productos.length > 1;
 
-  const fichas = productos
+  /* Cada producto es una capa con su foto y su ficha, todas superpuestas en
+     la misma caja, y el mismo turno de las fotos de la pista las va pasando.
+     Sin JavaScript se queda puesta la primera. */
+  const capas = productos
     .map(
-      (p) => `        <li class="prod reveal">
-${p.imagen ? `          <div class="prod__foto"><img loading="lazy" decoding="async" src="${ctx.base}${esc(limpiaRuta(p.imagen))}" alt="${esc(p.imagenAlt)}"></div>\n` : ''}          <div class="prod__body">
-            <h3 class="prod__h">${esc(p.nombre)}</h3>
-${p.precio ? `            <p class="prod__precio">${esc(p.precio)}</p>\n` : ''}${p.nota ? `            <p class="prod__nota">${esc(p.nota)}</p>\n` : ''}          </div>
-        </li>`
+      (p, i) => `            <li class="escaparate__item shot__img${i === 0 ? ' is-on' : ''}"${i === 0 ? '' : ' aria-hidden="true"'}>
+${p.imagen ? `              <div class="prod__foto"><img loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async" src="${ctx.base}${esc(limpiaRuta(p.imagen))}" alt="${esc(p.imagenAlt)}"></div>\n` : ''}              <div class="prod__body">
+                <h3 class="prod__h">${esc(p.nombre)}</h3>
+${p.precio ? `                <p class="prod__precio">${esc(p.precio)}</p>\n` : ''}${p.nota ? `                <p class="prod__nota">${esc(p.nota)}</p>\n` : ''}              </div>
+            </li>`
     )
     .join('\n');
+
+  const barras = varios
+    ? `          <div class="shot__barras" role="group" aria-label="Productos">
+${productos
+  .map(
+    (p, i) =>
+      `            <button type="button" class="shot__barra${i === 0 ? ' is-on' : ''}"` +
+      `${i === 0 ? ' aria-current="true"' : ''} aria-label="Ver ${esc(p.nombre)}"></button>`
+  )
+  .join('\n')}
+          </div>
+`
+    : '';
+
+  const escaparate = productos.length
+    ? `        <div class="escaparate prod reveal${varios ? ' shot--turno' : ''}"${varios ? ` data-turno="${Number(s.turno) || 4000}"` : ''}>
+          <ul class="escaparate__fotos">
+${capas}
+          </ul>
+${barras}        </div>
+`
+    : '';
 
   const tablas = (s.tallas && s.tallas.tablas || []).filter((t) => t && (t.tallas || []).length);
 
@@ -683,28 +710,27 @@ ${p.precio ? `            <p class="prod__precio">${esc(p.precio)}</p>\n` : ''}$
 
   const htmlTablas = tablas
     .map(
-      (t) => `        <div class="tallas__bloque reveal">
-          <h3 class="tallas__h">${esc(t.titulo)}</h3>
-          <div class="tallas__caja">
-            <table class="tallas__tabla">
-              <thead>
+      (t) => `          <div class="tallas__bloque reveal">
+            <h3 class="tallas__h">${esc(t.titulo)}</h3>
+            <div class="tallas__caja">
+              <table class="tallas__tabla">
+                <thead>
 ${fila('Talla', t.tallas.map((x) => x.talla), th)}
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
 ${fila('Ancho (A)', t.tallas.map((x) => x.ancho), td)}
 ${fila('Largo (B)', t.tallas.map((x) => x.largo), td)}
-              </tbody>
-            </table>
-          </div>
-        </div>`
+                </tbody>
+              </table>
+            </div>
+          </div>`
     )
     .join('\n');
 
   const bloqueTallas = htmlTablas
-    ? `
-      <div class="tallas">
+    ? `        <div class="tallas">
 ${htmlTablas}
-${s.tallas.nota ? `        <p class="tallas__nota">${esc(s.tallas.nota)}</p>\n` : ''}      </div>
+${s.tallas.nota ? `          <p class="tallas__nota">${esc(s.tallas.nota)}</p>\n` : ''}        </div>
 `
     : '';
 
@@ -712,8 +738,7 @@ ${s.tallas.nota ? `        <p class="tallas__nota">${esc(s.tallas.nota)}</p>\n` 
   const form = productos.length ? formularioPedido(pedido, productos, tablas, ctx) : '';
 
   const bloquePedido = form
-    ? `
-      <div class="pedido grid-2" id="pedido">
+    ? `      <div class="pedido" id="pedido">
         <div class="reveal">
 ${pedido.kicker ? `          <p class="kicker">${esc(pedido.kicker)}</p>\n` : ''}${pedido.titulo ? `          <h2 class="h2">${esc(pedido.titulo)}</h2>\n` : ''}${parrafos(pedido.parrafos, 'lead', '          ')}
         </div>
@@ -725,10 +750,11 @@ ${form}      </div>
     s,
     ['tienda'],
     `    <div class="wrap">
-${s.titulo ? cabeceraSeccion(s, ctx) + '\n' : ''}      <ul class="prods">
-${fichas}
-      </ul>
-${bloqueTallas}${bloquePedido}    </div>`
+${s.titulo ? cabeceraSeccion(s, ctx) + '\n' : ''}      <div class="tienda__cols">
+        <div class="tienda__izq">
+${escaparate}${bloqueTallas}        </div>
+${bloquePedido}      </div>
+    </div>`
   );
 }
 
@@ -764,7 +790,7 @@ function formularioPedido(f, productos, tablas, ctx) {
   return `      <form class="form reveal" id="form" method="POST"
             data-email="${esc(ctx.sitio.email)}"
             data-revisa="Revisa los datos del pedido: faltan campos por rellenar."
-            data-ok="Pedido enviado. El club te escribirá para confirmarlo."
+            data-ok="Pedido enviado."
             action="https://api.web3forms.com/submit">
         <input type="hidden" name="access_key" value="${esc(ctx.sitio.web3forms)}">
         <label>Nombre del tutor<input type="text" name="Tutor" required maxlength="80" autocomplete="name" placeholder="Nombre y apellidos"></label>

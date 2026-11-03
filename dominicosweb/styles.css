@@ -569,7 +569,25 @@ html:not(.js) .shot__barras{display:none}
 .tallas__tabla tbody th[scope="row"]{color:var(--txt-2)}
 .tallas__nota{color:var(--txt-2);font-size:14px;margin:0}
 
-.pedido{margin-top:clamp(48px,6vw,84px);align-items:start}
+/* Dos columnas: a la izquierda los productos y las tallas, a la derecha el
+   pedido. En pantallas estrechas pasan a ir una debajo de otra. */
+.tienda__cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
+.tienda__izq{display:grid;gap:clamp(24px,3vw,36px);min-width:0}
+.tienda__izq .tallas{margin-top:0}
+
+/* El escaparate: las fichas van una encima de otra en la misma celda, así la
+   caja mide lo que la más alta y al turnarse no salta nada. */
+.escaparate__fotos{list-style:none;margin:0;padding:0;display:grid}
+.escaparate .escaparate__item{
+  grid-area:1/1;position:relative;inset:auto;width:auto;height:auto;
+  display:flex;flex-direction:column;background:var(--card);
+}
+.escaparate:not(.shot--turno) .escaparate__item:not(:first-child){display:none}
+.escaparate .shot__barras{position:static;padding:0 22px 22px;justify-content:flex-start}
+.escaparate .shot__barra{background:var(--line);box-shadow:none}
+.escaparate .shot__barra:hover{background:var(--txt-2)}
+.escaparate .shot__barra.is-on{background:var(--red)}
+.escaparate .shot__barra:focus-visible{outline-color:var(--red)}
 
 /* --- footer -------------------------------------------------------------- */
 /* Dos columnas —las secciones y el contacto— y debajo una línea fina con el
@@ -672,6 +690,7 @@ html:not(.js) .shot__barras{display:none}
 @media (max-width:900px){
   .grid-2{grid-template-columns:1fr}
   .cta__cols{grid-template-columns:1fr}
+  .tienda__cols{grid-template-columns:1fr}
 }
 @media (max-width:780px){
   .burger{display:block}
