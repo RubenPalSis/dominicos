@@ -410,6 +410,24 @@
     msg.classList.toggle('ok', !!ok);
   }
 
+  /* En la tienda, la mochila no tiene talla: al elegirla se esconde el
+     desplegable y se desactiva, para que ni se pida ni llegue en el correo. */
+  var producto = form && form.querySelector('select[name="Producto"]');
+  var talla    = form && form.querySelector('[data-talla]');
+
+  function ponTalla() {
+    if (!producto || !talla) return;
+    var op = producto.options[producto.selectedIndex];
+    var sin = !!(op && op.hasAttribute('data-sin-talla'));
+    talla.hidden = sin;
+    talla.querySelector('select').disabled = sin;
+  }
+
+  if (producto) {
+    producto.addEventListener('change', ponTalla);
+    ponTalla();
+  }
+
   if (form && form.tagName === 'FORM') {
     form.addEventListener('submit', function (e) {
       var accion = form.getAttribute('action') || '';
@@ -424,19 +442,27 @@
       }
 
       var d = new FormData(form);
-      var nombre   = (d.get('nombre')   || '').toString().trim();
-      var email    = (d.get('email')    || '').toString().trim();
-      var telefono = (d.get('telefono') || '').toString().trim();
-      var mensaje  = (d.get('mensaje')  || '').toString().trim();
+      var email    = (d.get('email') || '').toString().trim();
+      var tel      = form.querySelector('input[type="tel"]');
+      var telefono = tel ? tel.value.trim() : '';
+
+      /* Lo obligatorio lo marca el HTML (required), así que vale igual para
+         el formulario de contacto que para el de pedidos de la tienda. Aquí
+         solo se descarta lo que el navegador da por bueno: un campo con
+         espacios y nada más. */
+      var vacio = [].some.call(form.querySelectorAll('[required]'), function (c) {
+        if (c.disabled) return false;
+        return !(d.get(c.name) || '').toString().trim();
+      });
 
       /* Del teléfono solo se cuentan las cifras: así valen los que se
          escriben con espacios, guiones o prefijo (+34 600 00 00 00). Nueve es
          lo que tiene un número español, y quince el tope internacional. */
       var cifras = telefono.replace(/\D/g, '').length;
 
-      if (!nombre || !mensaje || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (vacio || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         e.preventDefault();
-        decir('Revisa el nombre, el email y el mensaje.', false);
+        decir(form.getAttribute('data-revisa') || 'Revisa el nombre, el email y el mensaje.', false);
         return;
       }
 
@@ -466,7 +492,8 @@
         .then(function (r) {
           if (r.ok) {
             form.reset();
-            decir('Mensaje enviado. Te contestamos en cuanto podamos.', true);
+            ponTalla();
+            decir(form.getAttribute('data-ok') || 'Mensaje enviado. Te contestamos en cuanto podamos.', true);
           } else {
             decir('No hemos podido enviar el mensaje. Escríbenos a ' + correo + '.', false);
           }

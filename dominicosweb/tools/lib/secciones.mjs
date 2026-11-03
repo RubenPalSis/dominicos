@@ -650,6 +650,165 @@ ${
 }
 
 /**
+ * La tienda: los productos con su precio, las tablas de tallas y el
+ * formulario de pedido.
+ *
+ * No se paga nada en la web. El pedido es un correo al club, por Web3Forms
+ * como el de contacto, y el club contesta para cerrarlo. Por eso el
+ * desplegable de producto y el de talla salen de los mismos datos que se
+ * ven arriba: lo que se pide es exactamente lo que se enseña.
+ */
+function tienda(s, ctx) {
+  const productos = (s.productos || []).filter((p) => p && p.nombre);
+
+  const fichas = productos
+    .map(
+      (p) => `        <li class="prod reveal">
+${p.imagen ? `          <div class="prod__foto"><img loading="lazy" decoding="async" src="${ctx.base}${esc(limpiaRuta(p.imagen))}" alt="${esc(p.imagenAlt)}"></div>\n` : ''}          <div class="prod__body">
+            <h3 class="prod__h">${esc(p.nombre)}</h3>
+${p.precio ? `            <p class="prod__precio">${esc(p.precio)}</p>\n` : ''}${p.nota ? `            <p class="prod__nota">${esc(p.nota)}</p>\n` : ''}          </div>
+        </li>`
+    )
+    .join('\n');
+
+  const tablas = (s.tallas && s.tallas.tablas || []).filter((t) => t && (t.tallas || []).length);
+
+  /* Las tallas van en columnas, como en la ficha del proveedor: una fila de
+     tallas, otra de ancho y otra de largo. Si no caben, la tabla se desplaza
+     sola dentro de su caja y la página no. */
+  const fila = (cab, celdas, celda) =>
+    `              <tr><th scope="row">${esc(cab)}</th>${celdas.map((c) => celda(esc(c))).join('')}</tr>`;
+  const th = (c) => `<th scope="col">${c}</th>`;
+  const td = (c) => `<td>${c}</td>`;
+
+  const htmlTablas = tablas
+    .map(
+      (t) => `        <div class="tallas__bloque reveal">
+          <h3 class="tallas__h">${esc(t.titulo)}</h3>
+          <div class="tallas__caja">
+            <table class="tallas__tabla">
+              <thead>
+${fila('Talla', t.tallas.map((x) => x.talla), th)}
+              </thead>
+              <tbody>
+${fila('Ancho (A)', t.tallas.map((x) => x.ancho), td)}
+${fila('Largo (B)', t.tallas.map((x) => x.largo), td)}
+              </tbody>
+            </table>
+          </div>
+        </div>`
+    )
+    .join('\n');
+
+  const bloqueTallas = htmlTablas
+    ? `
+      <div class="tallas">
+${htmlTablas}
+${s.tallas.nota ? `        <p class="tallas__nota">${esc(s.tallas.nota)}</p>\n` : ''}      </div>
+`
+    : '';
+
+  const pedido = s.pedido || {};
+  const form = productos.length ? formularioPedido(pedido, productos, tablas, ctx) : '';
+
+  const bloquePedido = form
+    ? `
+      <div class="pedido grid-2" id="pedido">
+        <div class="reveal">
+${pedido.kicker ? `          <p class="kicker">${esc(pedido.kicker)}</p>\n` : ''}${pedido.titulo ? `          <h2 class="h2">${esc(pedido.titulo)}</h2>\n` : ''}${parrafos(pedido.parrafos, 'lead', '          ')}
+        </div>
+${form}      </div>
+`
+    : '';
+
+  return seccion(
+    s,
+    ['tienda'],
+    `    <div class="wrap">
+${s.titulo ? cabeceraSeccion(s, ctx) + '\n' : ''}      <ul class="prods">
+${fichas}
+      </ul>
+${bloqueTallas}${bloquePedido}    </div>`
+  );
+}
+
+/**
+ * El formulario de pedido. Va con id="form" para que script.js lo envíe
+ * igual que el de contacto: solo hay uno por página.
+ *
+ * Los nombres de los campos son los que se leen en el correo que llega al
+ * club, de ahí que vayan escritos para una persona y no para un programa.
+ */
+function formularioPedido(f, productos, tablas, ctx) {
+  const opciones = productos
+    .map((p) => `<option${p.sinTalla ? ' data-sin-talla' : ''}>${esc(p.nombre)}</option>`)
+    .join('');
+
+  const tallas = tablas
+    .map(
+      (t) => `<optgroup label="${esc(t.titulo)}">${t.tallas
+        .map((x) => `<option>${esc(`${x.talla} (${String(t.titulo).toLowerCase()})`)}</option>`)
+        .join('')}</optgroup>`
+    )
+    .join('');
+
+  const personalizar = (f.personalizacion && f.personalizacion.length ? f.personalizacion : ['Con nombre', 'Sin nombre'])
+    .map(
+      (o, i) =>
+        `            <label class="radio"><input type="radio" name="Personalización" value="${esc(o)}" required${
+          i === 0 ? ' checked' : ''
+        }><span>${esc(o)}</span></label>`
+    )
+    .join('\n');
+
+  return `      <form class="form reveal" id="form" method="POST"
+            data-email="${esc(ctx.sitio.email)}"
+            data-revisa="Revisa los datos del pedido: faltan campos por rellenar."
+            data-ok="Pedido enviado. El club te escribirá para confirmarlo."
+            action="https://api.web3forms.com/submit">
+        <input type="hidden" name="access_key" value="${esc(ctx.sitio.web3forms)}">
+        <label>Nombre del tutor<input type="text" name="Tutor" required maxlength="80" autocomplete="name" placeholder="Nombre y apellidos"></label>
+        <label>Nombre de la jugadora<input type="text" name="Jugadora" required maxlength="80" autocomplete="off" placeholder="Nombre y apellidos"></label>
+        <label>Email<input type="email" name="email" required maxlength="120" autocomplete="email" placeholder="tu@email.com"></label>
+        <label>Teléfono<input type="tel" name="Teléfono" required maxlength="24" autocomplete="tel" inputmode="tel" placeholder="600 00 00 00"></label>
+        <label>Producto
+          <select name="Producto" required>
+            ${opciones}
+          </select>
+        </label>
+${
+  tallas
+    ? `        <label data-talla>Talla
+          <select name="Talla" required>
+            <option value="">Elige la talla</option>${tallas}
+          </select>
+        </label>
+`
+    : ''
+}        <fieldset class="form__grupo">
+          <legend>Personalización</legend>
+          <div class="radios">
+${personalizar}
+          </div>
+        </fieldset>
+        <label>Comentarios<textarea name="Comentarios" rows="4" maxlength="2000" placeholder="Dorsal, nombre que se imprime, cantidad…"></textarea></label>
+
+        <input type="hidden" name="subject" value="${esc(f.asunto || 'Pedido desde la tienda')}">
+        <input type="hidden" name="from_name" value="${esc(ctx.sitio.nombre)}">
+
+        <p class="hp" aria-hidden="true">
+          <label>No marques esta casilla
+            <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+          </label>
+        </p>
+
+        <button class="btn btn--primary" type="submit">Enviar pedido</button>
+        <p class="form__msg" id="formMsg" role="status" aria-live="polite"></p>
+      </form>
+`;
+}
+
+/**
  * Texto libre. Es el bloque que se usa en las páginas sueltas: el cuerpo se
  * escribe en el panel con editor de texto enriquecido y llega ya como HTML.
  *
@@ -681,6 +840,7 @@ export const TIPOS = {
   patrocinadores,
   inscripciones,
   contacto,
+  tienda,
   texto,
 };
 

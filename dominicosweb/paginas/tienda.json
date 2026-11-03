@@ -1,0 +1,75 @@
+{
+  "titulo": "Tienda",
+  "descripcion": "Sudaderas y mochilas del club. Rellena el pedido y te escribimos para confirmarlo.",
+  "kicker": "Ropa del club",
+  "enMenu": false,
+  "noIndexar": true,
+  "secciones": [
+    {
+      "tipo": "tienda",
+      "id": "productos",
+      "productos": [
+        {
+          "nombre": "Sudadera roja",
+          "precio": "33 €",
+          "nota": "Con dorsal. Sin dorsal, 30 €.",
+          "imagen": "images/tienda/sudadera-roja.jpg",
+          "imagenAlt": "Sudadera roja con capucha: delante el logo del club en blanco y detrás el dorsal y «Baloncesto Dominicos»"
+        },
+        {
+          "nombre": "Sudadera gris",
+          "precio": "33 €",
+          "nota": "Con dorsal. Sin dorsal, 30 €.",
+          "imagen": "images/tienda/sudadera-gris.jpg",
+          "imagenAlt": "Sudadera gris con capucha negra: delante el logo del club en negro y detrás el dorsal y «Baloncesto Dominicos»"
+        },
+        {
+          "nombre": "Mochila",
+          "precio": "28 €",
+          "nota": "Nombre y dorsal personalizables.",
+          "imagen": "images/tienda/mochila.jpg",
+          "imagenAlt": "Mochila roja con el dorsal, el escudo del club y un nombre bordados en blanco",
+          "sinTalla": true
+        }
+      ],
+      "tallas": {
+        "nota": "Medidas de la prenda en centímetros. Ancho (A): de axila a axila. Largo (B): del hombro al bajo.",
+        "tablas": [
+          {
+            "titulo": "Adulto",
+            "tallas": [
+              { "talla": "XS", "ancho": "51", "largo": "65" },
+              { "talla": "S", "ancho": "54", "largo": "67" },
+              { "talla": "M", "ancho": "57", "largo": "69" },
+              { "talla": "L", "ancho": "60", "largo": "71" },
+              { "talla": "XL", "ancho": "63", "largo": "73" },
+              { "talla": "2XL", "ancho": "66", "largo": "75" },
+              { "talla": "3XL", "ancho": "69", "largo": "77" },
+              { "talla": "4XL", "ancho": "72", "largo": "78" }
+            ]
+          },
+          {
+            "titulo": "Infantil",
+            "tallas": [
+              { "talla": "3/4", "ancho": "36", "largo": "44" },
+              { "talla": "5/6", "ancho": "39", "largo": "48" },
+              { "talla": "7/8", "ancho": "42", "largo": "52" },
+              { "talla": "9/10", "ancho": "45", "largo": "56" },
+              { "talla": "11/12", "ancho": "48", "largo": "60" }
+            ]
+          }
+        ]
+      },
+      "pedido": {
+        "kicker": "Pedidos",
+        "titulo": "Haz tu pedido",
+        "parrafos": [
+          "Rellena el formulario y nos llega por correo. No se paga nada aquí: te escribimos para confirmar el pedido, el pago y la entrega.",
+          "Si quieres más de una prenda, envía un pedido por cada una o cuéntanoslo en los comentarios."
+        ],
+        "asunto": "Pedido desde la tienda",
+        "personalizacion": ["Con nombre", "Sin nombre"]
+      }
+    }
+  ]
+}

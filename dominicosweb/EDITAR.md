@@ -48,9 +48,10 @@ pueden:
 | Logos de patrocinadores        | La franja de logos. Se rellena sola con las fotos que se llamen `patrocinador_1`, `patrocinador_2`… |
 | Inscripciones con fichas       | El bloque rojo con los PDF descargables.                |
 | Contacto con formulario        | Los datos de contacto y el formulario.                  |
+| Tienda con formulario de pedido | Productos con foto y precio, tablas de tallas y el pedido que llega por correo. Está en la página `/tienda`. |
 | Texto libre                    | Un texto con negritas, enlaces y listas. Para lo demás. |
 
-**Diseños nuevos, no.** Estas diez secciones son las que están dibujadas. Se
+**Diseños nuevos, no.** Estas once secciones son las que están dibujadas. Se
 pueden usar tantas veces como se quiera y en cualquier orden, pero inventar
 una sección con una pinta distinta es trabajo de programación: hay que
 añadirla al código y al panel.

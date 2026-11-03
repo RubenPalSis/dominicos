@@ -531,6 +531,45 @@ html:not(.js) .shot__barras{display:none}
 .form .btn{justify-content:center}
 .form__msg{margin:0;font-size:14px;color:var(--red);min-height:1.2em;letter-spacing:normal;text-transform:none}
 .form__msg.ok{color:#21c07a}
+/* El label del formulario va en grid, y eso le gana al [hidden] del navegador. */
+.form [hidden]{display:none}
+.form__grupo{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+.form__grupo legend{padding:0;margin-bottom:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2)}
+.radios{display:flex;flex-wrap:wrap;gap:10px}
+.form .radio{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+  font-size:15.5px;letter-spacing:normal;text-transform:none;color:var(--txt);
+  transition:border-color .2s,box-shadow .2s;
+}
+.form .radio input{accent-color:var(--red);margin:0;width:18px;height:18px}
+.form .radio:has(input:checked){border-color:var(--red)}
+.form .radio:has(input:focus-visible){box-shadow:0 0 0 4px rgba(224,31,38,.14)}
+
+/* --- tienda -------------------------------------------------------------- */
+/* Las fotos de los productos vienen sobre blanco, así que la caja es blanca
+   también en el tema oscuro: con otro fondo se vería el recorte. */
+.prods{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px}
+.prod{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.prod__foto{position:relative;background:#fff;aspect-ratio:4/3}
+.prod__foto img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain}
+.prod__body{padding:20px 22px 24px}
+.prod__h{font-family:var(--disp);font-size:22px;line-height:1.1;text-transform:uppercase;margin:0 0 8px}
+.prod__precio{font-family:var(--disp);font-size:40px;line-height:1;color:var(--red);margin:0 0 8px}
+.prod__nota{color:var(--txt-2);margin:0;font-size:15.5px}
+
+.tallas{margin-top:clamp(40px,5vw,64px);display:grid;gap:24px}
+.tallas__h{font-family:var(--disp);font-size:20px;text-transform:uppercase;margin:0 0 10px}
+.tallas__caja{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tallas__tabla{border-collapse:collapse;width:100%;font-size:15px;text-align:center;white-space:nowrap}
+.tallas__tabla th,.tallas__tabla td{padding:10px 12px;border-bottom:1px solid var(--line)}
+.tallas__tabla tbody tr:last-child > *{border-bottom:0}
+.tallas__tabla thead th{background:var(--red);color:#fff;font-weight:700}
+.tallas__tabla th[scope="row"]{text-align:left;font-weight:600}
+.tallas__tabla tbody th[scope="row"]{color:var(--txt-2)}
+.tallas__nota{color:var(--txt-2);font-size:14px;margin:0}
+
+.pedido{margin-top:clamp(48px,6vw,84px);align-items:start}
 
 /* --- footer -------------------------------------------------------------- */
 /* Dos columnas —las secciones y el contacto— y debajo una línea fina con el

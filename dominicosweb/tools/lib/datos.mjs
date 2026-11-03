@@ -210,6 +210,9 @@ function validaSecciones(raiz, secciones, etiqueta, avisa) {
         compruebaImagen(raiz, m && m.imagen, etiqueta, `${s.tipo}.foto.masImagenes[${j + 1}]`, avisa)
       );
     }
+    (s.productos || []).forEach((p, j) =>
+      compruebaImagen(raiz, p && p.imagen, etiqueta, `${s.tipo}.productos[${j + 1}]`, avisa)
+    );
     (s.equipos || []).forEach((e, j) => {
       compruebaImagen(raiz, e.imagen, etiqueta, `${s.tipo}.equipos[${j + 1}]`, avisa);
       compruebaCalendario(e, etiqueta, `${s.tipo}.equipos[${j + 1}] (${e.nombre})`, avisa);

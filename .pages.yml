@@ -276,6 +276,54 @@ components:
               - { name: categorias, label: Categorías del desplegable, type: string, list: true }
               - { name: asunto, label: Asunto del correo que llega al club, type: string }
 
+      - name: tienda
+        label: Tienda con formulario de pedido
+        fields:
+          - { name: id, label: Ancla, type: string }
+          - { name: kicker, label: Línea de encima, type: string }
+          - { name: titulo, label: Título, type: string, description: "Opcional. La página ya lleva el suyo arriba." }
+          - name: productos
+            label: Productos
+            type: object
+            list: true
+            description: "Cada producto sale con su foto y su precio, y es una opción del desplegable del pedido."
+            fields:
+              - { name: nombre, label: Nombre, type: string, description: "P. ej. «Sudadera roja». Es lo que llega en el correo del pedido." }
+              - { name: precio, label: Precio, type: string, description: "Como se lee, p. ej. «33 €»." }
+              - { name: nota, label: Debajo del precio, type: string, description: "P. ej. «Con dorsal. Sin dorsal, 30 €»." }
+              - { name: imagen, label: Foto, type: image, options: { media: fotos } }
+              - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+              - { name: sinTalla, label: No tiene talla, type: boolean, default: false, description: "Marcado (la mochila), el pedido no pide talla." }
+          - name: tallas
+            label: Tablas de tallas
+            type: object
+            fields:
+              - { name: nota, label: Nota debajo de las tablas, type: string }
+              - name: tablas
+                label: Tablas
+                type: object
+                list: true
+                description: "Sus tallas son también las del desplegable del pedido."
+                fields:
+                  - { name: titulo, label: Nombre, type: string, description: "P. ej. «Adulto» o «Infantil»." }
+                  - name: tallas
+                    label: Tallas
+                    type: object
+                    list: true
+                    fields:
+                      - { name: talla, label: Talla, type: string }
+                      - { name: ancho, label: Ancho (A) en cm, type: string }
+                      - { name: largo, label: Largo (B) en cm, type: string }
+          - name: pedido
+            label: Formulario de pedido
+            type: object
+            fields:
+              - { name: kicker, label: Línea de encima, type: string }
+              - { name: titulo, label: Título, type: string }
+              - { name: parrafos, label: Párrafos, type: text, list: true }
+              - { name: asunto, label: Asunto del correo que llega al club, type: string }
+              - { name: personalizacion, label: Opciones de personalización, type: string, list: true, description: "Los botones de elegir uno. Por defecto, «Con nombre» y «Sin nombre»." }
+
       - name: texto
         label: Texto libre
         fields:
