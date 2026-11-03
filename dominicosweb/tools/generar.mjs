@@ -194,13 +194,11 @@ function construyeListado() {
 
   const main = `<main id="main">
 
-  <section class="phero">
+  <section class="phero phero--compacta">
     <div class="wrap phero__in">
       <a class="phero__back" href="${enlaceInterno('/', PREFIJO)}">&larr; Inicio</a>
-      <p class="kicker">${esc(d.kicker || 'Actualidad')}</p>
-      <h1 class="h2">${esc(d.titulo || 'Noticias')}</h1>
-      <p class="lead">${esc(d.descripcion || '')}</p>
-    </div>
+${d.kicker ? `      <p class="kicker">${esc(d.kicker)}</p>\n` : ''}      <h1 class="h2">${esc(d.titulo || 'Noticias')}</h1>
+${d.descripcion ? `      <p class="lead">${esc(d.descripcion)}</p>\n` : ''}    </div>
   </section>
 
   <section class="section section--top">
@@ -251,8 +249,7 @@ function construyePagina(p) {
 ${media}    <div class="wrap phero__in">
       <a class="phero__back" href="${enlaceInterno('/', PREFIJO)}">&larr; Inicio</a>
 ${p.kicker ? `      <p class="kicker">${esc(p.kicker)}</p>\n` : ''}      <h1 class="h2">${esc(p.titulo)}</h1>
-      <p class="lead">${esc(p.descripcion)}</p>
-    </div>
+${p.descripcion ? `      <p class="lead">${esc(p.descripcion)}</p>\n` : ''}    </div>
   </section>
 
 ${pintarSecciones(p.secciones, { ...ctx, primeraArriba: true })}

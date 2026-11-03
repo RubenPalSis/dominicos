@@ -261,8 +261,8 @@ function leerPaginas(raiz, sitio, avisa) {
     /* El título va antes que el nombre del archivo a propósito: el nombre lo
        pone lib/nombres.mjs a partir del título, así que sin título no hay
        nombre que valga y lo que hay que arreglar es el título. */
-    if (!d.titulo || !d.descripcion) {
-      avisa(`${etiqueta}: "titulo" y "descripcion" son obligatorios`);
+    if (!d.titulo) {
+      avisa(`${etiqueta}: falta "titulo"`);
       continue;
     }
 
@@ -282,7 +282,7 @@ function leerPaginas(raiz, sitio, avisa) {
     paginas.push({
       slug,
       titulo: String(d.titulo),
-      descripcion: String(d.descripcion),
+      descripcion: String(d.descripcion || ''),
       kicker: String(d.kicker || ''),
       imagen: compruebaImagen(raiz, d.imagen, etiqueta, 'imagen', avisa),
       imagenAlt: String(d.imagenAlt || ''),

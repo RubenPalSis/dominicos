@@ -281,7 +281,7 @@ export function documento({
   cabeza.push('<meta charset="utf-8">');
   cabeza.push('<meta name="viewport" content="width=device-width, initial-scale=1">');
   cabeza.push(`<title>${esc(titulo)}</title>`);
-  cabeza.push(`<meta name="description" content="${esc(descripcion)}">`);
+  if (descripcion) cabeza.push(`<meta name="description" content="${esc(descripcion)}">`);
   if (robots) cabeza.push(`<meta name="robots" content="${esc(robots)}">`);
   cabeza.push('<meta name="referrer" content="strict-origin-when-cross-origin">');
   if (canonical) cabeza.push(`<link rel="canonical" href="${esc(canonical)}">`);
@@ -298,14 +298,14 @@ export function documento({
   cabeza.push('<meta property="og:locale" content="es_ES">');
   cabeza.push(`<meta property="og:site_name" content="${esc(sitio.nombre)}">`);
   cabeza.push(`<meta property="og:title" content="${esc(tituloCompartir || titulo)}">`);
-  cabeza.push(`<meta property="og:description" content="${esc(descripcionCompartir || descripcion)}">`);
+  if (descripcionCompartir || descripcion) cabeza.push(`<meta property="og:description" content="${esc(descripcionCompartir || descripcion)}">`);
   if (canonical) cabeza.push(`<meta property="og:url" content="${esc(canonical)}">`);
   if (imagenAbs) cabeza.push(`<meta property="og:image" content="${esc(imagenAbs)}">`);
   if (imagenAbs && imagenAlt) cabeza.push(`<meta property="og:image:alt" content="${esc(imagenAlt)}">`);
   metasExtra.forEach((m) => cabeza.push(m));
   cabeza.push('<meta name="twitter:card" content="summary_large_image">');
   cabeza.push(`<meta name="twitter:title" content="${esc(tituloCompartir || titulo)}">`);
-  cabeza.push(`<meta name="twitter:description" content="${esc(descripcionCompartir || descripcion)}">`);
+  if (descripcionCompartir || descripcion) cabeza.push(`<meta name="twitter:description" content="${esc(descripcionCompartir || descripcion)}">`);
   if (imagenAbs) cabeza.push(`<meta name="twitter:image" content="${esc(imagenAbs)}">`);
   }
 

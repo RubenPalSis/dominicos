@@ -437,7 +437,7 @@ content:
 
     fields:
       - { name: titulo, label: Título, type: string, required: true }
-      - { name: descripcion, label: Resumen, type: text, required: true, description: "Se lee debajo del título y es lo que sale en Google." }
+      - { name: descripcion, label: Resumen, type: text, description: "Se lee debajo del título y es lo que sale en Google. Si se deja vacío, la cabecera va sin texto." }
       - { name: kicker, label: Línea de encima del título, type: string }
       - { name: imagen, label: Foto de cabecera, type: image, options: { media: fotos } }
       - { name: imagenAlt, label: Qué se ve en la foto, type: string }

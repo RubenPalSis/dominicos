@@ -1,7 +1,5 @@
 {
   "titulo": "Tienda",
-  "descripcion": "Sudaderas y mochilas del club.",
-  "kicker": "Ropa del club",
   "cabeceraCompacta": true,
   "enMenu": false,
   "noIndexar": true,
@@ -62,7 +60,6 @@
         ]
       },
       "pedido": {
-        "kicker": "Pedidos",
         "titulo": "Haz tu pedido",
         "asunto": "Pedido desde la tienda",
         "personalizacion": ["Con nombre", "Sin nombre"]
