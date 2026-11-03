@@ -247,7 +247,7 @@ function construyePagina(p) {
 
   const main = `<main id="main">
 
-  <section class="phero${p.imagen ? ' phero--img' : ''}">
+  <section class="phero${p.imagen ? ' phero--img' : ''}${p.cabeceraCompacta ? ' phero--compacta' : ''}">
 ${media}    <div class="wrap phero__in">
       <a class="phero__back" href="${enlaceInterno('/', PREFIJO)}">&larr; Inicio</a>
 ${p.kicker ? `      <p class="kicker">${esc(p.kicker)}</p>\n` : ''}      <h1 class="h2">${esc(p.titulo)}</h1>

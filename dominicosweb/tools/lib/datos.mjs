@@ -289,6 +289,7 @@ function leerPaginas(raiz, sitio, avisa) {
       enMenu: d.enMenu === true,
       ordenMenu: Number.isFinite(d.ordenMenu) ? Number(d.ordenMenu) : 100,
       noIndexar: d.noIndexar === true,
+      cabeceraCompacta: d.cabeceraCompacta === true,
       secciones: validaSecciones(raiz, d.secciones || [], etiqueta, avisa),
     });
   }

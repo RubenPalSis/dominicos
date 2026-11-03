@@ -441,6 +441,7 @@ content:
       - { name: kicker, label: Línea de encima del título, type: string }
       - { name: imagen, label: Foto de cabecera, type: image, options: { media: fotos } }
       - { name: imagenAlt, label: Qué se ve en la foto, type: string }
+      - { name: cabeceraCompacta, label: Cabecera compacta, type: boolean, default: false, description: "Marcada, la cabecera ocupa mucho menos alto y el contenido se ve nada más entrar." }
       - { name: enMenu, label: Enseñar en el menú, type: boolean, default: false, description: "Marcado, la página aparece sola en el menú de todas las páginas." }
       - { name: ordenMenu, label: Orden en el menú, type: number, default: 100, description: "De menor a mayor. Solo importa si hay varias páginas en el menú." }
       - { name: noIndexar, label: Esconder de Google, type: boolean, default: false, description: "La página sigue existiendo y se puede enlazar, pero no sale en los buscadores ni en el mapa del sitio." }

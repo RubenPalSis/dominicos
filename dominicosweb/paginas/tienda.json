@@ -2,6 +2,7 @@
   "titulo": "Tienda",
   "descripcion": "Sudaderas y mochilas del club. Rellena el pedido y te escribimos para confirmarlo.",
   "kicker": "Ropa del club",
+  "cabeceraCompacta": true,
   "enMenu": false,
   "noIndexar": true,
   "secciones": [
