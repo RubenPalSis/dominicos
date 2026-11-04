@@ -9,10 +9,6 @@
       "destino": "#equipos"
     },
     {
-      "texto": "Pista",
-      "destino": "#pista"
-    },
-    {
       "texto": "Noticias",
       "destino": "/noticias.html",
       "anclaPortada": "#noticias"

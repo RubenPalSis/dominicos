@@ -1,8 +1,7 @@
 {
   "titulo": "Tienda",
   "cabeceraCompacta": true,
-  "enMenu": false,
-  "noIndexar": true,
+  "enMenu": true,
   "secciones": [
     {
       "tipo": "tienda",
