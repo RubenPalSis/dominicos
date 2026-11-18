@@ -47,7 +47,7 @@
       "titulo": "¿Quiénes",
       "tituloEnfasis": "somos?",
       "parrafos": [
-        "Somos un club formativo de Zaragoza con equipos en todas las categorías, desde la escuela hasta el sénior femenino. Competimos en la liga escolar y federada."
+        "Somos un club formativo de Zaragoza con equipos en todas las categorías, desde escuela hasta sénior femenino. Competimos en liga escolar y federada."
       ],
       "puntos": [
         "Formación por encima del resultado",
@@ -534,7 +534,7 @@
           }
         },
         {
-          "imagen": "images/infantil.jpg",
+          "imagen": "images/img-20261109-wa0024.jpg",
           "imagenAlt": "Equipo infantil femenino",
           "etiqueta": "Escolares",
           "nombre": "Infantil Fem.",
@@ -678,7 +678,7 @@
           }
         },
         {
-          "imagen": "images/cadete-2.jpg",
+          "imagen": "images/img-20261109-wa0050.jpg",
           "imagenAlt": "Equipo cadete femenino",
           "etiqueta": "Escolares",
           "nombre": "Cadete Fem. CF2",
