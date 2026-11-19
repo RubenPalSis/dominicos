@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-19",
+  "fecha": "2026-09-01",
   "titulo": "¡Día del minibasket 2026!",
   "descripcion": "Dia del minibasket en zaragoza. ",
   "contenido": [
@@ -35,6 +35,7 @@
       "imagen": "images/noticias/img-20261117-wa00201.jpg"
     }
   ],
+  "categoria": "Competición",
   "autor": "CB Dominicos Zaragoza",
   "fechaModificacion": "2026-11-19"
 }
